@@ -47,11 +47,16 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="Webstorm.Core.Data, Version=1.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Webstorm.Core.Data.1.2.0\lib\net452\Webstorm.Core.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContexts\SubmissionsEntitiesContext.cs" />
     <Compile Include="Entities\Login.cs" />
     <Compile Include="Entities\Role.cs" />
+    <Compile Include="Persistence\IUnitOfWork.cs" />
+    <Compile Include="Persistence\UnitOfWork.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
