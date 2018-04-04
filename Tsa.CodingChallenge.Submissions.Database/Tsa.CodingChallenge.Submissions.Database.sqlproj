@@ -59,10 +59,18 @@
     <Folder Include="Properties" />
     <Folder Include="Tables" />
     <Folder Include="Tables\dbo" />
+    <Folder Include="Scripts" />
+    <Folder Include="Scripts\SeedData" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\dbo\Logins.sql" />
     <Build Include="Tables\dbo\Roles.sql" />
     <Build Include="Tables\dbo\LoginTeamMembers.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Scripts\SeedData\dbo.Roles.Data.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Scripts\PostDeployment.sql" />
   </ItemGroup>
 </Project>
