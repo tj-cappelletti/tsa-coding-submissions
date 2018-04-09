@@ -6,7 +6,10 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
     public interface IUnitOfWork
     {
         bool LazyLoadingEnabled { get; set; }
+
         IRepository<Login> LoginsRepository { get; }
+
+        IRepository<TeamMember> TeamMembersRepository { get; }
 
         void BeginTransaction();
 

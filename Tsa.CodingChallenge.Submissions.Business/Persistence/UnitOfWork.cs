@@ -11,6 +11,21 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
         private readonly SubmissionsEntitiesContext _context;
         private DbContextTransaction _contextTransaction;
 
+        public UnitOfWork(SubmissionsEntitiesContext context)
+        {
+            _context = context;
+            _contextTransaction = null;
+
+            LoginsRepository = new Repository<Login>(_context);
+            TeamMembersRepository = new Repository<TeamMember>(_context);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         public bool LazyLoadingEnabled
         {
             get => _context.Configuration.LazyLoadingEnabled;
@@ -19,18 +34,9 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
 
         public IRepository<Login> LoginsRepository { get; }
 
-        public UnitOfWork(SubmissionsEntitiesContext context)
-        {
-            _context = context;
-            _contextTransaction = null;
+        public IRepository<TeamMember> TeamMembersRepository { get; }
 
-            LoginsRepository = new Repository<Login>(_context);
-        }
-
-        public void BeginTransaction()
-        {
-            _contextTransaction = _context.Database.BeginTransaction();
-        }
+        public void BeginTransaction() { _contextTransaction = _context.Database.BeginTransaction(); }
 
         public void Commit()
         {
@@ -50,11 +56,7 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
             }
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        public void SaveChanges() { _context.SaveChanges(); }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -67,13 +69,7 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
                 _contextTransaction.Dispose();
             }
 
-            if (_context != null)
-                _context.Dispose();
-        }
-
-        public void SaveChanges()
-        {
-            _context.SaveChanges();
+            _context?.Dispose();
         }
     }
 }

@@ -53,9 +53,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContexts\SubmissionsEntitiesContext.cs" />
+    <Compile Include="DataContexts\SubmissionsEntitiesContext.Entity.Login.cs" />
     <Compile Include="Data\Annotations\PasswordComplexityAttribute.cs" />
     <Compile Include="Data\Annotations\PasswordComplexityRules.cs" />
+    <Compile Include="Data\Annotations\TsaIdentityAttribute.cs" />
+    <Compile Include="Data\Annotations\TsaIdentityType.cs" />
     <Compile Include="Entities\Login.cs" />
+    <Compile Include="Entities\TeamMember.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Persistence\IUnitOfWork.cs" />
     <Compile Include="Persistence\UnitOfWork.cs" />

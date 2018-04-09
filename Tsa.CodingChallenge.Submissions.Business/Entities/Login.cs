@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Tsa.CodingChallenge.Submissions.Business.Entities
@@ -11,13 +12,13 @@ namespace Tsa.CodingChallenge.Submissions.Business.Entities
         [StringLength(1000)]
         public string Identity { get; set; }
 
-        public int RoleId { get; set; }
-
         [Required]
         [StringLength(1000)]
         public string PasswordHash { get; set; }
 
         [Column("RoleId")]
         public Role Role { get; set; }
+
+        public virtual ICollection<TeamMember> TeamMembers { get; set; }
     }
 }

@@ -9,4 +9,4 @@
 );
 GO
 
-CREATE INDEX [UX_Logins_Identity] ON [dbo].[Logins] ([Identity])
+CREATE UNIQUE INDEX [UX_Logins_Identity] ON [dbo].[Logins] ([Identity])

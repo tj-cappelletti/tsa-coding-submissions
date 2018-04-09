@@ -65,10 +65,11 @@
   <ItemGroup>
     <Build Include="Tables\dbo\Logins.sql" />
     <Build Include="Tables\dbo\Roles.sql" />
-    <Build Include="Tables\dbo\LoginTeamMembers.sql" />
+    <Build Include="Tables\dbo\TeamMembers.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\SeedData\dbo.Roles.Data.sql" />
+    <None Include="CodingChallenge-Submissions.localhost.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
