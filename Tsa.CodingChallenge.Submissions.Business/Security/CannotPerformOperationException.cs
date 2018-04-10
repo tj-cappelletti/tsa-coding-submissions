@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FinancialPlanner.Core.Security
+namespace Tsa.CodingChallenge.Submissions.Business.Security
 {
     public class CannotPerformOperationException : Exception
     {

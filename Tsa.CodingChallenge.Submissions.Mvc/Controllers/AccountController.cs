@@ -1,7 +1,13 @@
-﻿using System.Web.Mvc;
-using FinancialPlanner.Core.Security;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Web;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using Microsoft.Owin.Security;
 using Tsa.CodingChallenge.Submissions.Business.Entities;
 using Tsa.CodingChallenge.Submissions.Business.Persistence;
+using Tsa.CodingChallenge.Submissions.Business.Security;
 using Tsa.CodingChallenge.Submissions.Mvc.Models;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
@@ -11,11 +17,51 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         private const string SchoolNumbersMismatchErrorMessage = "The team member's school number does not match the team's school number.";
         private const string DuplicateTeamMemberNumber = "The team member's number must unique.";
         private const string TeamIdentityIsTeamMemberIdentityErrorMessage = "The team member's number cannot be the same as the team's number.";
+        private const string GenericLoginError = "Invalid username or password.";
 
         public AccountController(IUnitOfWork unitOfWork) : base(unitOfWork) { }
 
-        // GET: Account
+        [Authorize]
         public ActionResult Index() { return View(); }
+
+        [AllowAnonymous]
+        public ActionResult Login() { return View(); }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult Login(LoginViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
+
+            var login = UnitOfWork.LoginsRepository.SingleOrDefault(l => l.Identity == model.Identity);
+
+            if (login == null)
+            {
+                ModelState.AddModelError(string.Empty, GenericLoginError);
+                return View(model);
+            }
+
+            if (!PasswordStorage.VerifyPassword(model.Password, login.PasswordHash))
+            {
+                ModelState.AddModelError(string.Empty, GenericLoginError);
+                return View(model);
+            }
+
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.NameIdentifier, login.Identity),
+                new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
+                new Claim(ClaimTypes.Name, login.Identity),
+                new Claim(ClaimTypes.Role, login.Role.ToString())
+            };
+
+            var claimsIdentity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+
+            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, claimsIdentity);
+
+            return RedirectToAction("Index", "Account");
+        }
 
         [AllowAnonymous]
         public ActionResult Registration() { return View(); }
@@ -116,7 +162,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
             UnitOfWork.SaveChanges();
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login", "Account");
         }
     }
 }
