@@ -66,6 +66,7 @@
     <Build Include="Tables\dbo\Logins.sql" />
     <Build Include="Tables\dbo\Roles.sql" />
     <Build Include="Tables\dbo\TeamMembers.sql" />
+    <Build Include="Tables\dbo\Problems.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\SeedData\dbo.Roles.Data.sql" />

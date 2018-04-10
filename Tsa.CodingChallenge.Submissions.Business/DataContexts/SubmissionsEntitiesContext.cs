@@ -11,6 +11,8 @@ namespace Tsa.CodingChallenge.Submissions.Business.DataContexts
 
         public virtual DbSet<Login> Logins { get; set; }
 
+        public virtual DbSet<Problem> Problems { get; set; }
+
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder) { SetupLoginEntity(modelBuilder); }
