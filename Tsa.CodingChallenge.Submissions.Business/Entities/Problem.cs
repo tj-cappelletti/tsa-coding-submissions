@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Tsa.CodingChallenge.Submissions.Business.Entities
 {
@@ -15,5 +16,7 @@ namespace Tsa.CodingChallenge.Submissions.Business.Entities
         [Required]
         [StringLength(100)]
         public string Name { get; set; }
+
+        public virtual ICollection<TestDataSet> TestDataSets { get; set; }
     }
 }

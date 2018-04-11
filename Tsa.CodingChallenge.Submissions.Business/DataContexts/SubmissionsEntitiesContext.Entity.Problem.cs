@@ -5,11 +5,11 @@ namespace Tsa.CodingChallenge.Submissions.Business.DataContexts
 {
     public partial class SubmissionsEntitiesContext
     {
-        private static void SetupLoginEntity(DbModelBuilder modelBuilder)
+        public static void SetupProblemEntity(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Login>()
-                .HasMany(e => e.TeamMembers)
-                .WithRequired(e => e.Login)
+            modelBuilder.Entity<Problem>()
+                .HasMany(e => e.TestDataSets)
+                .WithRequired(e => e.Problem)
                 .WillCascadeOnDelete(false);
         }
     }

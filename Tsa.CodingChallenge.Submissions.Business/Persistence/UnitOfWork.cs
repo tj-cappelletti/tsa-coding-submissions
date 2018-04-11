@@ -17,6 +17,7 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
             _contextTransaction = null;
 
             LoginsRepository = new Repository<Login>(_context);
+            ProblemsRepository = new Repository<Problem>(_context);
             TeamMembersRepository = new Repository<TeamMember>(_context);
         }
 
@@ -33,6 +34,8 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
         }
 
         public IRepository<Login> LoginsRepository { get; }
+
+        public IRepository<Problem> ProblemsRepository { get; }
 
         public IRepository<TeamMember> TeamMembersRepository { get; }
 

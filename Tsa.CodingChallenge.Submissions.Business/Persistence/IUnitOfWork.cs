@@ -9,6 +9,8 @@ namespace Tsa.CodingChallenge.Submissions.Business.Persistence
 
         IRepository<Login> LoginsRepository { get; }
 
+        IRepository<Problem> ProblemsRepository { get; }
+
         IRepository<TeamMember> TeamMembersRepository { get; }
 
         void BeginTransaction();

@@ -6,11 +6,11 @@ USING ( VALUES (1, 'JUDGE', 'Judge', NULL),
                AS [source] (Id, Identifier, [Name], [Description])
 ON [target].Id = [source].Id
 WHEN MATCHED AND [target].Identifier != [source].Identifier
-			 OR  [target].[Name] != [source].[Name]
-			 OR  [target].[Description] != [source].[Description]
-	THEN UPDATE SET	[target].Identifier = [source].Identifier,
-					[target].[Name] = [source].[Name],
-					[target].[Description] = [source].[Description]
+             OR  [target].[Name] != [source].[Name]
+             OR  [target].[Description] != [source].[Description]
+    THEN UPDATE SET	[target].Identifier = [source].Identifier,
+                    [target].[Name] = [source].[Name],
+                    [target].[Description] = [source].[Description]
 WHEN NOT MATCHED
-	THEN	INSERT (Id, Identifier, [Name], [Description])
-			VALUES (Id, Identifier, [Name], [Description]);
+    THEN	INSERT (Id, Identifier, [Name], [Description])
+            VALUES (Id, Identifier, [Name], [Description]);

@@ -67,10 +67,14 @@
     <Build Include="Tables\dbo\Roles.sql" />
     <Build Include="Tables\dbo\TeamMembers.sql" />
     <Build Include="Tables\dbo\Problems.sql" />
+    <Build Include="Tables\dbo\TestDataSets.sql" />
+    <Build Include="Tables\dbo\DataTypes.sql" />
+    <Build Include="Tables\dbo\TestDataSetElements.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\SeedData\dbo.Roles.Data.sql" />
     <None Include="CodingChallenge-Submissions.localhost.publish.xml" />
+    <None Include="Scripts\SeedData\dbo.DataTypes.Data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />

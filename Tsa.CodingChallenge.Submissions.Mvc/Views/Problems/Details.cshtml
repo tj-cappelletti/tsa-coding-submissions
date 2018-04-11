@@ -1,0 +1,12 @@
+﻿@model Tsa.CodingChallenge.Submissions.Mvc.Models.ProblemsViewModel
+
+@{
+    ViewBag.Title = Model.Name;
+}
+
+<h2>@ViewBag.Title</h2>
+<hr />
+
+<div>
+    @Html.Raw(Model.Description)
+</div>
