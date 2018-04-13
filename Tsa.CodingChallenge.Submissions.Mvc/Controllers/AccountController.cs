@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
@@ -14,18 +13,26 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 {
     public class AccountController : BaseController
     {
-        private const string SchoolNumbersMismatchErrorMessage = "The team member's school number does not match the team's school number.";
         private const string DuplicateTeamMemberNumber = "The team member's number must unique.";
-        private const string TeamIdentityIsTeamMemberIdentityErrorMessage = "The team member's number cannot be the same as the team's number.";
         private const string GenericLoginError = "Invalid username or password.";
+        private const string SchoolNumbersMismatchErrorMessage = "The team member's school number does not match the team's school number.";
+        private const string TeamIdentityIsTeamMemberIdentityErrorMessage = "The team member's number cannot be the same as the team's number.";
 
-        public AccountController(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+        public AccountController(IUnitOfWork unitOfWork) : base(unitOfWork)
+        {
+        }
 
         [Authorize]
-        public ActionResult Index() { return View(); }
+        public ActionResult Index()
+        {
+            return View();
+        }
 
         [AllowAnonymous]
-        public ActionResult Login() { return View(); }
+        public ActionResult Login()
+        {
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
@@ -58,13 +65,22 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
             var claimsIdentity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
 
-            HttpContext.GetOwinContext().Authentication.SignIn(new AuthenticationProperties { IsPersistent = false }, claimsIdentity);
+            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, claimsIdentity);
 
             return RedirectToAction("Index", "Account");
         }
 
+        public ActionResult Logoff()
+        {
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            return RedirectToAction("Index", "Home");
+        }
+
         [AllowAnonymous]
-        public ActionResult Registration() { return View(); }
+        public ActionResult Registration()
+        {
+            return View();
+        }
 
         [HttpPost]
         [AllowAnonymous]
