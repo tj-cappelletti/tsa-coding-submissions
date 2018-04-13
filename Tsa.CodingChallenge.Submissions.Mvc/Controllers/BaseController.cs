@@ -9,10 +9,20 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
     {
         public IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
-        public BaseController(IUnitOfWork unitOfWork) { UnitOfWork = unitOfWork; }
-
         public int SystemUserId => 0;
 
         public IUnitOfWork UnitOfWork { get; }
+
+        public BaseController(IUnitOfWork unitOfWork)
+        {
+            UnitOfWork = unitOfWork;
+        }
+
+        protected ActionResult RedirectToUrl(string url)
+        {
+            if (Url.IsLocalUrl(url)) return Redirect(url);
+
+            return RedirectToAction("Index", "Account");
+        }
     }
 }

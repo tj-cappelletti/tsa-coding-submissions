@@ -29,15 +29,16 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         }
 
         [AllowAnonymous]
-        public ActionResult Login()
+        public ActionResult Login(string returnUrl)
         {
+            ViewBag.ReturnUrl = returnUrl;
             return View();
         }
 
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model)
+        public ActionResult Login(LoginViewModel model, string returnUrl)
         {
             if (!ModelState.IsValid) return View(model);
 
@@ -67,7 +68,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
             AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, claimsIdentity);
 
-            return RedirectToAction("Index", "Account");
+            return RedirectToUrl(returnUrl);
         }
 
         public ActionResult Logoff()
