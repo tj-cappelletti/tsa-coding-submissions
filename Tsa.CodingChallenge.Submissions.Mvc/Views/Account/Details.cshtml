@@ -1,0 +1,56 @@
+﻿@model Tsa.CodingChallenge.Submissions.Mvc.Models.LoginDetailsViewModel
+
+<div>
+    <h4>Login Details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+
+        @if (User.IsInRole("Student"))
+        {
+            <dt>Team Number</dt>
+        }
+        else
+        {
+            <dt>Judge</dt>
+        }
+
+        <dd>
+            @Html.DisplayFor(model => model.Identity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Role)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Role)
+        </dd>
+
+        @if (User.IsInRole("Student"))
+        {
+            <dt>
+                @Html.DisplayNameFor(model => model.TeamMember1)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TeamMember1)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TeamMember2)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TeamMember2)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TeamMember3)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TeamMember3)
+            </dd>
+        }
+    </dl>
+</div>

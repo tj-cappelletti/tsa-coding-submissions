@@ -23,6 +23,41 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         }
 
         [Authorize]
+        public ActionResult Details()
+        {
+            var loginDetailsViewModel = (from logins in UnitOfWork.LoginsRepository
+                                         where logins.Identity == User.Identity.Name
+                                         select new LoginDetailsViewModel
+                                         {
+                                             Id = logins.Id,
+                                             Identity = logins.Identity,
+                                             Role = logins.Role.ToString()
+                                         }).Single();
+
+            if (User.IsInRole(Role.Student.ToString()))
+            {
+                var index = 0;
+                var teamMembers = UnitOfWork.TeamMembersRepository.Where(tm => tm.LoginId == loginDetailsViewModel.Id).ToList();
+
+                foreach (var teamMember in teamMembers)
+                {
+                    if (index == 0)
+                        loginDetailsViewModel.TeamMember1 = teamMember.MemberId;
+                    else if (index == 1)
+                        loginDetailsViewModel.TeamMember2 = teamMember.MemberId;
+                    else if (index == 2)
+                        loginDetailsViewModel.TeamMember3 = teamMember.MemberId;
+                    else
+                        break;
+
+                    index++;
+                }
+            }
+
+            return View(loginDetailsViewModel);
+        }
+
+        [Authorize]
         public ActionResult Index()
         {
             return View();

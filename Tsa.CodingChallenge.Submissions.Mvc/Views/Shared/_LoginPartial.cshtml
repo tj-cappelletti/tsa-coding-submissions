@@ -1,4 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
+@using Tsa.CodingChallenge.Submissions.Business.Entities
+
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -6,9 +8,14 @@
         @Html.AntiForgeryToken()
 
         <ul class="nav navbar-nav navbar-right">
-            <li>
-                Team&nbsp;@User.Identity.GetUserName()
-            </li>
+            @if (User.IsInRole(Role.Student.ToString()))
+            {
+                <li>@Html.ActionLink($"Team {User.Identity.GetUserName()}", "Details", "Account")</li>
+            }
+            else
+            {
+                <li>@Html.ActionLink(User.Identity.GetUserName(), "Details", "Account")</li>
+            }
             <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
         </ul>
     }
