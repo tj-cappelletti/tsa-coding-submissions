@@ -41,7 +41,7 @@
     <IsNestedTriggersOn>True</IsNestedTriggersOn>
     <IsTransformNoiseWordsOn>False</IsTransformNoiseWordsOn>
     <TwoDigitYearCutoff>2049</TwoDigitYearCutoff>
-    <NonTransactedFileStreamAccess>OFF</NonTransactedFileStreamAccess>
+    <NonTransactedFileStreamAccess>FULL</NonTransactedFileStreamAccess>
     <FileStreamDirectoryName>Submissions</FileStreamDirectoryName>
     <TargetRecoveryTimePeriod>0</TargetRecoveryTimePeriod>
     <TargetRecoveryTimeUnit>SECONDS</TargetRecoveryTimeUnit>
