@@ -141,6 +141,7 @@
     <None Include="Scripts\SeedData\dbo.Roles.Data.sql" />
     <None Include="CodingChallenge-Submissions.localhost.publish.xml" />
     <None Include="Scripts\SeedData\dbo.DataTypes.Data.sql" />
+    <None Include="Scripts\SeedData\dbo.Problems.Data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
