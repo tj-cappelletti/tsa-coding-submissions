@@ -63,6 +63,7 @@
     <Compile Include="Entities\DataType.cs" />
     <Compile Include="Entities\Login.cs" />
     <Compile Include="Entities\Problem.cs" />
+    <Compile Include="Entities\Submission.cs" />
     <Compile Include="Entities\TeamMember.cs" />
     <Compile Include="Entities\Role.cs" />
     <Compile Include="Entities\TestDataSet.cs" />

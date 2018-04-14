@@ -41,11 +41,13 @@
     <IsNestedTriggersOn>True</IsNestedTriggersOn>
     <IsTransformNoiseWordsOn>False</IsTransformNoiseWordsOn>
     <TwoDigitYearCutoff>2049</TwoDigitYearCutoff>
-    <NonTransactedFileStreamAccess>FULL</NonTransactedFileStreamAccess>
-    <FileStreamDirectoryName>Submissions</FileStreamDirectoryName>
+    <NonTransactedFileStreamAccess>OFF</NonTransactedFileStreamAccess>
+    <FileStreamDirectoryName>
+    </FileStreamDirectoryName>
     <TargetRecoveryTimePeriod>0</TargetRecoveryTimePeriod>
     <TargetRecoveryTimeUnit>SECONDS</TargetRecoveryTimeUnit>
-    <DefaultFileStreamFilegroup>FILESTREAM</DefaultFileStreamFilegroup>
+    <DefaultFileStreamFilegroup>
+    </DefaultFileStreamFilegroup>
     <IsChangeTrackingOn>False</IsChangeTrackingOn>
     <IsChangeTrackingAutoCleanupOn>True</IsChangeTrackingAutoCleanupOn>
     <ChangeTrackingRetentionPeriod>2</ChangeTrackingRetentionPeriod>
@@ -124,9 +126,6 @@
     <Folder Include="Tables\dbo" />
     <Folder Include="Scripts" />
     <Folder Include="Scripts\SeedData" />
-    <Folder Include="Storage" />
-    <Folder Include="Storage\Filegroups" />
-    <Folder Include="Storage\Files" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Tables\dbo\Logins.sql" />
@@ -137,12 +136,6 @@
     <Build Include="Tables\dbo\DataTypes.sql" />
     <Build Include="Tables\dbo\TestDataSetElements.sql" />
     <Build Include="Tables\dbo\Submissions.sql" />
-    <Build Include="Tables\dbo\SubmissionFiles.sql" />
-    <Build Include="Storage\Filegroups\Filestream.sql" />
-    <Build Include="Storage\Files\Filestream.sql" />
-    <Build Include="Storage\Files\Primary.sql" />
-    <Build Include="Storage\Files\Log.sql" />
-    <Build Include="Tables\dbo\SubmissionTestRuns.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\SeedData\dbo.Roles.Data.sql" />

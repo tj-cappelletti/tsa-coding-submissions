@@ -1,10 +1,13 @@
 ﻿CREATE TABLE [dbo].[Submissions]
 (
     [Id] INT NOT NULL IDENTITY,
+    [LoginId] INT NOT NULL,
     [ProblemId] INT NOT NULL,
-    [SubmissionFileId] UNIQUEIDENTIFIER NOT NULL,
     [SubmissionDateTime] DATETIME NOT NULL,
     [EvaluatedDateTime] DATETIME NOT NULL,
+    [FileName] VARCHAR(1000) NOT NULL,
+    [RawFile] VARBINARY(MAX) NOT NULL,
     CONSTRAINT [PK_Submissions] PRIMARY KEY ([Id]),
-    CONSTRAINT [FK_Submissions_SubmissionFiles] FOREIGN KEY ([SubmissionFileId]) REFERENCES [dbo].[SubmissionFiles]([stream_id])
+    CONSTRAINT [FK_Submissions_Logins] FOREIGN KEY ([LoginId]) REFERENCES [dbo].[Logins]([Id]),
+    CONSTRAINT [FK_Submissions_Problems] FOREIGN KEY ([ProblemId]) REFERENCES [dbo].[Problems]([Id])
 );

@@ -19,6 +19,8 @@ namespace Tsa.CodingChallenge.Submissions.Business.Entities
         [Column("RoleId")]
         public Role Role { get; set; }
 
+        public virtual ICollection<Submission> Submissions { get; set; }
+
         public virtual ICollection<TeamMember> TeamMembers { get; set; }
     }
 }

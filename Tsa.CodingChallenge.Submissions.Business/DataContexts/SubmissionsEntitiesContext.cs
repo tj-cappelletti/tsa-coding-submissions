@@ -18,6 +18,7 @@ namespace Tsa.CodingChallenge.Submissions.Business.DataContexts
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             SetupLoginEntity(modelBuilder);
+            SetupProblemEntity(modelBuilder);
             SetupTestDataSetEntity(modelBuilder);
         }
     }

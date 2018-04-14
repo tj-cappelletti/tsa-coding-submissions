@@ -5,8 +5,13 @@ namespace Tsa.CodingChallenge.Submissions.Business.DataContexts
 {
     public partial class SubmissionsEntitiesContext
     {
-        public static void SetupProblemEntity(DbModelBuilder modelBuilder)
+        private static void SetupProblemEntity(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Problem>()
+                .HasMany(e => e.Submissions)
+                .WithRequired(e => e.Problem)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Problem>()
                 .HasMany(e => e.TestDataSets)
                 .WithRequired(e => e.Problem)

@@ -17,6 +17,8 @@ namespace Tsa.CodingChallenge.Submissions.Business.Entities
         [StringLength(100)]
         public string Name { get; set; }
 
+        public virtual ICollection<Submission> Submissions { get; set; }
+
         public virtual ICollection<TestDataSet> TestDataSets { get; set; }
     }
 }
