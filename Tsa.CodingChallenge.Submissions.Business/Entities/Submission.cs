@@ -18,6 +18,8 @@ namespace Tsa.CodingChallenge.Submissions.Business.Entities
 
         public int ProblemId { get; set; }
 
+        public ProgrammingLanguage ProgrammingLanguage { get; set; }
+
         public byte[] RawFile { get; set; }
 
         public DateTime SubmissionDateTime { get; set; }
