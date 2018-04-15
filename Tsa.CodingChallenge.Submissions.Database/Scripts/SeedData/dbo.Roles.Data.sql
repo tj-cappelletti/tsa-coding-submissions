@@ -14,3 +14,5 @@ WHEN MATCHED AND [target].Identifier != [source].Identifier
 WHEN NOT MATCHED
     THEN	INSERT (Id, Identifier, [Name], [Description])
             VALUES (Id, Identifier, [Name], [Description]);
+
+SET IDENTITY_INSERT dbo.Roles OFF
