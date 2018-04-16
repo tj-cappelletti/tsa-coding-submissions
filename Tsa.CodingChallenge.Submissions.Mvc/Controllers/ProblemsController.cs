@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.Azure.ServiceBus;
 using Tsa.CodingChallenge.Submissions.Core.Entities;
 using Tsa.CodingChallenge.Submissions.Core.Persistence;
+using Tsa.CodingChallenge.Submissions.Core.Queues;
 using Tsa.CodingChallenge.Submissions.Mvc.Models;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
@@ -89,14 +90,26 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
             switch (submissionViewModel.ProgrammingLanguage)
             {
                 case ProgrammingLanguage.DotNet:
-                    queue = ConfigurationManager.AppSettings["DotNetQueue"];
+                    queue = QueueNames.DotNet;
                     break;
                 case ProgrammingLanguage.C:
+                    queue = QueueNames.C;
+                    break;
                 case ProgrammingLanguage.Java:
+                    queue = QueueNames.Java;
+                    break;
                 case ProgrammingLanguage.NodeJs:
+                    queue = QueueNames.NodeJs;
+                    break;
                 case ProgrammingLanguage.Perl:
+                    queue = QueueNames.Perl;
+                    break;
                 case ProgrammingLanguage.Python:
+                    queue = QueueNames.Python;
+                    break;
                 case ProgrammingLanguage.Ruby:
+                    queue = QueueNames.Ruby;
+                    break;
                 default:
                     throw new NotImplementedException();
             }
