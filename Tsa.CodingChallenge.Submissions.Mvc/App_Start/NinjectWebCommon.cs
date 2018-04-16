@@ -4,8 +4,8 @@ using Microsoft.Web.Infrastructure.DynamicModuleHelper;
 using Ninject;
 using Ninject.Web.Common;
 using Ninject.Web.Common.WebHost;
-using Tsa.CodingChallenge.Submissions.Business.DataContexts;
-using Tsa.CodingChallenge.Submissions.Business.Persistence;
+using Tsa.CodingChallenge.Submissions.Core.DataContexts;
+using Tsa.CodingChallenge.Submissions.Core.Persistence;
 using Tsa.CodingChallenge.Submissions.Mvc;
 using WebActivatorEx;
 

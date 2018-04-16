@@ -4,9 +4,9 @@ using System.Security.Claims;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
-using Tsa.CodingChallenge.Submissions.Business.Entities;
-using Tsa.CodingChallenge.Submissions.Business.Persistence;
-using Tsa.CodingChallenge.Submissions.Business.Security;
+using Tsa.CodingChallenge.Submissions.Core.Entities;
+using Tsa.CodingChallenge.Submissions.Core.Persistence;
+using Tsa.CodingChallenge.Submissions.Core.Security;
 using Tsa.CodingChallenge.Submissions.Mvc.Models;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
@@ -93,10 +93,11 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.NameIdentifier, login.Identity),
                 new Claim("http://schemas.microsoft.com/accesscontrolservice/2010/07/claims/identityprovider", "ASP.NET Identity", "http://www.w3.org/2001/XMLSchema#string"),
                 new Claim(ClaimTypes.Name, login.Identity),
-                new Claim(ClaimTypes.Role, login.Role.ToString())
+                new Claim(ClaimTypes.NameIdentifier, login.Identity),
+                new Claim(ClaimTypes.Role, login.Role.ToString()),
+                new Claim(ClaimTypes.Sid, login.Id.ToString()),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);

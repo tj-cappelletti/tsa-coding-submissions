@@ -1,5 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tsa.CodingChallenge.Submissions.Business.Data.Annotations;
+using Tsa.CodingChallenge.Submissions.Core.Data.Annotations;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Models
 {

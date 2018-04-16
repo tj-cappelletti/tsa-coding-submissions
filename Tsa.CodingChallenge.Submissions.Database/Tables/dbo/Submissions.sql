@@ -4,7 +4,7 @@
     [LoginId] INT NOT NULL,
     [ProblemId] INT NOT NULL,
     [SubmissionDateTime] DATETIME NOT NULL,
-    [EvaluatedDateTime] DATETIME NOT NULL,
+    [EvaluatedDateTime] DATETIME NULL,
     [ProgrammingLanguageId] INT NOT NULL,
     [FileName] VARCHAR(1000) NOT NULL,
     [RawFile] VARBINARY(MAX) NOT NULL,

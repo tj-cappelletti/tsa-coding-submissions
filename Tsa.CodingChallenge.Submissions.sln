@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2015
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsa.CodingChallenge.Submissions.Core", "Tsa.CodingChallenge.Submissions.Business\Tsa.CodingChallenge.Submissions.Core.csproj", "{CA34CE92-6C08-4174-ABCF-C2278B18CD7D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsa.CodingChallenge.Submissions.Core", "Tsa.CodingChallenge.Submissions.Core\Tsa.CodingChallenge.Submissions.Core.csproj", "{CA34CE92-6C08-4174-ABCF-C2278B18CD7D}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Tsa.CodingChallenge.Submissions.Database", "Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj", "{A83A6824-5122-44D3-B05F-C4E9181085A5}"
 EndProject

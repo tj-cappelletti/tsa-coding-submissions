@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Tsa.CodingChallenge.Submissions.Mvc.Models.ProblemsViewModel>
+﻿@model IEnumerable<Tsa.CodingChallenge.Submissions.Mvc.Models.ProblemViewModel>
 
 @{
     ViewBag.Title = "Coding Problems";
@@ -14,16 +14,24 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Name)
-        </td>
-        <td>
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Submit Solution", "Submission", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Submit Solution", "Submission", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>
+
+@if (TempData["solutionSubmitted"] != null)
+{
+    <div class="alert alert-success">
+        <strong>Success!</strong> Solution for problem was successfully submitted.
+    </div>
+}

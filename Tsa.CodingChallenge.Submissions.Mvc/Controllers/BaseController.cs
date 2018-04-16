@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Mvc;
 using Microsoft.Owin.Security;
-using Tsa.CodingChallenge.Submissions.Business.Persistence;
+using Tsa.CodingChallenge.Submissions.Core.Persistence;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 {
