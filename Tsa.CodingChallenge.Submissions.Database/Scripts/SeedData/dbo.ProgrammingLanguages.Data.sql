@@ -6,7 +6,7 @@ USING ( VALUES (1, 'DONT-NET_C-SHARP_F-SHARP_VB-NET', '.NET (C#, F#, VB.NET)', N
                (3, 'JAVA', 'Java', NULL),
                (4, 'NODE_JS', 'Node.js', NULL),
                (5, 'PERL', 'Perl', NULL),
-               (6, 'PYTHON', 'Phython', NULL),
+               (6, 'PYTHON', 'Python', NULL),
                (7, 'RUBY', 'Ruby', NULL))
                AS [source] (Id, Identifier, [Name], [Description])
 ON [target].Id = [source].Id
