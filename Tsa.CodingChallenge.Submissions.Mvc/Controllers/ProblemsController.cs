@@ -101,7 +101,11 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                     throw new NotImplementedException();
             }
 
-            var message = new Message(BitConverter.GetBytes(submission.Id));
+            var message = new Message(BitConverter.GetBytes(submission.Id))
+            {
+                ContentType = submission.Id.GetType().FullName,
+                Label = submission.ProgrammingLanguage.ToString()
+            };
 
             var queueClient = new QueueClient(connectionString, queue);
             await queueClient.SendAsync(message);
