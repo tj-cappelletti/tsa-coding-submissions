@@ -58,7 +58,7 @@
         }
     },
     "variables": {
-        "appServicePlanName": "[concat('TSA-Coding-Submissions-AppServicePlan-', variables('version'))]",
+        "appServicePlanName": "TSA-Coding-Submissions-AppServicePlan",
         "databaseName": "[concat('CodingChallenge-Submissions-', variables('version'))]",
         "webMvcConnectionStringName": "SubmissionsEntitiesContext",
         "shortSha": "[substring(parameters('sha'), 0, 7)]",
@@ -66,7 +66,7 @@
         "sqlAdminPassword": "21&jlYOwCM1B",
         "sqlServerName": "[concat('tsa-sqlserver-', variables('version'))]",
         "version": "[concat(parameters('branch'), '-', variables('shortSha'))]",
-        "webMvcName": "[concat('TSA-Coding-Submissions-WebApi-', variables('version'))]"
+        "webMvcName": "TSA-Coding-Submissions-WebMvc"
     },
     "resources": [
         {
