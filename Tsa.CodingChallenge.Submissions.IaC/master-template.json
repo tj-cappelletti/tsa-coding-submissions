@@ -60,7 +60,7 @@
     "variables": {
         "appServicePlanName": "[concat('TSA-Coding-Submissions-AppServicePlan-', variables('version'))]",
         "databaseName": "[concat('CodingChallenge-Submissions-', variables('version'))]",
-        "pointOfSalesConnectionStringName": "ServerEntitiesContext",
+        "webMvcConnectionStringName": "SubmissionsEntitiesContext",
         "shortSha": "[substring(parameters('sha'), 0, 7)]",
         "sqlAdminLogin": "sqlAdmin",
         "sqlAdminPassword": "21&jlYOwCM1B",
@@ -145,7 +145,7 @@
                 "siteConfig": {
                     "connectionStrings": [
                         {
-                            "name": "[variables('pointOfSalesConnectionStringName')]",
+                            "name": "[variables('webMvcConnectionStringName')]",
                             "connectionString": "[concat('Server=tcp:',reference(variables('sqlServerName')).fullyQualifiedDomainName, ',1433;Initial Catalog=', variables('databaseName'),';Persist Security Info=False;User ID=', variables('sqlAdminLogin'),';Password=', variables('sqlAdminPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]",
                             "type": 2
                         }
@@ -158,10 +158,6 @@
         "AppServicePlanName": {
             "type": "string",
             "value": "[variables('appServicePlanName')]"
-        },
-        "ConnectionString": {
-            "type": "string",
-            "value": "[concat('Server=tcp:',reference(variables('databaseName')).fullyQualifiedDomainName,',1433;Initial Catalog=',variables('databaseName')';Persist Security Info=False;User ID=',variables('sqlAdminLogin'),';Password=',variables('sqlPassword'),';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
         },
         "DatabaseName": {
             "type": "string",
