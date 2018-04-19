@@ -9,6 +9,12 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Tsa.CodingChallenge.Submiss
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsa.CodingChallenge.Submissions.Mvc", "Tsa.CodingChallenge.Submissions.Mvc\Tsa.CodingChallenge.Submissions.Mvc.csproj", "{A2B36D34-5A0B-4659-AE12-A249DBD31198}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tsa.CodingChallenge.Submissions.IaC", "Tsa.CodingChallenge.Submissions.IaC", "{A86E2B4A-55B5-4CF5-80D9-C2A94CB00EF5}"
+	ProjectSection(SolutionItems) = preProject
+		Tsa.CodingChallenge.Submissions.IaC\master-template-parameters.json = Tsa.CodingChallenge.Submissions.IaC\master-template-parameters.json
+		Tsa.CodingChallenge.Submissions.IaC\master-template.json = Tsa.CodingChallenge.Submissions.IaC\master-template.json
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
