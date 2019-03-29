@@ -8,9 +8,13 @@ services:
       dockerfile: Tsa.CodingChallenge.Submissions.Mvc/Dockerfile
     depends_on:
       - db
+      - rabbitmq
 
   db:
     image: ${DOCKER_REGISTRY-}tsacodingchallengesubmissionsdb
     build:
       context: .
       dockerfile: docker/database/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:3-management

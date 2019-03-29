@@ -16,3 +16,7 @@ services:
   db:
     ports:
       - "1438:1433"
+
+  rabbitmq:
+    ports:
+      - "15672:15672"

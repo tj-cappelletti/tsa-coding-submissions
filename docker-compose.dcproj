@@ -3,7 +3,7 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>97ecfcf0-0bba-40f0-bfbd-9b085012aea6</ProjectGuid>
+    <ProjectGuid>26fbf0f0-cd7b-4c9a-b1a6-5781f9788a41</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
     <DockerServiceName>tsa.codingchallenge.submissions.mvc</DockerServiceName>
