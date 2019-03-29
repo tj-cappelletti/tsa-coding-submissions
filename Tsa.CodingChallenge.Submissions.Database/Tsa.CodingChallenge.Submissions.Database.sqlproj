@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{a83a6824-5122-44d3-b05f-c4e9181085a5}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.SqlAzureV12DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql140DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -88,6 +88,7 @@
     <Recovery>FULL</Recovery>
     <EnableFullTextSearch>True</EnableFullTextSearch>
     <DefaultFilegroup>PRIMARY</DefaultFilegroup>
+    <GenerateCreateScript>True</GenerateCreateScript>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -140,7 +141,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Scripts\SeedData\dbo.Roles.Data.sql" />
-    <None Include="CodingChallenge-Submissions.localhost.publish.xml" />
     <None Include="Scripts\SeedData\dbo.DataTypes.Data.sql" />
     <None Include="Scripts\SeedData\dbo.Problems.Data.sql" />
     <None Include="Scripts\SeedData\dbo.ProgrammingLanguages.Data.sql" />
@@ -148,4 +148,7 @@
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />
   </ItemGroup>
+  <PropertyGroup>
+    <PostBuildEvent>xcopy "$(ProjectDir)$(OutputPath)Tsa.CodingChallenge.Submissions.Database_Create.sql" "$(SolutionDir)artifacts\db\*" /Y</PostBuildEvent>
+  </PropertyGroup>
 </Project>

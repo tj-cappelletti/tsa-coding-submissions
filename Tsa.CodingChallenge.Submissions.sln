@@ -1,45 +1,100 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27428.2015
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsa.CodingChallenge.Submissions.Core", "Tsa.CodingChallenge.Submissions.Core\Tsa.CodingChallenge.Submissions.Core.csproj", "{CA34CE92-6C08-4174-ABCF-C2278B18CD7D}"
+VisualStudioVersion = 15.0.26124.0
+MinimumVisualStudioVersion = 15.0.26124.0
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.CodingChallenge.Submissions.Mvc", "Tsa.CodingChallenge.Submissions.Mvc\Tsa.CodingChallenge.Submissions.Mvc.csproj", "{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.CodingChallenge.Submissions.Core", "Tsa.CodingChallenge.Submissions.Core\Tsa.CodingChallenge.Submissions.Core.csproj", "{1284E302-BC82-43F9-84C0-25DA8626C96F}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}"
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Tsa.CodingChallenge.Submissions.Database", "Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj", "{A83A6824-5122-44D3-B05F-C4E9181085A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsa.CodingChallenge.Submissions.Mvc", "Tsa.CodingChallenge.Submissions.Mvc\Tsa.CodingChallenge.Submissions.Mvc.csproj", "{A2B36D34-5A0B-4659-AE12-A249DBD31198}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tsa.CodingChallenge.Submissions.IaC", "Tsa.CodingChallenge.Submissions.IaC", "{A86E2B4A-55B5-4CF5-80D9-C2A94CB00EF5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{E857B75E-5EF5-4913-BC86-B0EB19A837A5}"
 	ProjectSection(SolutionItems) = preProject
-		Tsa.CodingChallenge.Submissions.IaC\master-template-parameters.json = Tsa.CodingChallenge.Submissions.IaC\master-template-parameters.json
-		Tsa.CodingChallenge.Submissions.IaC\master-template.json = Tsa.CodingChallenge.Submissions.IaC\master-template.json
+		scripts\create-sql-database.sh = scripts\create-sql-database.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{32F120DA-901A-494E-9266-4C99E2F9D044}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{C32CA506-40CB-4441-AE07-C44F9246FF27}"
+	ProjectSection(SolutionItems) = preProject
+		docker\database\Dockerfile = docker\database\Dockerfile
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{CA34CE92-6C08-4174-ABCF-C2278B18CD7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA34CE92-6C08-4174-ABCF-C2278B18CD7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA34CE92-6C08-4174-ABCF-C2278B18CD7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA34CE92-6C08-4174-ABCF-C2278B18CD7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Debug|x64.Build.0 = Debug|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Debug|x86.Build.0 = Debug|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Release|x64.ActiveCfg = Release|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Release|x64.Build.0 = Release|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Release|x86.ActiveCfg = Release|Any CPU
+		{5E70787C-3B63-4EC7-9032-3E1A22B1BAB5}.Release|x86.Build.0 = Release|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Debug|x64.Build.0 = Debug|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Debug|x86.Build.0 = Debug|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Release|x64.ActiveCfg = Release|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Release|x64.Build.0 = Release|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Release|x86.ActiveCfg = Release|Any CPU
+		{1284E302-BC82-43F9-84C0-25DA8626C96F}.Release|x86.Build.0 = Release|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Debug|x64.Build.0 = Debug|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Debug|x86.Build.0 = Debug|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Release|x64.ActiveCfg = Release|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Release|x64.Build.0 = Release|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Release|x86.ActiveCfg = Release|Any CPU
+		{97ECFCF0-0BBA-40F0-BFBD-9B085012AEA6}.Release|x86.Build.0 = Release|Any CPU
 		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|x64.Build.0 = Debug|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|x64.Deploy.0 = Debug|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|x86.Build.0 = Debug|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Debug|x86.Deploy.0 = Debug|Any CPU
 		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{A2B36D34-5A0B-4659-AE12-A249DBD31198}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2B36D34-5A0B-4659-AE12-A249DBD31198}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2B36D34-5A0B-4659-AE12-A249DBD31198}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2B36D34-5A0B-4659-AE12-A249DBD31198}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|x64.ActiveCfg = Release|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|x64.Build.0 = Release|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|x64.Deploy.0 = Release|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|x86.ActiveCfg = Release|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|x86.Build.0 = Release|Any CPU
+		{A83A6824-5122-44D3-B05F-C4E9181085A5}.Release|x86.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C32CA506-40CB-4441-AE07-C44F9246FF27} = {32F120DA-901A-494E-9266-4C99E2F9D044}
+	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B4A7395F-EA12-45E5-9A2E-E1831A81EFE3}
+		SolutionGuid = {6894991F-9218-4EAE-B8CF-3BD7CB25BBDE}
 	EndGlobalSection
 EndGlobal

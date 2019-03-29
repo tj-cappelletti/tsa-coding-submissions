@@ -1,11 +1,14 @@
-using System.Data.Entity;
+using Microsoft.EntityFrameworkCore;
 using Tsa.CodingChallenge.Submissions.Core.Entities;
 
 namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
 {
     public partial class SubmissionsEntitiesContext : DbContext
     {
-        public static string ConnectionStringName => "SubmissionsEntitiesContext";
+        public SubmissionsEntitiesContext(DbContextOptions<SubmissionsEntitiesContext> options) : base(options)
+        {
+
+        }
 
         public virtual DbSet<Login> Logins { get; set; }
 
@@ -19,11 +22,7 @@ namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
 
         public virtual DbSet<TestDataSet> TestDataSets { get; set; }
 
-        public SubmissionsEntitiesContext() : base($"name={ConnectionStringName}")
-        {
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             SetupLoginEntity(modelBuilder);
             SetupProblemEntity(modelBuilder);

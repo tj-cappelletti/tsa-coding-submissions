@@ -2,44 +2,42 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Tsa.CodingChallenge.Submissions.Mvc</title>
+
+    <link rel="stylesheet" href="~/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
-<nav class="navbar navbar-inverse navbar-fixed-top">
+
+    <header>
+        <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+            <h5 class="my-0 mr-md-auto font-weight-normal">TSA High School Coding Challenge</h5>
+            <nav class="my-2 my-md-0 mr-md-3">
+                <a class="p-2 text-dark" asp-controller="Home" asp-action="Index">Home</a>
+                <a class="p-2 text-dark" asp-controller="Home" asp-action="Rules">Rules</a>
+                <partial name="_AuthenticatedLinksPartial" />
+            </nav>
+            <partial name="_LoginPartial" />
+        </div>
+    </header>
+
     <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            @Html.ActionLink("TSA Coding Submissions", "Index", "Home", null, new { @class = "navbar-brand" })
-            @*<a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">TSA Coding Submissions</a>*@
-        </div>
-        <div class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                <li>@Html.ActionLink("Rules", "Rules", "Home")</li>
-                @Html.Partial("_AuthenticatedLinksPartial")
-            </ul>
-            @Html.Partial("_LoginPartial")
-        </div>
-    </div>
-</nav>
-    <div class="container body-content">
-        @RenderBody()
-        <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - Webstorm Technologies</p>
-        </footer>
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
     </div>
 
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @RenderSection("scripts", required: false)
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <p>&copy; @DateTime.Now.Year - Webstorm Technologies</p>
+        </div>
+    </footer>
+
+    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/jquery-3.3.1.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

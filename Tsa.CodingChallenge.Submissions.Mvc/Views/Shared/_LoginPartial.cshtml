@@ -1,29 +1,12 @@
-﻿@using Microsoft.AspNet.Identity
-@using Tsa.CodingChallenge.Submissions.Core.Entities
-
-@if (Request.IsAuthenticated)
+﻿@if (User.Identity.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
-    {
-        @Html.AntiForgeryToken()
-
-        <ul class="nav navbar-nav navbar-right">
-            @if (User.IsInRole(Role.Student.ToString()))
-            {
-                <li>@Html.ActionLink($"Team {User.Identity.GetUserName()}", "Details", "Account")</li>
-            }
-            else
-            {
-                <li>@Html.ActionLink(User.Identity.GetUserName(), "Details", "Account")</li>
-            }
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-        </ul>
-    }
+    <form method="post" asp-controller="Account" asp-action="Logout">
+        <button type="submit" class="btn btn-primary">Logout</button>
+    </form>
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Registration", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+    <form method="get" asp-controller="Account" asp-action="Login">
+        <button type="submit" class="btn btn-primary">Login</button>
+    </form>
 }

@@ -1,31 +1,32 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Tsa.CodingChallenge.Submissions.Core.DataContexts;
 using Tsa.CodingChallenge.Submissions.Core.Entities;
-using Tsa.CodingChallenge.Submissions.Core.Persistence;
 using Tsa.CodingChallenge.Submissions.Core.Security;
 using Tsa.CodingChallenge.Submissions.Mvc.Models;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 {
-    public class AccountController : BaseController
+    public class AccountController : MvcControllerBase
     {
         private const string DuplicateTeamMemberNumber = "The team member's number must unique.";
         private const string GenericLoginError = "Invalid username or password.";
         private const string SchoolNumbersMismatchErrorMessage = "The team member's school number does not match the team's school number.";
         private const string TeamIdentityIsTeamMemberIdentityErrorMessage = "The team member's number cannot be the same as the team's number.";
 
-        public AccountController(IUnitOfWork unitOfWork) : base(unitOfWork)
-        {
-        }
+        public AccountController(SubmissionsEntitiesContext submissionsEntitiesContext) : base(submissionsEntitiesContext) { }
 
         [Authorize]
-        public ActionResult Details()
+        public IActionResult Details()
         {
-            var loginDetailsViewModel = (from logins in UnitOfWork.LoginsRepository
+            var loginDetailsViewModel = (from logins in EntitiesContext.Logins
                                          where logins.Identity == User.Identity.Name
                                          select new LoginDetailsViewModel
                                          {
@@ -37,7 +38,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
             if (User.IsInRole(Role.Student.ToString()))
             {
                 var index = 0;
-                var teamMembers = UnitOfWork.TeamMembersRepository.Where(tm => tm.LoginId == loginDetailsViewModel.Id).ToList();
+                var teamMembers = EntitiesContext.TeamMembers.Where(tm => tm.LoginId == loginDetailsViewModel.Id).ToList();
 
                 foreach (var teamMember in teamMembers)
                 {
@@ -73,11 +74,9 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public ActionResult Login(LoginViewModel model, string returnUrl)
+        public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            if (!ModelState.IsValid) return View(model);
-
-            var login = UnitOfWork.LoginsRepository.SingleOrDefault(l => l.Identity == model.Identity);
+            var login = EntitiesContext.Logins.SingleOrDefault(l => l.Identity == model.Identity);
 
             if (login == null)
             {
@@ -100,16 +99,18 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                 new Claim(ClaimTypes.Sid, login.Id.ToString()),
             };
 
-            var claimsIdentity = new ClaimsIdentity(claims, DefaultAuthenticationTypes.ApplicationCookie);
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
 
-            AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = false }, claimsIdentity);
+            await HttpContext.SignInAsync(claimsPrincipal);
 
             return RedirectToUrl(returnUrl);
         }
 
-        public ActionResult Logoff()
+        [HttpPost]
+        public async Task<IActionResult> Logout()
         {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Index", "Home");
         }
 
@@ -181,7 +182,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                 Role = Role.Student
             };
 
-            UnitOfWork.LoginsRepository.Add(login);
+            EntitiesContext.Logins.Add(login);
 
             var teamMember1 = new TeamMember
             {
@@ -189,7 +190,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                 MemberId = model.TeamMember1
             };
 
-            UnitOfWork.TeamMembersRepository.Add(teamMember1);
+            EntitiesContext.TeamMembers.Add(teamMember1);
 
             if (!string.IsNullOrWhiteSpace(model.TeamMember2))
             {
@@ -199,7 +200,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                     MemberId = model.TeamMember2
                 };
 
-                UnitOfWork.TeamMembersRepository.Add(teamMember2);
+                EntitiesContext.TeamMembers.Add(teamMember2);
             }
 
             if (!string.IsNullOrWhiteSpace(model.TeamMember3))
@@ -210,10 +211,10 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                     MemberId = model.TeamMember3
                 };
 
-                UnitOfWork.TeamMembersRepository.Add(teamMember3);
+                EntitiesContext.TeamMembers.Add(teamMember3);
             }
 
-            UnitOfWork.SaveChanges();
+            EntitiesContext.SaveChanges();
 
             return RedirectToAction("Login", "Account");
         }

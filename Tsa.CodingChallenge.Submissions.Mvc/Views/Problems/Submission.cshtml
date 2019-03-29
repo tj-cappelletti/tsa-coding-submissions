@@ -1,4 +1,5 @@
-﻿@model Tsa.CodingChallenge.Submissions.Mvc.Models.SubmissionViewModel
+﻿@using Tsa.CodingChallenge.Submissions.Core.Entities
+@model Tsa.CodingChallenge.Submissions.Mvc.Models.SubmissionViewModel
 
 @using (Html.BeginForm(null, null, FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
@@ -19,8 +20,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.ProgrammingLanguage, new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EnumDropDownListFor(m => m.ProgrammingLanguage, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.ProgrammingLanguage, "", new { @class = "text-danger" })
+                <select class="form-control" asp-for="ProgrammingLanguage" asp-items="Html.GetEnumSelectList(typeof(ProgrammingLanguage))"></select>
+                @Html.ValidationMessageFor(model => model.ProgrammingLanguage, "", new {@class = "text-danger"})
             </div>
         </div>
 

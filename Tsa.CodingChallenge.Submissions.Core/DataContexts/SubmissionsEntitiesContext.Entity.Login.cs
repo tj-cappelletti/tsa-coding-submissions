@@ -1,21 +1,19 @@
-﻿using System.Data.Entity;
+﻿using Microsoft.EntityFrameworkCore;
 using Tsa.CodingChallenge.Submissions.Core.Entities;
 
 namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
 {
     public partial class SubmissionsEntitiesContext
     {
-        private static void SetupLoginEntity(DbModelBuilder modelBuilder)
+        private static void SetupLoginEntity(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Login>()
                 .HasMany(e => e.Submissions)
-                .WithRequired(e => e.Login)
-                .WillCascadeOnDelete(false);
+                .WithOne(e => e.Login);
 
             modelBuilder.Entity<Login>()
                 .HasMany(e => e.TeamMembers)
-                .WithRequired(e => e.Login)
-                .WillCascadeOnDelete(false);
+                .WithOne(e => e.Login);
         }
     }
 }

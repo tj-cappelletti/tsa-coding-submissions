@@ -1,5 +1,15 @@
-﻿@using Microsoft.AspNet.Identity
-@if (Request.IsAuthenticated)
+﻿@using Microsoft.AspNetCore.Identity
+@using Tsa.CodingChallenge.Submissions.Core.Entities
+
+@if (User.Identity.IsAuthenticated)
 {
-    <li>@Html.ActionLink("Problems", "Index", "Problems")</li>
+    <a class="p-2 text-dark" asp-controller="Problems" asp-action="Index">Problems</a>
+    if (User.IsInRole(Role.Student.ToString()))
+    {
+        <a clss="p-2 text-dark" asp-controller="Account" asp-action="Details">Team @User.Identity.Name</a>
+    }
+    else
+    {
+        <a clss="p-2 text-dark" asp-controller="Account" asp-action="Details">@User.Identity.Name</a>
+    }
 }

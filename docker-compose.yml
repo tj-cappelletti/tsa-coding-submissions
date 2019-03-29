@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  mvc:
+    image: ${DOCKER_REGISTRY-}tsacodingchallengesubmissionsmvc
+    build:
+      context: .
+      dockerfile: Tsa.CodingChallenge.Submissions.Mvc/Dockerfile
+    depends_on:
+      - db
+
+  db:
+    image: ${DOCKER_REGISTRY-}tsacodingchallengesubmissionsdb
+    build:
+      context: .
+      dockerfile: docker/database/Dockerfile
