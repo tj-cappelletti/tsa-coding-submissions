@@ -1,9 +1,15 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using RabbitMQ.Client;
 using Tsa.CodingChallenge.Submissions.Core.DataContexts;
+using Tsa.CodingChallenge.Submissions.Core.Entities;
+using Tsa.CodingChallenge.Submissions.Core.Queues;
 using Tsa.CodingChallenge.Submissions.Mvc.Models;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
@@ -60,67 +66,78 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult> Submission(SubmissionViewModel submissionViewModel)
+        public ActionResult Submission(int id, SubmissionViewModel submissionViewModel)
         {
-            throw new NotImplementedException();
-            //var problemId = int.Parse((string)Url.RequestContext.RouteData.Values["id"]);
+            var problemId = id;
+            var rawFile = new byte[submissionViewModel.FileUpload.Length];
+            var fileStream = submissionViewModel.FileUpload.OpenReadStream();
+            fileStream.Read(rawFile, 0, rawFile.Length);
 
-            //var rawFile = new byte[submissionViewModel.FileUpload.InputStream.Length];
-            //submissionViewModel.FileUpload.InputStream.Read(rawFile, 0, rawFile.Length);
+            var submission = new Submission
+            {
+                FileName = submissionViewModel.FileUpload.FileName,
+                LoginId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.Sid).Value),
+                ProblemId = problemId,
+                ProgrammingLanguage = submissionViewModel.ProgrammingLanguage,
+                RawFile = rawFile,
+                SubmissionDateTime = DateTime.Now
+            };
 
-            //var submission = new Submission
-            //{
-            //    FileName = submissionViewModel.FileUpload.FileName,
-            //    LoginId = int.Parse(AuthenticationManager.User.Claims.Single(c => c.Type == ClaimTypes.Sid).Value),
-            //    ProblemId = problemId,
-            //    ProgrammingLanguage = submissionViewModel.ProgrammingLanguage,
-            //    RawFile = rawFile,
-            //    SubmissionDateTime = DateTime.Now
-            //};
+            EntitiesContext.Submissions.Add(submission);
+            EntitiesContext.SaveChanges();
 
-            //UnitOfWork.SubmissionsRepository.Add(submission);
-            //UnitOfWork.SaveChanges();
+            var connectionFactory = new ConnectionFactory
+            {
+                Uri = new Uri("amqp://guest:guest@rabbitmq:5672")
+            };
 
-            //var connectionString = ConfigurationManager<>.ConnectionStrings["SubmissionsServiceBus"].ConnectionString;
-            //string queue;
+            using (var connection = connectionFactory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                const string exchange = "tsa-coding-challenge";
+                const string routingKey = "tsa";
+                string queue;
 
-            //switch (submissionViewModel.ProgrammingLanguage)
-            //{
-            //    case ProgrammingLanguage.DotNet:
-            //        queue = QueueNames.DotNet;
-            //        break;
-            //    case ProgrammingLanguage.C:
-            //        queue = QueueNames.C;
-            //        break;
-            //    case ProgrammingLanguage.Java:
-            //        queue = QueueNames.Java;
-            //        break;
-            //    case ProgrammingLanguage.NodeJs:
-            //        queue = QueueNames.NodeJs;
-            //        break;
-            //    case ProgrammingLanguage.Perl:
-            //        queue = QueueNames.Perl;
-            //        break;
-            //    case ProgrammingLanguage.Python:
-            //        queue = QueueNames.Python;
-            //        break;
-            //    case ProgrammingLanguage.Ruby:
-            //        queue = QueueNames.Ruby;
-            //        break;
-            //    default:
-            //        throw new NotImplementedException();
-            //}
+                switch (submissionViewModel.ProgrammingLanguage)
+                {
+                    case ProgrammingLanguage.DotNet:
+                        queue = QueueNames.DotNet;
+                        break;
+                    case ProgrammingLanguage.C:
+                        queue = QueueNames.C;
+                        break;
+                    case ProgrammingLanguage.Java:
+                        queue = QueueNames.Java;
+                        break;
+                    case ProgrammingLanguage.NodeJs:
+                        queue = QueueNames.NodeJs;
+                        break;
+                    case ProgrammingLanguage.Perl:
+                        queue = QueueNames.Perl;
+                        break;
+                    case ProgrammingLanguage.Python:
+                        queue = QueueNames.Python;
+                        break;
+                    case ProgrammingLanguage.Ruby:
+                        queue = QueueNames.Ruby;
+                        break;
+                    default:
+                        throw new NotImplementedException();
+                }
 
-            //var message = new Message(BitConverter.GetBytes(submission.Id))
-            //{
-            //    ContentType = submission.Id.GetType().FullName,
-            //    Label = submission.ProgrammingLanguage.ToString()
-            //};
+                channel.ExchangeDeclare(exchange, ExchangeType.Direct);
+                channel.QueueDeclare(queue, false, false, false, null);
+                channel.QueueBind(queue, exchange, routingKey, null);
 
-            //var queueClient = new QueueClient(connectionString, queue);
-            //await queueClient.SendAsync(message);
+                var encodedFile = Convert.ToBase64String(rawFile, 0, rawFile.Length);
 
-            //return RedirectToAction("Index", new { solutionSubmitted = true });
+                var message = JsonConvert.SerializeObject(new { submissionId = submission.Id, problemId, fileName = submission.FileName, file = encodedFile });
+                var body = Encoding.UTF8.GetBytes(message);
+
+                channel.BasicPublish(exchange, routingKey, null, body);
+            }
+
+            return RedirectToAction("Index", new { solutionSubmitted = true });
         }
     }
 }

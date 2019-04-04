@@ -10,3 +10,6 @@
 <div>
     @Html.Raw(Model.Description)
 </div>
+<div>
+    @Html.ActionLink("Submit Solution", "Submission", new { id = Url.ActionContext.RouteData.Values["id"] })
+</div>
