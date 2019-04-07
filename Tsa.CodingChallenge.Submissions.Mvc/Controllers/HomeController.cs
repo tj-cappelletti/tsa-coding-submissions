@@ -17,12 +17,12 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Rules()
         {
             return View();
         }
 
-        public IActionResult Rules()
+        public IActionResult Summary()
         {
             return View();
         }

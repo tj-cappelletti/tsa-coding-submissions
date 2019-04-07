@@ -7,9 +7,6 @@ namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
     {
         private static void SetupTestDataSetEntity(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<TestDataSet>()
-                .HasMany(e => e.TestDataSetElements)
-                .WithOne(e => e.TestDataSet);
         }
     }
 }

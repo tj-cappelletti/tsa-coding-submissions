@@ -135,7 +135,6 @@
     <Build Include="Tables\dbo\Problems.sql" />
     <Build Include="Tables\dbo\TestDataSets.sql" />
     <Build Include="Tables\dbo\DataTypes.sql" />
-    <Build Include="Tables\dbo\TestDataSetElements.sql" />
     <Build Include="Tables\dbo\Submissions.sql" />
     <Build Include="Tables\dbo\ProgrammingLanguages.sql" />
   </ItemGroup>
@@ -144,6 +143,7 @@
     <None Include="Scripts\SeedData\dbo.DataTypes.Data.sql" />
     <None Include="Scripts\SeedData\dbo.Problems.Data.sql" />
     <None Include="Scripts\SeedData\dbo.ProgrammingLanguages.Data.sql" />
+    <None Include="Scripts\SeedData\dbo.TestDataSets.Data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />

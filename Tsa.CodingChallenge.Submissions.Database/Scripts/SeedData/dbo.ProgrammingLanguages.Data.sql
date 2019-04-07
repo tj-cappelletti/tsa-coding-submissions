@@ -1,13 +1,16 @@
 ﻿SET IDENTITY_INSERT dbo.ProgrammingLanguages ON
 
 MERGE dbo.ProgrammingLanguages AS [target]
-USING ( VALUES (1, 'DONT-NET_C-SHARP_F-SHARP_VB-NET', '.NET (C#, F#, VB.NET)', NULL),
-               (2, 'C_C-PLUS-PLUS', 'C/C++', NULL),
-               (3, 'JAVA', 'Java', NULL),
-               (4, 'NODE_JS', 'Node.js', NULL),
-               (5, 'PERL', 'Perl', NULL),
-               (6, 'PYTHON', 'Python', NULL),
-               (7, 'RUBY', 'Ruby', NULL))
+USING ( VALUES (1,'C','C',NULL),
+               (2,'CPLUSPLUS','C++',NULL),
+               (3,'CSHARP','C#',NULL),
+               (4,'FSHARP','F#',NULL),
+               (5,'JAVA','Java',NULL),
+               (6,'NODEJS','Node.js',NULL),
+               (7,'PERL','Perl',NULL),
+               (8,'PYTHON','Python',NULL),
+               (9,'RUBY','Ruby',NULL),
+               (10,'VBDOTNET','VB.NET',NULL))
                AS [source] (Id, Identifier, [Name], [Description])
 ON [target].Id = [source].Id
 WHEN MATCHED AND [target].Identifier != [source].Identifier

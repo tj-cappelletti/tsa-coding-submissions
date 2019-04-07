@@ -5,10 +5,7 @@ namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
 {
     public partial class SubmissionsEntitiesContext : DbContext
     {
-        public SubmissionsEntitiesContext(DbContextOptions<SubmissionsEntitiesContext> options) : base(options)
-        {
-
-        }
+        public SubmissionsEntitiesContext(DbContextOptions<SubmissionsEntitiesContext> options) : base(options) { }
 
         public virtual DbSet<Login> Logins { get; set; }
 
@@ -17,8 +14,6 @@ namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
         public virtual DbSet<Submission> Submissions { get; set; }
 
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
-
-        public virtual DbSet<TestDataSetElement> TestDataSetElements { get; set; }
 
         public virtual DbSet<TestDataSet> TestDataSets { get; set; }
 

@@ -23,6 +23,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{C3
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{26FBF0F0-CD7B-4C9A-B1A6-5781F9788A41}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submissions", "submissions", "{42019BBC-F2F5-4EB6-B40E-EBDD30FB10E5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp", "csharp", "{36E2B67D-3771-4DFD-A0E5-AE74583B205F}"
+	ProjectSection(SolutionItems) = preProject
+		submissions\csharp\ProblemOne.cs = submissions\csharp\ProblemOne.cs
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -93,6 +100,7 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C32CA506-40CB-4441-AE07-C44F9246FF27} = {32F120DA-901A-494E-9266-4C99E2F9D044}
+		{36E2B67D-3771-4DFD-A0E5-AE74583B205F} = {42019BBC-F2F5-4EB6-B40E-EBDD30FB10E5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6894991F-9218-4EAE-B8CF-3BD7CB25BBDE}

@@ -6,6 +6,7 @@
     [SubmissionDateTime] DATETIME NOT NULL,
     [EvaluatedDateTime] DATETIME NULL,
     [ProgrammingLanguageId] INT NOT NULL,
+    [ProgrammingLanguageFlags] INT NOT NULL DEFAULT 0,
     [FileName] VARCHAR(1000) NOT NULL,
     [RawFile] VARBINARY(MAX) NOT NULL,
     CONSTRAINT [PK_Submissions] PRIMARY KEY ([Id]),

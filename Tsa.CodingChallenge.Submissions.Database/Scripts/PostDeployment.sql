@@ -14,3 +14,4 @@ Post-Deployment Script Template
 :r .\SeedData\dbo.Problems.Data.sql
 :r .\SeedData\dbo.ProgrammingLanguages.Data.sql
 :r .\SeedData\dbo.Roles.Data.sql
+:r .\SeedData\dbo.TestDataSets.Data.sql

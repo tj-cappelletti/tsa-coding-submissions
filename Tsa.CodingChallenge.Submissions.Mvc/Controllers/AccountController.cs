@@ -58,12 +58,6 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
             return View(loginDetailsViewModel);
         }
 
-        [Authorize]
-        public ActionResult Index()
-        {
-            return View();
-        }
-
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -104,7 +98,9 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
             await HttpContext.SignInAsync(claimsPrincipal);
 
-            return RedirectToUrl(returnUrl);
+            return returnUrl == string.Empty
+                ? RedirectToAction("Summary", "Home")
+                : RedirectToUrl(returnUrl);
         }
 
         [HttpPost]

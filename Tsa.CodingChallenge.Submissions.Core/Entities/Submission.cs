@@ -22,6 +22,8 @@ namespace Tsa.CodingChallenge.Submissions.Core.Entities
         [Column("ProgrammingLanguageId")]
         public ProgrammingLanguage ProgrammingLanguage { get; set; }
 
+        public int ProgrammingLanguageFlags { get; set; }
+
         public byte[] RawFile { get; set; }
 
         public DateTime SubmissionDateTime { get; set; }

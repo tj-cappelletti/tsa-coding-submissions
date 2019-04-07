@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -37,10 +36,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         [Authorize]
         public ActionResult Index(bool? solutionSubmitted)
         {
-            if (solutionSubmitted.HasValue && solutionSubmitted.Value)
-            {
-                TempData.Add("solutionSubmitted", true);
-            }
+            if (solutionSubmitted.HasValue && solutionSubmitted.Value) TempData.Add("solutionSubmitted", true);
 
             var problemsViewModel = (from problems in EntitiesContext.Problems
                                      select new ProblemViewModel
@@ -100,11 +96,17 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
                 switch (submissionViewModel.ProgrammingLanguage)
                 {
-                    case ProgrammingLanguage.DotNet:
-                        queue = QueueNames.DotNet;
-                        break;
                     case ProgrammingLanguage.C:
                         queue = QueueNames.C;
+                        break;
+                    case ProgrammingLanguage.CPlusPlus:
+                        queue = QueueNames.CPlusPlus;
+                        break;
+                    case ProgrammingLanguage.CSharp:
+                        queue = QueueNames.CSharp;
+                        break;
+                    case ProgrammingLanguage.FSharp:
+                        queue = QueueNames.FSharp;
                         break;
                     case ProgrammingLanguage.Java:
                         queue = QueueNames.Java;
@@ -120,6 +122,9 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                         break;
                     case ProgrammingLanguage.Ruby:
                         queue = QueueNames.Ruby;
+                        break;
+                    case ProgrammingLanguage.VbDotNet:
+                        queue = QueueNames.VbDotNet;
                         break;
                     default:
                         throw new NotImplementedException();

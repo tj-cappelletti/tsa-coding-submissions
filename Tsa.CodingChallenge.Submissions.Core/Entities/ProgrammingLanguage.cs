@@ -4,15 +4,20 @@ namespace Tsa.CodingChallenge.Submissions.Core.Entities
 {
     public enum ProgrammingLanguage
     {
-        [Display(Name = ".NET (C#, F#, VB.NET)")]
-        DotNet = 1,
-        [Display(Name = "C/C++")]
-        C = 2,
-        Java = 3,
+        C,
+        [Display(Name = "C++")]
+        CPlusPlus,
+        [Display(Name = "C#")]
+        CSharp,
+        [Display(Name = "F#")]
+        FSharp,
+        Java,
         [Display(Name = "Node.js")]
-        NodeJs = 4,
-        Perl = 5,
-        Python = 6,
-        Ruby = 7
+        NodeJs,
+        Perl,
+        Python,
+        Ruby,
+        [Display(Name = "VB.NET")]
+        VbDotNet
     }
 }
