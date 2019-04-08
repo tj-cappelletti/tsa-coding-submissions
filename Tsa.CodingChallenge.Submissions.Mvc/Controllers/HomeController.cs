@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Tsa.CodingChallenge.Submissions.Mvc.Models;
 
@@ -22,6 +23,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
             return View();
         }
 
+        [Authorize]
         public IActionResult Summary()
         {
             return View();

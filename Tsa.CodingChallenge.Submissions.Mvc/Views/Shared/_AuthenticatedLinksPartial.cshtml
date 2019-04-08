@@ -3,6 +3,7 @@
 
 @if (User.Identity.IsAuthenticated)
 {
+    <a class="p-2 text-dark" asp-controller="Home" asp-action="Summary">Summary</a>
     <a class="p-2 text-dark" asp-controller="Problems" asp-action="Index">Problems</a>
     if (User.IsInRole(Role.Student.ToString()))
     {

@@ -16,7 +16,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         {
             if (Url.IsLocalUrl(url)) return Redirect(url);
 
-            return RedirectToAction("Index", "Account");
+            return RedirectToAction("Summary", "Home");
         }
     }
 }

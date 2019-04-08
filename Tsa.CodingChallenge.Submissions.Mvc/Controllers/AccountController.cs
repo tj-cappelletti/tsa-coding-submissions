@@ -98,9 +98,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
             await HttpContext.SignInAsync(claimsPrincipal);
 
-            return returnUrl == string.Empty
-                ? RedirectToAction("Summary", "Home")
-                : RedirectToUrl(returnUrl);
+            return RedirectToUrl(returnUrl);
         }
 
         [HttpPost]

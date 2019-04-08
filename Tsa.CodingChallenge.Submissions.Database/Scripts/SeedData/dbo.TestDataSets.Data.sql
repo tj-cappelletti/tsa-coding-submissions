@@ -1,7 +1,8 @@
 ﻿SET IDENTITY_INSERT dbo.TestDataSets ON
 
 MERGE dbo.TestDataSets AS [target]
-USING ( VALUES (1,1,'PROBLEM_1_TEST_SET_1',0,'[{"sequence":0,"parameter":{"targetType":"Int 32[]","value":[2,3,3,1,5,2]}}]','{3}',1))
+USING ( VALUES (1,1,'PROBLEM_1_TEST_SET_1',0,'[{"sequence":0,"parameter":{"targetType":"Int 32[]","value":[2,3,3,1,5,2]}}]','3',1),
+               (2,2,'PROBLEM_2_TEST_SET_2',0,'[{"sequence":0,"parameter":{"targetType":"String[]","value":["abcfihgde","adghifcbe","edghifcba"]}}]','ihgdefcba',1))
                AS [source] (Id, ProblemId, Identifier, [Sequence], [Data], ExpectedResult, DisplayWithProblem)
 ON [target].Id = [source].Id
 WHEN MATCHED AND [target].ProblemId != [source].ProblemId
