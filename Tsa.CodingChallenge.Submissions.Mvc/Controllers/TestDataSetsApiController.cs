@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Tsa.CodingChallenge.Submissions.Core.DataContexts;
 using Tsa.CodingChallenge.Submissions.Core.Entities;
+using Tsa.CodingChallenge.Submissions.Model;
 using Tsa.CodingChallenge.Submissions.Mvc.Models;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
@@ -17,7 +18,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         public TestDataSetsApiController(SubmissionsEntitiesContext submissionsEntitiesContext) : base(submissionsEntitiesContext) { }
 
         [HttpGet]
-        public async Task<ActionResult<List<TestDataSet>>> GetAll([FromQuery(Name = "problemId")] int problemId)
+        public async Task<ActionResult<List<TestDataSetModel>>> GetAll([FromQuery(Name = "problemId")] int problemId)
         {
             IQueryable<TestDataSet> testDataSets = EntitiesContext.TestDataSets;
 
@@ -26,7 +27,9 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
                 testDataSets = testDataSets.Where(tds => tds.ProblemId == problemId);
             }
 
-            return await testDataSets.ToListAsync();
+            return await testDataSets
+                .Select(tds=>ModelFactory.CreateModel(tds))
+                .ToListAsync();
         }
     }
 }

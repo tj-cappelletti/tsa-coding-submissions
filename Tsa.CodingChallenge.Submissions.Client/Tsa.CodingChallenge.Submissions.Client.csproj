@@ -2,6 +2,19 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>TJ Cappelletti</Authors>
+    <Company>Webstom Technologies</Company>
+    <Product>TSA Coding Challenge Submissions Client</Product>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.1" />
+    <PackageReference Include="RestSharp" Version="106.6.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Tsa.CodingChallenge.Submissions.Model\Tsa.CodingChallenge.Submissions.Model.csproj" />
+  </ItemGroup>
 
 </Project>

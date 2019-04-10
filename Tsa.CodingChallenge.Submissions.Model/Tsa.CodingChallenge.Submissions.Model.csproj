@@ -4,7 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Authors>TJ Cappelletti</Authors>
     <Company>Webstorm Technologies</Company>
-    <Product>TSA Coding Challenge</Product>
+    <Product>TSA Coding Challenge Model</Product>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 

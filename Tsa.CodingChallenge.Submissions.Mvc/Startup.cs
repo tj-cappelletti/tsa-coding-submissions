@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,14 +31,14 @@ namespace Tsa.CodingChallenge.Submissions.Mvc
         {
             services.AddDbContext<SubmissionsEntitiesContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SubmissionsDatabase")));
 
-
             services.AddAuthentication(options =>
                 {
                     options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.DefaultSignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 })
-                .AddCookie(options => { options.LoginPath = "/account/login"; });
+                .AddCookie(options => { options.LoginPath = "/account/login"; })
+                .AddJwtBearer();
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
