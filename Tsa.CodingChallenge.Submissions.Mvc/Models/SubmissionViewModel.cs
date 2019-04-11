@@ -1,18 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Http;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Tsa.CodingChallenge.Submissions.Core.Entities;
 
 namespace Tsa.CodingChallenge.Submissions.Mvc.Models
 {
     public class SubmissionViewModel
     {
-        [Display(Name = "Source Code File")]
-        public IFormFile FileUpload { get; set; }
+        public int Id { get; set; }
+
+        public string LoginIdentity { get; set; }
 
         public string ProblemName { get; set; }
 
-        [Required]
-        [Display(Name = "Language")]
         public ProgrammingLanguage ProgrammingLanguage { get; set; }
+
+        public string ProgrammingLanguageFlags { get; set; }
+
+        public DateTime SubmissionDateTime { get; set; }
+
+        public DateTime? EvaluateDateTime { get; set; }
     }
 }

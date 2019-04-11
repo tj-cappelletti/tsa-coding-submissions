@@ -10,8 +10,14 @@ Post-Deployment Script Template
 --------------------------------------------------------------------------------------
 */
 
+--Sequence doesn't matter with these
 :r .\SeedData\dbo.DataTypes.Data.sql
-:r .\SeedData\dbo.Problems.Data.sql
 :r .\SeedData\dbo.ProgrammingLanguages.Data.sql
+
+--Need Roles before Logins
 :r .\SeedData\dbo.Roles.Data.sql
+:r .\SeedData\dbo.Logins.data.sql
+
+--Need Problems before Test Data Sets
+:r .\SeedData\dbo.Problems.Data.sql
 :r .\SeedData\dbo.TestDataSets.Data.sql

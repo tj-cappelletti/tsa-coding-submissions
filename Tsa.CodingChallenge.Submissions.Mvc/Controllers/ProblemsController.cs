@@ -52,7 +52,7 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
         [Authorize]
         public ActionResult Submission(int id)
         {
-            var submissionViewModel = new SubmissionViewModel
+            var submissionViewModel = new SubmissionUploadViewModel
             {
                 ProblemName = EntitiesContext.Problems.Single(p => p.Id == id).Name
             };
@@ -62,19 +62,19 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
 
         [Authorize]
         [HttpPost]
-        public ActionResult Submission(int id, SubmissionViewModel submissionViewModel)
+        public ActionResult Submission(int id, SubmissionUploadViewModel submissionUploadViewModel)
         {
             var problemId = id;
-            var rawFile = new byte[submissionViewModel.FileUpload.Length];
-            var fileStream = submissionViewModel.FileUpload.OpenReadStream();
+            var rawFile = new byte[submissionUploadViewModel.FileUpload.Length];
+            var fileStream = submissionUploadViewModel.FileUpload.OpenReadStream();
             fileStream.Read(rawFile, 0, rawFile.Length);
 
             var submission = new Submission
             {
-                FileName = submissionViewModel.FileUpload.FileName,
+                FileName = submissionUploadViewModel.FileUpload.FileName,
                 LoginId = int.Parse(User.Claims.Single(c => c.Type == ClaimTypes.Sid).Value),
                 ProblemId = problemId,
-                ProgrammingLanguage = submissionViewModel.ProgrammingLanguage,
+                ProgrammingLanguage = submissionUploadViewModel.ProgrammingLanguage,
                 RawFile = rawFile,
                 SubmissionDateTime = DateTime.Now
             };
@@ -82,65 +82,65 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Controllers
             EntitiesContext.Submissions.Add(submission);
             EntitiesContext.SaveChanges();
 
-            var connectionFactory = new ConnectionFactory
-            {
-                Uri = new Uri("amqp://guest:guest@rabbitmq:5672")
-            };
+            //var connectionFactory = new ConnectionFactory
+            //{
+            //    Uri = new Uri("amqp://guest:guest@rabbitmq:5672")
+            //};
 
-            using (var connection = connectionFactory.CreateConnection())
-            using (var channel = connection.CreateModel())
-            {
-                const string exchange = "tsa-coding-challenge";
-                const string routingKey = "tsa";
-                string queue;
+            //using (var connection = connectionFactory.CreateConnection())
+            //using (var channel = connection.CreateModel())
+            //{
+            //    const string exchange = "tsa-coding-challenge";
+            //    const string routingKey = "tsa";
+            //    string queue;
 
-                switch (submissionViewModel.ProgrammingLanguage)
-                {
-                    case ProgrammingLanguage.C:
-                        queue = QueueNames.C;
-                        break;
-                    case ProgrammingLanguage.CPlusPlus:
-                        queue = QueueNames.CPlusPlus;
-                        break;
-                    case ProgrammingLanguage.CSharp:
-                        queue = QueueNames.CSharp;
-                        break;
-                    case ProgrammingLanguage.FSharp:
-                        queue = QueueNames.FSharp;
-                        break;
-                    case ProgrammingLanguage.Java:
-                        queue = QueueNames.Java;
-                        break;
-                    case ProgrammingLanguage.NodeJs:
-                        queue = QueueNames.NodeJs;
-                        break;
-                    case ProgrammingLanguage.Perl:
-                        queue = QueueNames.Perl;
-                        break;
-                    case ProgrammingLanguage.Python:
-                        queue = QueueNames.Python;
-                        break;
-                    case ProgrammingLanguage.Ruby:
-                        queue = QueueNames.Ruby;
-                        break;
-                    case ProgrammingLanguage.VbDotNet:
-                        queue = QueueNames.VbDotNet;
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
+            //    switch (submissionUploadViewModel.ProgrammingLanguage)
+            //    {
+            //        case ProgrammingLanguage.C:
+            //            queue = QueueNames.C;
+            //            break;
+            //        case ProgrammingLanguage.CPlusPlus:
+            //            queue = QueueNames.CPlusPlus;
+            //            break;
+            //        case ProgrammingLanguage.CSharp:
+            //            queue = QueueNames.CSharp;
+            //            break;
+            //        case ProgrammingLanguage.FSharp:
+            //            queue = QueueNames.FSharp;
+            //            break;
+            //        case ProgrammingLanguage.Java:
+            //            queue = QueueNames.Java;
+            //            break;
+            //        case ProgrammingLanguage.NodeJs:
+            //            queue = QueueNames.NodeJs;
+            //            break;
+            //        case ProgrammingLanguage.Perl:
+            //            queue = QueueNames.Perl;
+            //            break;
+            //        case ProgrammingLanguage.Python:
+            //            queue = QueueNames.Python;
+            //            break;
+            //        case ProgrammingLanguage.Ruby:
+            //            queue = QueueNames.Ruby;
+            //            break;
+            //        case ProgrammingLanguage.VbDotNet:
+            //            queue = QueueNames.VbDotNet;
+            //            break;
+            //        default:
+            //            throw new NotImplementedException();
+            //    }
 
-                channel.ExchangeDeclare(exchange, ExchangeType.Direct);
-                channel.QueueDeclare(queue, false, false, false, null);
-                channel.QueueBind(queue, exchange, routingKey, null);
+            //    channel.ExchangeDeclare(exchange, ExchangeType.Direct);
+            //    channel.QueueDeclare(queue, false, false, false, null);
+            //    channel.QueueBind(queue, exchange, routingKey, null);
 
-                var encodedFile = Convert.ToBase64String(rawFile, 0, rawFile.Length);
+            //    var encodedFile = Convert.ToBase64String(rawFile, 0, rawFile.Length);
 
-                var message = JsonConvert.SerializeObject(new { submissionId = submission.Id, problemId, fileName = submission.FileName, file = encodedFile });
-                var body = Encoding.UTF8.GetBytes(message);
+            //    var message = JsonConvert.SerializeObject(new { submissionId = submission.Id, problemId, fileName = submission.FileName, file = encodedFile });
+            //    var body = Encoding.UTF8.GetBytes(message);
 
-                channel.BasicPublish(exchange, routingKey, null, body);
-            }
+            //    channel.BasicPublish(exchange, routingKey, null, body);
+            //}
 
             return RedirectToAction("Index", new { solutionSubmitted = true });
         }

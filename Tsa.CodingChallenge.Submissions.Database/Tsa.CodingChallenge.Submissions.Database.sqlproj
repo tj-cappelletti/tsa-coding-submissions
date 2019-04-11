@@ -144,6 +144,7 @@
     <None Include="Scripts\SeedData\dbo.Problems.Data.sql" />
     <None Include="Scripts\SeedData\dbo.ProgrammingLanguages.Data.sql" />
     <None Include="Scripts\SeedData\dbo.TestDataSets.Data.sql" />
+    <None Include="Scripts\SeedData\dbo.Logins.Data.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\PostDeployment.sql" />

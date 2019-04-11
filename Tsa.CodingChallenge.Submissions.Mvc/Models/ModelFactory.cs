@@ -18,5 +18,19 @@ namespace Tsa.CodingChallenge.Submissions.Mvc.Models
                 Sequence = entity.Sequence
             };
         }
+
+        public static SubmissionViewModel CreateViewModel(Submission entity)
+        {
+            return new SubmissionViewModel
+            {
+                EvaluateDateTime = entity.EvaluatedDateTime,
+                Id = entity.Id,
+                LoginIdentity = entity.Login.Identity,
+                ProblemName = entity.Problem.Name,
+                ProgrammingLanguage = entity.ProgrammingLanguage,
+                ProgrammingLanguageFlags = entity.ProgrammingLanguageFlags.ToString(),
+                SubmissionDateTime = entity.SubmissionDateTime
+            };
+        }
     }
 }
