@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Tsa.CodingChallenge.Submissions.Mvc.Models.SubmissionViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LoginIdentity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProblemName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrammingLanguage)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProgrammingLanguageFlags)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SubmissionDateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EvaluateDateTime)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LoginIdentity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProblemName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgrammingLanguage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProgrammingLanguageFlags)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SubmissionDateTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EvaluateDateTime)
+            </td>
+            <td>
+                @Html.ActionLink("Download", "Download", new {  id=item.Id }) |
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
