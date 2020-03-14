@@ -22,12 +22,6 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\Tsa.CodingChallenge.Submissions.Core\Tsa.CodingChallenge.Submissions.Core.csproj" />
-    <ProjectReference Include="..\Tsa.CodingChallenge.Submissions.Model\Tsa.CodingChallenge.Submissions.Model.csproj" />
-  </ItemGroup>
-
-
-  <ItemGroup>
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
