@@ -11,7 +11,7 @@ services:
       - rabbitmq
 
   db:
-    image: ${DOCKER_REGISTRY-}tsacodingchallengesubmissionsdb
+    image: ${DOCKER_REGISTRY-}tsacodingchallengesubmissionsdb:dev
     build:
       context: .
       dockerfile: docker/database/Dockerfile
