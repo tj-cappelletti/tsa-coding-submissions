@@ -1,1 +1,1 @@
-scripts\create-sql-database.sh eol=lf
+*.sh        text eol=lf
