@@ -3,7 +3,7 @@ using Tsa.CodingChallenge.Submissions.Core.Entities;
 
 namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
 {
-    public partial class SubmissionsEntitiesContext
+    public partial class SubmissionsContext
     {
         private static void SetupLoginEntity(ModelBuilder modelBuilder)
         {
