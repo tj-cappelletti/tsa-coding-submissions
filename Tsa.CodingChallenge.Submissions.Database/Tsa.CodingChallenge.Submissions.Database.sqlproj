@@ -150,6 +150,6 @@
     <PostDeploy Include="Scripts\PostDeployment.sql" />
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent>xcopy "$(ProjectDir)$(OutputPath)Tsa.CodingChallenge.Submissions.Database_Create.sql" "$(SolutionDir)artifacts\db\*" /Y</PostBuildEvent>
+    <PostBuildEvent>xcopy "$(ProjectDir)$(OutputPath)Tsa.CodingChallenge.Submissions.Database_Create.sql" "$(SolutionDir)docker\database\artifacts\*" /Y</PostBuildEvent>
   </PropertyGroup>
 </Project>
