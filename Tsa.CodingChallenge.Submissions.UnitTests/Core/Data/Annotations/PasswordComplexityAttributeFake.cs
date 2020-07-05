@@ -17,9 +17,9 @@ namespace Tsa.CodingChallenge.Submissions.UnitTests.Core.Data.Annotations
     {
         public PasswordComplexityAttributeFake(PasswordComplexityRules complexityRules, int minimumRulesToApply) : base(complexityRules, minimumRulesToApply) { }
 
-        public new ValidationResult IsValid(object value, ValidationContext validationContext)
+        public ValidationResult TestIsValid(object value, ValidationContext validationContext)
         {
-            return base.IsValid(value, validationContext);
+            return IsValid(value, validationContext);
         }
     }
 }

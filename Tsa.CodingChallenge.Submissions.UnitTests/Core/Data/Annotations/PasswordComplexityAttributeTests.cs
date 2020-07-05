@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Tsa.CodingChallenge.Submissions.Core.Data.Annotations;
 using Xunit;
 
@@ -14,10 +15,10 @@ namespace Tsa.CodingChallenge.Submissions.UnitTests.Core.Data.Annotations
             var passwordComplexityAttributeFake = new PasswordComplexityAttributeFake(complexityRules, minimumRulesToApply);
 
             // Act
-            var actualResult = passwordComplexityAttributeFake.IsValid(password);
+            var actualResult = passwordComplexityAttributeFake.TestIsValid(password, null);
 
             // Assert
-            Assert.Equal(expectedResult, actualResult);
+            Assert.Equal(ValidationResult.Success, actualResult);
         }
     }
 }
