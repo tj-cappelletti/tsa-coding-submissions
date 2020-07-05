@@ -33,6 +33,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{3F3A
 		docker\database\scripts\create-sql-database.sh = docker\database\scripts\create-sql-database.sh
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipeline", "pipeline", "{21EF6158-E644-469C-8A82-138EED4D9E90}"
+	ProjectSection(SolutionItems) = preProject
+		pipeline\azdos-pipeline.yaml = pipeline\azdos-pipeline.yaml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
