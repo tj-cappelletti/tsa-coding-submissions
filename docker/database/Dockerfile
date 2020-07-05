@@ -1,6 +1,6 @@
 FROM mcr.microsoft.com/mssql/server:2017-latest
 
-COPY artifacts/db/Tsa.CodingChallenge.Submissions.Database_Create.sql /create-db.sql
+COPY artifacts/Tsa.CodingChallenge.Submissions.Database_Create.sql /create-db.sql
 COPY scripts/create-sql-database.sh /
 
 ENV ACCEPT_EULA Y
