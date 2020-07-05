@@ -1,0 +1,27 @@
+version: '3.4'
+
+services:
+  blazor:
+    image: ${DOCKER_REGISTRY-}tsa-coding-submissions-blazor
+    build:
+      context: .
+      dockerfile: Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
+    depends_on:
+      - rabbitmq
+  db:
+    image: ${DOCKER_REGISTRY-}tsa-coding-submissions-db:dev
+    build:
+      context: docker/database/.
+      dockerfile: Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+
+  web-api:
+    image: ${DOCKER_REGISTRY-}tsa-coding-submissions-webapi
+    build:
+      context: .
+      dockerfile: Tsa.CodingChallenge.Submissions.WebApi/Dockerfile
+    depends_on:
+      - db

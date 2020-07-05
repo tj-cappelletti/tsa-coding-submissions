@@ -8,6 +8,7 @@ EXPOSE 443
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj", "Tsa.CodingChallenge.Submissions.WebApi/"]
+COPY ["Tsa.CodingChallenge.Submissions.Core/Tsa.CodingChallenge.Submissions.Core.csproj", "Tsa.CodingChallenge.Submissions.Core/"]
 RUN dotnet restore "Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj"
 COPY . .
 WORKDIR "/src/Tsa.CodingChallenge.Submissions.WebApi"
