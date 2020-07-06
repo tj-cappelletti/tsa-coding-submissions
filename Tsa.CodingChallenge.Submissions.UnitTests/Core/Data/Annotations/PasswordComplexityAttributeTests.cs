@@ -8,8 +8,9 @@ namespace Tsa.CodingChallenge.Submissions.UnitTests.Core.Data.Annotations
     {
         [ClassData(typeof(PasswordComplexityAttributeTestData))]
         [Theory]
-        [Trait("UnitTest", "Core")]
-        public void TestPasswordComplexityAttributeIsValid(string password, PasswordComplexityRules complexityRules, int minimumRulesToApply, bool expectedResult)
+        [Trait("TestCategory", "UnitTest")]
+        [Trait("AppLayer", "Core")]
+        public void TestPasswordComplexityAttributeIsValid(string password, PasswordComplexityRules complexityRules, int minimumRulesToApply, ValidationResult expectedResult)
         {
             // Arrange
             var passwordComplexityAttributeFake = new PasswordComplexityAttributeFake(complexityRules, minimumRulesToApply);
@@ -18,7 +19,8 @@ namespace Tsa.CodingChallenge.Submissions.UnitTests.Core.Data.Annotations
             var actualResult = passwordComplexityAttributeFake.TestIsValid(password, null);
 
             // Assert
-            Assert.Equal(ValidationResult.Success, actualResult);
+            //TODO: Need to fix deep comparison
+            Assert.Equal(expectedResult, actualResult);
         }
     }
 }
