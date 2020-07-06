@@ -20,26 +20,32 @@ stages:
 
     steps:
     - task: DotNetCoreCLI@2
-      displayName: Restore
+      displayName: 'Restore NuGet Packages'
       inputs:
         command: restore
         projects: '$(restoreBuildProjects)'
 
     - task: DotNetCoreCLI@2
-      displayName: Build
+      displayName: 'Build Sources'
       inputs:
         projects: '$(restoreBuildProjects)'
         arguments: '--configuration $(buildConfiguration)'
 
     - task: DotNetCoreCLI@2
-      displayName: Test
+      displayName: 'Run Unit Tests'
       inputs:
         command: test
         projects: '$(testProjects)'
-        arguments: '--configuration $(buildConfiguration) --filter "TestCategory=UnitTest" --collect:"XPlat Code Coverage"'
+        arguments: '--configuration $(buildConfiguration) --filter "TestCategory=UnitTest" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=$(Build.SourcesDirectory)/TestResults/Coverage/'
+
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish Code Coverage Report'
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(Build.SourcesDirectory)/**/coverage.cobertura.xml'
 
     - task: DotNetCoreCLI@2
-      displayName: Publish
+      displayName: 'Publish Web Applications'
       inputs:
         command: publish
         publishWebProjects: True
@@ -47,7 +53,7 @@ stages:
         zipAfterPublish: True
 
     - task: PublishBuildArtifacts@1
-      displayName: 'Publish Artifact'
+      displayName: 'Publish Build Artifacts'
       inputs:
         PathtoPublish: '$(build.artifactstagingdirectory)'
         condition: succeededOrFailed()
