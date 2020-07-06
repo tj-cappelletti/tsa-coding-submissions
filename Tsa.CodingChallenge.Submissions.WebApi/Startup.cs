@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Tsa.CodingChallenge.Submissions.Core.DataContexts;
+using Tsa.CodingChallenge.Submissions.Core.Repositories;
 
 namespace Tsa.CodingChallenge.Submissions.WebApi
 {
@@ -33,6 +34,9 @@ namespace Tsa.CodingChallenge.Submissions.WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<SubmissionsContext>(options => options.UseSqlServer(Configuration.GetConnectionString("SubmissionsContext")));
+
+            services.AddScoped<ILoginRepository, LoginRepository>();
+
             services.AddControllers();
         }
     }
