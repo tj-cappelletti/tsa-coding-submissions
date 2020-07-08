@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Tsa.CodingChallenge.Submissions.Core.Security
 {
-    public class PasswordStorage
+    public class PasswordStorage: IPasswordStorage
     {
         // These constants may be changed without breaking existing hashes.
         public const int SaltBytes = 24;
@@ -18,7 +18,7 @@ namespace Tsa.CodingChallenge.Submissions.Core.Security
         public const int SaltIndex = 3;
         public const int Pbkdf2Index = 4;
 
-        public static string CreateHash(string password)
+        public string CreateHash(string password)
         {
             // Generate a random salt
             var salt = new byte[SaltBytes];
@@ -47,7 +47,7 @@ namespace Tsa.CodingChallenge.Submissions.Core.Security
             return parts;
         }
 
-        public static bool VerifyPassword(string password, string goodHash)
+        public bool VerifyPassword(string password, string goodHash)
         {
             char[] delimiter = { ':' };
             var split = goodHash.Split(delimiter);
