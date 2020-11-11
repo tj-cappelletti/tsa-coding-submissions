@@ -5,6 +5,8 @@ on:
     branches: [ master ]
   pull_request:
     branches: [ master ]
+env:
+  TEST_VARIABLE: ""
 
 jobs:
   githubContext:
@@ -34,10 +36,14 @@ jobs:
       env:
         MATRIX_CONTEXT: ${{ toJson(matrix) }}
       run: echo "$MATRIX_CONTEXT"
+    - name: Test Environment Variable Output
+      run: echo "TEST_VARIABLE=yellow" >> $GITHUB_ENV
 
   build:
     runs-on: self-hosted
     steps:
+    - name: Echo Variable
+      run: echo "$TEST_VARIABLE"
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
