@@ -12,7 +12,7 @@ jobs:
     steps:
     - run: |
         echo "GitHub Context"
-        echo ${{ github }}
+        echo ${{ $github }}
         echo ""
         echo "Environment Context"
         echo ${{ env }}
