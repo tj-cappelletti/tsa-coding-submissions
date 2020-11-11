@@ -43,9 +43,21 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Install dependencies
+
+    - name: Restore Web API Project
       run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj
-    - name: Build Blazor Application
-      run: dotnet build --configuration Release --no-restore
+
+    - name: Restore Blazor Project
+      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj
+
+    - name: Restore Unit Tests Project
+      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj
+
+    - name: Build Web API Project
+      run: dotnet build ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore
+
+    - name: Build Blazor Project
+      run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore
+      
     - name: Test
       run: dotnet test --no-restore --verbosity normal
