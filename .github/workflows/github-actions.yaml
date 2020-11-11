@@ -7,10 +7,39 @@ on:
     branches: [ master ]
 
 jobs:
+  githubContext:
+    runs-on: self-hosted
+    steps:
+    - run: |
+        echo "GitHub Context"
+        echo ${{ github }}
+        echo ""
+        echo "Environment Context"
+        echo ${{ env }}
+        echo ""
+        echo "Job Context"
+        echo ${{ job }}
+        echo ""
+        echo "Steps Context"
+        echo ${{ steps }}
+        echo ""
+        echo "Runner Context"
+        echo ${{ runner }}
+        echo ""
+        echo "Secrets Context"
+        echo ${{ secrets }}
+        echo ""
+        echo "Strategy Context"
+        echo ${{ strategy }}
+        echo ""
+        echo "Matrix Context"
+        echo ${{ matrix }}
+        echo ""
+        echo "Needs Context"
+        echo ${{ needs }}
+
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
@@ -19,7 +48,7 @@ jobs:
         dotnet-version: 3.1.301
     - name: Install dependencies
       run: dotnet restore
-    - name: Build
+    - name: Build Blazor Application
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --no-restore --verbosity normal
