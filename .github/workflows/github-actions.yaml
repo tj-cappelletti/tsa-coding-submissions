@@ -38,6 +38,8 @@ jobs:
       run: echo "$MATRIX_CONTEXT"
     - name: Test Environment Variable Output
       run: echo "TEST_VARIABLE=yellow" >> $GITHUB_ENV
+    - name: Echo Variable
+      run: echo "$TEST_VARIABLE"
 
   build:
     runs-on: self-hosted
