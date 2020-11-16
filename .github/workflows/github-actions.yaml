@@ -51,6 +51,7 @@ jobs:
       with:
         repository: 'tj-cappelletti/DemoCheckout'
         path: 'local'
+        refs: 'refs/heads/main'
     #    ssh-key: ${{ secrets.DEPLOY_KEY }}
 
     - name: Restore Web API Project
