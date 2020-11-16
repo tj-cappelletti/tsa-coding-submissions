@@ -49,9 +49,9 @@ jobs:
     - name: Checkout Test Automation
       uses: actions/checkout@v2
       with:
-        repository: 'tj-incycle/DemoCheckout'
+        repository: 'tj-cappelletti/DemoCheckout'
         path: 'local'
-        ssh-key: ${{ secrets.DEPLOY_KEY }}
+    #    ssh-key: ${{ secrets.DEPLOY_KEY }}
 
     - name: Restore Web API Project
       run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj
