@@ -36,21 +36,20 @@ jobs:
       env:
         MATRIX_CONTEXT: ${{ toJson(matrix) }}
       run: echo "$MATRIX_CONTEXT"
-    - name: Test Environment Variable Output
-      run: echo "TEST_VARIABLE=yellow" >> $GITHUB_ENV
-    - name: Echo Variable
-      run: echo "$TEST_VARIABLE"
 
   build:
     runs-on: self-hosted
     steps:
-    - name: Echo Variable
-      run: echo "$TEST_VARIABLE"
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
+        
+    - name: Checkout Test Automation
+      uses: actions/checkout@v2
+      with:
+        ssh-key: ${{ secrets.DEPLOY_KEY }}
 
     - name: Restore Web API Project
       run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj
