@@ -47,12 +47,7 @@ jobs:
         dotnet-version: 3.1.301
         
     - name: Checkout Test Automation
-      uses: actions/checkout@v2
-      with:
-        repository: 'tj-cappelletti/DemoCheckout'
-        path: 'local'
-        ref: 'refs/heads/main'
-    #    ssh-key: ${{ secrets.DEPLOY_KEY }}
+      run: git clone --depth 1 git@github.com:tj-cappelletti/DemoCheckout.git
 
     - name: Restore Web API Project
       run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj
