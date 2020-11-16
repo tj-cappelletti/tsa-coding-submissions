@@ -50,6 +50,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: 'tj-incycle/DemoCheckout'
+        path: 'local'
         ssh-key: ${{ secrets.DEPLOY_KEY }}
 
     - name: Restore Web API Project
