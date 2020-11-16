@@ -49,6 +49,7 @@ jobs:
     - name: Checkout Test Automation
       uses: actions/checkout@v2
       with:
+        repository: 'tj-incycle/DemoCheckout'
         ssh-key: ${{ secrets.DEPLOY_KEY }}
 
     - name: Restore Web API Project
