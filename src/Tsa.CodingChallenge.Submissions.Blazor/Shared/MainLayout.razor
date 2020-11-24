@@ -1,0 +1,25 @@
+﻿@inherits LayoutComponentBase
+
+<header>
+    <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
+        <h5 class="my-0 mr-md-auto font-weight-normal">TSA High School Coding Challenge</h5>
+        <nav class="my-2 my-md-0 mr-md-3">
+            <NavLink class="p-2 text-dark" href="/">Home</NavLink>
+            <NavLink class="p-2 text-dark" href="rules">Rules</NavLink>
+            @*<partial name="_AuthenticatedLinksPartial" />*@
+        </nav>
+        @*<partial name="_LoginPartial" />*@
+    </div>
+</header>
+
+<div class="container">
+    <main role="main" class="pb-3">
+        @Body
+    </main>
+</div>
+
+<footer class="border-top footer text-muted">
+    <div class="container">
+        <p>&copy; @DateTime.Now.Year</p>
+    </div>
+</footer>

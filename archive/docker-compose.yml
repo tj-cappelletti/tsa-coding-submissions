@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  mvc:
+    image: ${DOCKER_REGISTRY-}tsacodingchallengesubmissionsmvc
+    build:
+      context: .
+      dockerfile: Tsa.CodingChallenge.Submissions.Mvc/Dockerfile
+    depends_on:
+      - db
+      - rabbitmq
+
+  db:
+    image: ${DOCKER_REGISTRY-}tsacodingchallengesubmissionsdb:dev
+    build:
+      context: .
+      dockerfile: docker/database/Dockerfile
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
