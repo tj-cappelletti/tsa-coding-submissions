@@ -9,34 +9,6 @@ env:
   TEST_VARIABLE: ""
 
 jobs:
-  githubContext:
-    runs-on: self-hosted
-    steps:
-    - name: Dump GitHub context
-      env:
-        GITHUB_CONTEXT: ${{ toJson(github) }}
-      run: echo "$GITHUB_CONTEXT"
-    - name: Dump job context
-      env:
-        JOB_CONTEXT: ${{ toJson(job) }}
-      run: echo "$JOB_CONTEXT"
-    - name: Dump steps context
-      env:
-        STEPS_CONTEXT: ${{ toJson(steps) }}
-      run: echo "$STEPS_CONTEXT"
-    - name: Dump runner context
-      env:
-        RUNNER_CONTEXT: ${{ toJson(runner) }}
-      run: echo "$RUNNER_CONTEXT"
-    - name: Dump strategy context
-      env:
-        STRATEGY_CONTEXT: ${{ toJson(strategy) }}
-      run: echo "$STRATEGY_CONTEXT"
-    - name: Dump matrix context
-      env:
-        MATRIX_CONTEXT: ${{ toJson(matrix) }}
-      run: echo "$MATRIX_CONTEXT"
-
   build:
     runs-on: self-hosted
     steps:
@@ -65,4 +37,4 @@ jobs:
       run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore
       
     - name: Test
-      run: dotnet test --no-restore --verbosity normal
+      run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest"
