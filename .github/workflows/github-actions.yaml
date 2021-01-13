@@ -45,7 +45,7 @@ jobs:
         uses: microsoft/setup-msbuild@v1.0.2
 
       - name: Build Database DACPAC
-        uses: msbuild .\src\Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj /t:Build /p:SolutionDir=.\src /p:configuration=release
+        run: msbuild .\src\Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj /t:Build /p:SolutionDir=.\src /p:configuration=release
 
       - uses: actions/upload-artifact@v2
         with:
