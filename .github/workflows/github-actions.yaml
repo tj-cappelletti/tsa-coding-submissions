@@ -27,35 +27,35 @@ jobs:
         run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj
 
       - name: Build Web API Project
-        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --no-logo
+        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
 
       - name: Build Blazor Project
-        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --no-logo
+        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
         
       - name: Run Unit Tests
-        run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --no-logo
+        run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --nologo
 
       - name: Publish Blazor App
-        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: |
           dotnet publish ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
             --configuration Release \
             --no-build \
             --output ./src/Tsa.CodingChallenge.Submissions.Blazor \
-            --no-logo
+            --nologo
 
       - name: Publish Web AIP
-        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         run: |
           dotnet publish ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
             --configuration Release \
             --no-build \
             --output ./src/Tsa.CodingChallenge.Submissions.WebApi \
-            --no-logo
+            --nologo
 
       - uses: actions/upload-artifact@v2
         name: Upload Published .NET Web Apps
-        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
           name: dotnet-webapps
           path: src/**/*.zip
@@ -79,14 +79,14 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         name: Upload Docker Artifacts
-        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
           name: database-docker
           path: src/docker/database
 
       - uses: actions/upload-artifact@v2
         name: Upload DACPAC Artifact
-        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
           name: database-dacpac
           path: src/*.Database/**/*.dacpac
