@@ -50,7 +50,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: database-docker
-          path: docker/database
+          path: src/docker/database
 
       - uses: actions/upload-artifact@v2
         with:
