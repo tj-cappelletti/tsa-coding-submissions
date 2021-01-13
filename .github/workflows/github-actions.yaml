@@ -10,30 +10,56 @@ jobs:
     name: "Build .NET Applciations"
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
 
-    - name: Restore Web API Project
-      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj
+      - name: Restore Web API Project
+        run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --no-logo
 
-    - name: Restore Blazor Project
-      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj
+      - name: Restore Blazor Project
+        run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --no-logo
 
-    - name: Restore Unit Tests Project
-      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj
+      - name: Restore Unit Tests Project
+        run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-logo
 
-    - name: Build Web API Project
-      run: dotnet build ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore
+      - name: Build Web API Project
+        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --no-logo
 
-    - name: Build Blazor Project
-      run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore
-      
-    - name: Test
-      run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest"
+      - name: Build Blazor Project
+        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --no-logo
+        
+      - name: Run Unit Tests
+        run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --no-logo
+
+      - name: Publish Blazor App
+        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        run: |
+          dotnet publish ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./src/Tsa.CodingChallenge.Submissions.Blazor \
+            --no-logo
+
+      - name: Publish Web AIP
+        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        run: |
+          dotnet publish ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./src/Tsa.CodingChallenge.Submissions.WebApi \
+            --no-logo
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Published .NET Web Apps
+        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
+        with:
+          name: dotnet-webapps
+          path: src/**/*.zip
+
 
   buildDatabase:
     name: "Build Database DACPAC"
@@ -52,11 +78,15 @@ jobs:
             /p:SolutionDir=${{ github.workspace }}\src\
 
       - uses: actions/upload-artifact@v2
+        name: Upload Docker Artifacts
+        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
         with:
           name: database-docker
           path: src/docker/database
 
       - uses: actions/upload-artifact@v2
+        name: Upload DACPAC Artifact
+        if: ${{ github.event_name == 'push' &&  'refs/heads/master' }}
         with:
           name: database-dacpac
           path: src/*.Database/**/*.dacpac
