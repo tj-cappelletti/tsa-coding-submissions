@@ -41,7 +41,7 @@ jobs:
           dotnet publish ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
             --configuration Release \
             --no-build \
-            --output ./src/Tsa.CodingChallenge.Submissions.Blazor \
+            --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor \
             --nologo
 
       - name: Publish Web AIP
@@ -50,15 +50,22 @@ jobs:
           dotnet publish ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
             --configuration Release \
             --no-build \
-            --output ./src/Tsa.CodingChallenge.Submissions.WebApi \
+            --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi \
             --nologo
 
       - uses: actions/upload-artifact@v2
-        name: Upload Published .NET Web Apps
+        name: Upload Published Blazor Web App
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
-          name: dotnet-webapps
-          path: src/**/*.zip
+          name: web-api
+          path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor
+        
+      - uses: actions/upload-artifact@v2
+        name: Upload Published Web API App
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        with:
+          name: web-api
+          path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi
 
 
   buildDatabase:
