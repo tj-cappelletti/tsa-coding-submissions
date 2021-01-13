@@ -1,37 +1,92 @@
-name: .NET Core
+name: build-application-workflow
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-env:
-  TEST_VARIABLE: ""
+# Build on every push (regardless of branch)
+# Build on PR to ensure the merge is good
+# Allow manual builds
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
-  build:
-    runs-on: self-hosted
+  buildApplciations:
+    name: "Build .NET Applciations"
+    runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 3.1.301
+      - uses: actions/checkout@v2
 
-    - name: Restore Web API Project
-      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 3.1.301
 
-    - name: Restore Blazor Project
-      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj
+      - name: Restore Web API Project
+        run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj
 
-    - name: Restore Unit Tests Project
-      run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj
+      - name: Restore Blazor Project
+        run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj
 
-    - name: Build Web API Project
-      run: dotnet build ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore
+      - name: Restore Unit Tests Project
+        run: dotnet restore ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj
 
-    - name: Build Blazor Project
-      run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore
+      - name: Build Web API Project
+        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
+
+      - name: Build Blazor Project
+        run: dotnet build ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
+        
+      - name: Run Unit Tests
+        run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --nologo
+
+      - name: Publish Blazor App
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          dotnet publish ./src/Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./src/Tsa.CodingChallenge.Submissions.Blazor \
+            --nologo
+
+      - name: Publish Web AIP
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        run: |
+          dotnet publish ./src/Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
+            --configuration Release \
+            --no-build \
+            --output ./src/Tsa.CodingChallenge.Submissions.WebApi \
+            --nologo
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Published .NET Web Apps
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        with:
+          name: dotnet-webapps
+          path: src/**/*.zip
+
+
+  buildDatabase:
+    name: "Build Database DACPAC"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
       
-    - name: Test
-      run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest"
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build Database DACPAC
+        run: |
+          msbuild src\Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj `
+            /t:Build `
+            /p:configuration=release `
+            /p:SolutionDir=${{ github.workspace }}\src\
+
+      - uses: actions/upload-artifact@v2
+        name: Upload Docker Artifacts
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        with:
+          name: database-docker
+          path: src/docker/database
+
+      - uses: actions/upload-artifact@v2
+        name: Upload DACPAC Artifact
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        with:
+          name: database-dacpac
+          path: src/*.Database/**/*.dacpac
