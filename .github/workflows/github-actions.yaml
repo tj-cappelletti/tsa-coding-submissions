@@ -1,12 +1,9 @@
 name: build-application-workflow
 
-on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-env:
-  TEST_VARIABLE: ""
+# Build on every push (regardless of branch)
+# Build on PR to ensure the merge is good
+# Allow manual builds
+on: [push, pull_request, workflow_dispatch]
 
 jobs:
   buildApplciations:
