@@ -1,4 +1,4 @@
-name: .NET Core
+name: build-application-workflow
 
 on:
   push:
@@ -9,10 +9,12 @@ env:
   TEST_VARIABLE: ""
 
 jobs:
-  build:
-    runs-on: self-hosted
+  buildApplciations:
+    name: "Build .NET Applciations"
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -35,3 +37,25 @@ jobs:
       
     - name: Test
       run: dotnet test ./src/Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest"
+
+  buildDatabase:
+    name: "Build Database DACPAC"
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.2
+
+      - name: Build Database DACPAC
+        uses: msbuild .\src\Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj /t:Build /p:SolutionDir=.\src /p:configuration=release
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: database-docker
+          path: docker/database
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: database-dacpac
+          path: src/*.Database/**/*.dacpac
