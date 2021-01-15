@@ -10,7 +10,7 @@ env:
 
 jobs:
   semver:
-    name: "Generate SemVar"
+    name: "Generate SemVer"
     runs-on: ubuntu-latest
     outputs:
       major: ${{ steps.gitversion.outputs.major }}
