@@ -135,7 +135,7 @@ jobs:
   # TODO: Only run on master branch  
   continuousIntegration:
     name: Deploy to Integration Environment
-    needs: [buildApplciations, buildDatabase]
+    needs: [semver, buildApplciations, buildDatabase]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
