@@ -5,12 +5,42 @@ name: build-application-workflow
 # Allow manual builds
 on: [push, pull_request, workflow_dispatch]
 
+env:
+  DOCKER_REPO: webstorm.azurecr.io
+
 jobs:
+  semver:
+    name: "Generate SemVar"
+    runs-on: ubuntu-latest
+    outputs:
+      major: ${{ steps.gitversion.outputs.major }}
+      minor: ${{ steps.gitversion.outputs.minor }}
+      patch: ${{ steps.gitversion.outputs.patch }}
+      majorMinor: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}
+      semVar: ${{ steps.gitversion.outputs.semvar }}
+      shorSha: ${{ steps.gitversion.outputs.shortSha }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+        
+      - name: GitVersion
+        id: gitversion
+        uses: gittools/actions/gitversion/execute@v0.9.7
+    
   buildApplciations:
     name: "Build .NET Applciations"
+    needs: semver
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
@@ -67,9 +97,9 @@ jobs:
           name: web-api
           path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi
 
-
   buildDatabase:
     name: "Build Database DACPAC"
+    needs: semver
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v2
@@ -83,7 +113,10 @@ jobs:
             /t:Build `
             /p:configuration=release `
             /p:SolutionDir=${{ github.workspace }}\src\
-
+      
+      # This needs to run in the build step to ensure we've captured
+      # the Dockerfile and the creation script as this can't run on
+      # a Linux VM - Microsoft needs to make MSBuild work on Linux
       - uses: actions/upload-artifact@v2
         name: Upload Docker Artifacts
         if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
@@ -97,3 +130,52 @@ jobs:
         with:
           name: database-dacpac
           path: src/*.Database/**/*.dacpac
+
+  # TODO: Only run on master branch  
+  continuousIntegration:
+    name: Deploy to Integration Environment
+    needs: [buildApplciations, buildDatabase]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/download-artifact@v2
+        with:
+          name: database-docker
+          path: database-docker/
+
+      - name: Build tsa/coding/submissions/blazor Image
+        run: |
+          cd ${{ github.workspace }}/src
+          echo "Building Blazor Container"
+          docker build \
+            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semvar.outputs.semVar }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semvar.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semvar.outputs.major }} \
+            --file Tsa.CodingChallenge.Submissions.Blazor/Dockerfile \
+            .
+
+      - name: Build tsa/coding/submissions/database Image
+        run: |
+          cd ${{ github.workspace }}/database-docker
+          echo "Building Database Container"
+          docker build \
+            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semvar.outputs.semVar }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semvar.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semvar.outputs.major }} \
+            --file docker/database/Dockerfile \
+            .
+
+      - name: Build tsa/coding/submissions/webapi Image
+        run: |
+          cd ${{ github.workspace }}/src
+          echo "Building Web API Container"
+          docker build \
+            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semvar.outputs.semVar }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semvar.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semvar.outputs.major }} \
+            --file Tsa.CodingChallenge.Submissions.WebApi/Dockerfile \
+            .
+
+      - name: DEBUG ONLY - Docker Images
+        run: docker images
