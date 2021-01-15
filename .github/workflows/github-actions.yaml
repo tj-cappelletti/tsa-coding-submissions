@@ -119,7 +119,8 @@ jobs:
       # a Linux VM - Microsoft needs to make MSBuild work on Linux
       - uses: actions/upload-artifact@v2
         name: Upload Docker Artifacts
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+        # DEBUG ONLY - Commented out condition to test workflow
+        #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
         with:
           name: database-docker
           path: src/docker/database
