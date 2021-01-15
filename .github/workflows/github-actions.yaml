@@ -174,7 +174,6 @@ jobs:
             --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.semVer }} \
             --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.majorMinor }} \
             --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.major }} \
-            --file docker/database/Dockerfile \
             .
 
       - name: Build tsa/coding/submissions/webapi Image
