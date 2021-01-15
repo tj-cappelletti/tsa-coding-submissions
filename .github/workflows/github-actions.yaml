@@ -150,9 +150,9 @@ jobs:
           cd ${{ github.workspace }}/src
           echo "Building Blazor Container"
           docker build \
-            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semvar.outputs.semVar }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semvar.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semvar.outputs.major }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semver.outputs.semVar }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semver.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semver.outputs.major }} \
             --file Tsa.CodingChallenge.Submissions.Blazor/Dockerfile \
             .
 
@@ -161,9 +161,9 @@ jobs:
           cd ${{ github.workspace }}/database-docker
           echo "Building Database Container"
           docker build \
-            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semvar.outputs.semVar }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semvar.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semvar.outputs.major }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.semVar }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.major }} \
             --file docker/database/Dockerfile \
             .
 
@@ -172,9 +172,9 @@ jobs:
           cd ${{ github.workspace }}/src
           echo "Building Web API Container"
           docker build \
-            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semvar.outputs.semVar }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semvar.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semvar.outputs.major }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semver.outputs.semVar }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semver.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semver.outputs.major }} \
             --file Tsa.CodingChallenge.Submissions.WebApi/Dockerfile \
             .
 
