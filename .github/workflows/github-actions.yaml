@@ -147,9 +147,11 @@ jobs:
             dockerfile: src/Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
           - image: database
             downloadArtifacts: true
+            dockerContext: database-docker/
             dockerfile: database-docker/Dockerfile
           - image: webapi
             downloadArtifacts: false
+            dockerContext: ${{ github.workspace }}/src
             dockerfile: src/Tsa.CodingChallenge.Submissions.WebApi/Dockerfile
     steps:
       - uses: actions/checkout@v2
@@ -171,4 +173,4 @@ jobs:
             --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }} \
             --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.major }} \
             --file ${{ matrix.dockerfile }} \
-            ${{ matrix.dockerfile }}
+            ${{ matrix.dockerContext }}
