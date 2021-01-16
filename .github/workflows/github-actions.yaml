@@ -166,15 +166,6 @@ jobs:
         if: ${{ matrix.downloadArtifacts == true }}
         run: chmod a+x ./database-docker/scripts/create-sql-database.sh
 
-      - name: Build tsa/coding/submissions/${{ matrix.image }} Image
-        run: |
-          docker build \
-            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.semVer }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.major }} \
-            --file ${{ matrix.dockerfile }} \
-            ${{ matrix.dockerContext }}
-
       - name: Azure CLI Login
         uses: azure/login@v1
         with:
@@ -186,9 +177,15 @@ jobs:
           login-server: $DOCKER_REPO
           username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
-      
-      - name: Push tsa/coding/submissions/${{ matrix.image }} Image
+
+      - name: Build/Push tsa/coding/submissions/${{ matrix.image }} Image
         run: |
+          docker build \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.semVer }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.major }} \
+            --file ${{ matrix.dockerfile }} \
+            ${{ matrix.dockerContext }}
           docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.semVer }}
           docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }}
           docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.major }}
