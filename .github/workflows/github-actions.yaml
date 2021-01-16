@@ -156,7 +156,7 @@ jobs:
           path: database-docker/
           
       - name: DEBUG ONLY - List database-docker/scripts
-        run: ls ./database-docker/scripts
+        run: ls -l ./database-docker/scripts
 
       - name: Build tsa/coding/submissions/blazor Image
         run: |
