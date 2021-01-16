@@ -144,23 +144,24 @@ jobs:
           - image: blazor
             downloadArtifacts: false
             dockerContext: ${{ github.workspace }}/src
-            dockerfile: Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
+            dockerfile: src/Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
           - image: database
             downloadArtifacts: true
-            dockerContext: ./database-docker
+            dockerfile: database-docker/Dockerfile
           - image: webapi
             downloadArtifacts: false
-            dockerContext: ${{ github.workspace }}/src
+            dockerfile: src/Tsa.CodingChallenge.Submissions.WebApi/Dockerfile
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/download-artifact@v2
-        if: ${{ matrix.downloadArtifacts }}
+        if: ${{ matrix.downloadArtifacts == true }}
         with:
           name: database-docker
           path: database-docker/
           
       - name: Set Execute on Scripts
+        if: ${{ matrix.downloadArtifacts == true }}
         run: chmod a+x ./database-docker/scripts/create-sql-database.sh
 
       - name: Build tsa/coding/submissions/${{ matrix.image }} Image
