@@ -17,7 +17,7 @@ jobs:
       minor: ${{ steps.gitversion.outputs.minor }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
       patch: ${{ steps.gitversion.outputs.patch }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
       majorMinor: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
-      semVer: ${{ steps.gitversion.outputs.semver }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
+      semVer: ${{ steps.gitversion.outputs.semver }}
       shorSha: ${{ steps.gitversion.outputs.shortSha }}
     steps:
       - name: Checkout
