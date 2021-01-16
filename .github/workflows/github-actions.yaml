@@ -95,7 +95,7 @@ jobs:
       - uses: actions/upload-artifact@v2
         name: Upload Published Blazor Web App
         with:
-          name: web-api
+          name: web-blazor
           path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor
         
       - uses: actions/upload-artifact@v2
