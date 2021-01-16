@@ -133,14 +133,29 @@ jobs:
           path: src/*.Database/**/*.dacpac
 
   # TODO: Only run on master branch  
-  continuousIntegration:
-    name: Deploy to Integration Environment
+  buildDockerContainers:
+    name: Build Docker Containers
     needs: [semver, buildApplciations, buildDatabase]
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image: [blazor, database, webapi]
+        include:
+          - image: blazor
+            downloadArtifacts: false
+            dockerContext: ${{ github.workspace }}/src
+            dockerfile: Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
+          - image: database
+            downloadArtifacts: true
+            dockerContext: ./database-docker
+          - image: webapi
+            downloadArtifacts: false
+            dockerContext: ${{ github.workspace }}/src
     steps:
       - uses: actions/checkout@v2
 
       - uses: actions/download-artifact@v2
+        if: ${{ matrix.downloadArtifacts }}
         with:
           name: database-docker
           path: database-docker/
@@ -148,37 +163,11 @@ jobs:
       - name: Set Execute on Scripts
         run: chmod a+x ./database-docker/scripts/create-sql-database.sh
 
-      - name: Build tsa/coding/submissions/blazor Image
+      - name: Build tsa/coding/submissions/${{ matrix.image }} Image
         run: |
-          cd ${{ github.workspace }}/src
-          echo "Building Blazor Container"
           docker build \
-            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semver.outputs.semVer }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semver.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/blazor:${{ needs.semver.outputs.major }} \
-            --file Tsa.CodingChallenge.Submissions.Blazor/Dockerfile \
-            .
-
-      - name: Build tsa/coding/submissions/database Image
-        run: |
-          cd ${{ github.workspace }}/database-docker
-          echo "Building Database Container"
-          docker build \
-            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.semVer }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/database:${{ needs.semver.outputs.major }} \
-            .
-
-      - name: Build tsa/coding/submissions/webapi Image
-        run: |
-          cd ${{ github.workspace }}/src
-          echo "Building Web API Container"
-          docker build \
-            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semver.outputs.semVer }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semver.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/webapi:${{ needs.semver.outputs.major }} \
-            --file Tsa.CodingChallenge.Submissions.WebApi/Dockerfile \
-            .
-
-      - name: DEBUG ONLY - Docker Images
-        run: docker images
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.semVer }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.major }} \
+            --file ${{ matrix.dockerfile }} \
+            ${{ matrix.dockerfile }}
