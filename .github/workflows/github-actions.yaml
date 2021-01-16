@@ -13,10 +13,13 @@ jobs:
     name: "Generate SemVer"
     runs-on: ubuntu-latest
     outputs:
-      major: ${{ steps.gitversion.outputs.major }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
-      minor: ${{ steps.gitversion.outputs.minor }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
-      patch: ${{ steps.gitversion.outputs.patch }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
-      majorMinor: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}${{ steps.gitversion.outputs.prereleasetagwithdash }}
+      major: ${{ steps.gitversion.outputs.major }}
+      minor: ${{ steps.gitversion.outputs.minor }}
+      patch: ${{ steps.gitversion.outputs.patch }}
+      majorMinor: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}
+      releaseLabel: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}${{ steps.gitversion.outputs.prereleaselabelwithdash }}
+      majorMinorReleaseLabel: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}${{ steps.gitversion.outputs.prereleaselabelwithdash }}
+      majorReleaseLabel: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.prereleaselabelwithdash }}
       semVer: ${{ steps.gitversion.outputs.semver }}
       shorSha: ${{ steps.gitversion.outputs.shortSha }}
     steps:
@@ -170,8 +173,9 @@ jobs:
         run: |
           docker build \
             --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.semVer }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }} \
-            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.major }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.releaseLabel }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinorReleaseLabel }} \
+            --tag $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorReleaseLabel }} \
             --file ${{ matrix.dockerfile }} \
             ${{ matrix.dockerContext }}
 
@@ -190,5 +194,6 @@ jobs:
       - name: Push tsa/coding/submissions/${{ matrix.image }} Image
         run: |
           docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.semVer }}
-          docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }}
-          docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.major }}
+          docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.releaseLabel }}
+          docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinorReleaseLabel }}
+          docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorReleaseLabel }}
