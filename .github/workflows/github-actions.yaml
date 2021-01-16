@@ -180,12 +180,14 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_ACR_CREDENTIALS }}
 
-      - name: Push tsa/coding/submissions/${{ matrix.image }} Image
+      - name: Docker Login
         uses: azure/docker-login@v1
         with:
           login-server: $DOCKER_REPO
           username: ${{ secrets.DOCKER_REGISTRY_USERNAME }}
           password: ${{ secrets.DOCKER_REGISTRY_PASSWORD }}
+      
+      - name: Push tsa/coding/submissions/${{ matrix.image }} Image
         run: |
           docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.semVer }}
           docker push $DOCKER_REPO/tsa/coding/submissions/${{ matrix.image }}:${{ needs.semver.outputs.majorMinor }}
