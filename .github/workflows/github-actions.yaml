@@ -19,7 +19,7 @@ jobs:
       majorMinor: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}
       releaseLabel: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{ steps.gitversion.outputs.patch }}${{ steps.gitversion.outputs.prereleaselabelwithdash }}
       majorMinorReleaseLabel: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}${{ steps.gitversion.outputs.prereleaselabelwithdash }}
-      majorReleaseLabel: ${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.prereleaselabelwithdash }}
+      majorReleaseLabel: ${{ steps.gitversion.outputs.major }}${{ steps.gitversion.outputs.prereleaselabelwithdash }}
       semVer: ${{ steps.gitversion.outputs.semver }}
       shorSha: ${{ steps.gitversion.outputs.shortSha }}
     steps:
