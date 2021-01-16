@@ -143,7 +143,7 @@ jobs:
         include:
           - image: blazor
             downloadArtifacts: false
-            dockerContext: ${{ github.workspace }}/src/
+            dockerContext: src/
             dockerfile: src/Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
           - image: database
             downloadArtifacts: true
@@ -151,7 +151,7 @@ jobs:
             dockerfile: database-docker/Dockerfile
           - image: webapi
             downloadArtifacts: false
-            dockerContext: ${{ github.workspace }}/src/
+            dockerContext: src/
             dockerfile: src/Tsa.CodingChallenge.Submissions.WebApi/Dockerfile
     steps:
       - uses: actions/checkout@v2
