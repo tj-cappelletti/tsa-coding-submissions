@@ -139,24 +139,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      
-      - name: Dump GitHub context
-        env:
-          GITHUB_CONTEXT: ${{ toJson(github) }}
-        run: echo "$GITHUB_CONTEXT"
-
-      - name: Dump Needs context
-        env:
-          NEEDS_CONTEXT: ${{ toJson(needs) }}
-        run: echo "$NEEDS_CONTEXT"
 
       - uses: actions/download-artifact@v2
         with:
           name: database-docker
           path: database-docker/
           
-      - name: DEBUG ONLY - List database-docker/scripts
-        run: ls -l ./database-docker/scripts
+      - name: Set Execute on Scriptsc
+        run: chmod a+x *.sh
 
       - name: Build tsa/coding/submissions/blazor Image
         run: |
