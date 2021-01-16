@@ -145,8 +145,8 @@ jobs:
           name: database-docker
           path: database-docker/
           
-      - name: Set Execute on Scriptsc
-        run: chmod a+x *.sh
+      - name: Set Execute on Scripts
+        run: chmod a+x ./database-docker/scripts/create-sql-database.sh
 
       - name: Build tsa/coding/submissions/blazor Image
         run: |
