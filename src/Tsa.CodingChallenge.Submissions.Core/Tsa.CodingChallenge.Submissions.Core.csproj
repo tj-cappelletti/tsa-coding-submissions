@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
+    <Description>This assembly provides core functionality for the Web API application.</Description>
   </PropertyGroup>
 
   <ItemGroup>
