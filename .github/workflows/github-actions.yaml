@@ -52,32 +52,32 @@ jobs:
 
       - name: Restore Web API Project
         working-directory: ./src
-        run: dotnet restore Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+        run: dotnet restore ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj /p:Version=${{ needs.semver.outputs.semVer }}
 
       - name: Restore Blazor Project
         working-directory: ./src
-        run: dotnet restore Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+        run: dotnet restore ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj /p:Version=${{ needs.semver.outputs.semVer }}
 
       - name: Restore Unit Tests Project
         working-directory: ./src
-        run: dotnet restore Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+        run: dotnet restore ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj /p:Version=${{ needs.semver.outputs.semVer }}
 
       - name: Build Web API Project
         working-directory: ./src
-        run: dotnet build Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
+        run: dotnet build ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
 
       - name: Build Blazor Project
         working-directory: ./src
-        run: dotnet build Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
+        run: dotnet build ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
         
       - name: Run Unit Tests
         working-directory: ./src
-        run: dotnet test Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --nologo
+        run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --nologo
 
       - name: Publish Blazor App
         working-directory: ./src
         run: |
-          dotnet publish Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
+          dotnet publish ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
             --configuration Release \
             --no-build \
             --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor \
@@ -86,7 +86,7 @@ jobs:
       - name: Publish Web AIP
         working-directory: ./src
         run: |
-          dotnet publish /Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
+          dotnet publish ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
             --configuration Release \
             --no-build \
             --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi \
