@@ -41,6 +41,8 @@ jobs:
     name: "Build .NET Applciations"
     needs: semver
     runs-on: ubuntu-latest
+    env:
+      SQL_TOOLS_DIR: ${{ runner.temp }}/sql-tools
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -50,25 +52,40 @@ jobs:
         with:
           dotnet-version: 3.1.301
 
-      - name: Restore Web API Project
-        working-directory: ./src
-        run: dotnet restore ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+      - name: Download SQL Server Tools
+        shell: pwsh
+        working-directory: $SQL_TOOLS_DIR
+        run: |
+          $tarballFile = "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.tar.gz"
 
-      - name: Restore Blazor Project
-        working-directory: ./src
-        run: dotnet restore ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+          $latestReleaseUrl = "https://api.github.com/repos/microsoft/sqltoolsservice/releases/latest"
+          $latestRelease = Invoke-RestMethod -Uri $latestReleaseUrl -Method Get
+          $latestReleaseAssets = Invoke-RestMethod -Uri $latestRelease.assets_url -Method Get
 
-      - name: Restore Unit Tests Project
-        working-directory: ./src
-        run: dotnet restore ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+          $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
+          Invoke-WebRequest -Uri $downloadUrl -OutFile $tarballFile
 
-      - name: Build Web API Project
+          tar -xf $tarballFile
+
+      - name: Restore Projects
         working-directory: ./src
-        run: dotnet build ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
+        run: dotnet restore ./Tsa.CodingChallenge.Submissions.sln /p:Version=${{ needs.semver.outputs.semVer }}
+
+      - name: Build Projects
+        working-directory: ./src
+        #run: dotnet build ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
+        run: dotnet build ./Tsa.CodingChallenge.Submissions.sln --configuration Release /p:NetCoreBuild=true /p:NETCoreTargetsPath="C:\Users\tcappelletti\.azuredatastudio\extensions\microsoft.sql-database-projects-0.5.1\BuildDirectory"
 
       - name: Build Blazor Project
         working-directory: ./src
-        run: dotnet build ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
+        #run: dotnet build ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
+        run: |
+          dotnet build .\src\Tsa.CodingChallenge.Submissions.sln \
+            --configuration Release \
+            --no-restore \
+            --nologo \
+            /p:NetCoreBuild=true \
+            /p:NETCoreTargetsPath="$SQL_TOOLS_DIR"
         
       - name: Run Unit Tests
         working-directory: ./src
