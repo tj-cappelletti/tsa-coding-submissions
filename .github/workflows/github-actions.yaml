@@ -53,7 +53,7 @@ jobs:
       - name: Download SQL Server Tools
         shell: pwsh
         run: |
-          $tarballFile = "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.zip"
+          $tarballFile = "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.tar.gz"
 
           $latestReleaseUrl = "https://api.github.com/repos/microsoft/sqltoolsservice/releases/latest"
           $latestRelease = Invoke-RestMethod -Uri $latestReleaseUrl -Method Get
