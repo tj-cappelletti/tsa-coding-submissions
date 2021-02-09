@@ -76,6 +76,7 @@ jobs:
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
+            --verbosity detailed \
             /p:NetCoreBuild=true \
             /p:NETCoreTargetsPath=${{ runner.temp }}/sql-tools \
             /p:Version=${{ needs.semver.outputs.semVer }}
