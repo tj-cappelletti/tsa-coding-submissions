@@ -41,8 +41,6 @@ jobs:
     name: "Build .NET Applciations"
     needs: semver
     runs-on: ubuntu-latest
-    env:
-      SQL_TOOLS_DIR: ${{ runner.temp }}/sql-tools
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -54,7 +52,8 @@ jobs:
 
       - name: Download SQL Server Tools
         shell: pwsh
-        working-directory: $SQL_TOOLS_DIR
+        #TODO: Need to find a better way to handle this
+        working-directory: ${{ runner.temp }}/sql-tools
         run: |
           $tarballFile = "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.tar.gz"
 
@@ -85,7 +84,7 @@ jobs:
             --no-restore \
             --nologo \
             /p:NetCoreBuild=true \
-            /p:NETCoreTargetsPath="$SQL_TOOLS_DIR"
+            /p:NETCoreTargetsPath=${{ runner.temp }}/sql-tools
         
       - name: Run Unit Tests
         working-directory: ./src
