@@ -78,6 +78,8 @@ jobs:
           tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ runner.temp }}/sql-tools
           tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ runner.temp }}/sql-tools
 
+          ls -l ${{ runner.temp }}/sql-tools
+
       - name: Build Projects
         working-directory: ./src
         run: |
