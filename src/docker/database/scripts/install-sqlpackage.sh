@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # This must run as root
 # wget and unzip is needed to download sqlpackage tools
 echo "Installing dependencies for SqlPackage..."
