@@ -66,7 +66,7 @@ jobs:
       - name: Extract SQL Server Tools
         run: |
           mkdir ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
+          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
 
       - name: Restore Projects
         working-directory: ./src
