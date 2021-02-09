@@ -63,10 +63,10 @@ jobs:
 
           New-Item -Path ${{ runner.temp }}/sql-tools -ItemType Directory
 
-          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools/sql-tools.tar.gz ${{ runner.temp }}/sql-tools
+          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools/sql-tools.tar.gz
 
       - name: Extract SQL Server Tools
-        run: tar -xvzf ${{ runner.temp }}/sql-tools/sql-tools.tar.gz
+        run: tar -xvzf ${{ runner.temp }}/sql-tools/sql-tools.tar.gz ${{ runner.temp }}/sql-tools
 
       - name: Restore Projects
         working-directory: ./src
