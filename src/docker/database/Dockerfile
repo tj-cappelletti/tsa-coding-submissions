@@ -8,12 +8,10 @@ WORKDIR /artifacts
 COPY ["artifacts/Tsa.CodingChallenge.Submissions.Database.dacpac", "Tsa.CodingChallenge.Submissions.Database.dacpac"]
 COPY ["scripts/*.*", "./"]
 USER root
-# Ensure script has execute permissions
-RUN chmod a+x ./install-sqlpackage.sh
+# Ensure scripts has execute permissions
+RUN chmod a+x ./*.sh
 RUN ./install-sqlpackage.sh
 USER mssql
-# Ensure script has execute permissions
-RUN chmod a+x ./create-sql-database.sh
 RUN ./create-sql-database.sh
 
 FROM base AS final
