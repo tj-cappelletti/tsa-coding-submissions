@@ -75,7 +75,7 @@ jobs:
       - name: Build Projects
         working-directory: ./src
         run: |
-          dotnet build ./src/Tsa.CodingChallenge.Submissions.sln \
+          dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --no-restore \
             --nologo \
