@@ -121,40 +121,40 @@ jobs:
           name: web-api
           path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi
 
-  buildDatabase:
-    name: "Build Database DACPAC"
-    needs: semver
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
+  # buildDatabase:
+  #   name: "Build Database DACPAC"
+  #   needs: semver
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
       
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
+  #     - name: Add msbuild to PATH
+  #       uses: microsoft/setup-msbuild@v1.0.2
 
-      - name: Build Database DACPAC
-        run: |
-          msbuild src\Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj `
-            /t:Build `
-            /p:configuration=release `
-            /p:SolutionDir=${{ github.workspace }}\src\
+  #     - name: Build Database DACPAC
+  #       run: |
+  #         msbuild src\Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj `
+  #           /t:Build `
+  #           /p:configuration=release `
+  #           /p:SolutionDir=${{ github.workspace }}\src\
       
-      # This needs to run in the build step to ensure we've captured
-      # the Dockerfile and the creation script as this can't run on
-      # a Linux VM - Microsoft needs to make MSBuild work on Linux
-      - uses: actions/upload-artifact@v2
-        name: Upload Docker Artifacts
-        # DEBUG ONLY - Commented out condition to test workflow
-        #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-        with:
-          name: database-docker
-          path: src/docker/database
+  #     # This needs to run in the build step to ensure we've captured
+  #     # the Dockerfile and the creation script as this can't run on
+  #     # a Linux VM - Microsoft needs to make MSBuild work on Linux
+  #     - uses: actions/upload-artifact@v2
+  #       name: Upload Docker Artifacts
+  #       # DEBUG ONLY - Commented out condition to test workflow
+  #       #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+  #       with:
+  #         name: database-docker
+  #         path: src/docker/database
 
-      - uses: actions/upload-artifact@v2
-        name: Upload DACPAC Artifact
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-        with:
-          name: database-dacpac
-          path: src/*.Database/**/*.dacpac
+  #     - uses: actions/upload-artifact@v2
+  #       name: Upload DACPAC Artifact
+  #       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
+  #       with:
+  #         name: database-dacpac
+  #         path: src/*.Database/**/*.dacpac
 
   # TODO: Only run on master branch  
   buildDockerContainers:
