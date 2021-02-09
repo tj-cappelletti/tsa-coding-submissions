@@ -83,7 +83,7 @@ jobs:
         run: |
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
-            --nologo
+            --nologo \
             /p:NetCoreBuild=true \
             /p:NETCoreTargetsPath="${{ runner.temp }}/sql-tools" \
             /p:Version=${{ needs.semver.outputs.semVer }}
