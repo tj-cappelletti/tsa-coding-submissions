@@ -52,8 +52,6 @@ jobs:
 
       - name: Download SQL Server Tools
         shell: pwsh
-        #TODO: Need to find a better way to handle this
-        working-directory: ${{ runner.temp }}/sql-tools
         run: |
           $tarballFile = "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.tar.gz"
 
@@ -62,10 +60,10 @@ jobs:
           $latestReleaseAssets = Invoke-RestMethod -Uri $latestRelease.assets_url -Method Get
 
           $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
-          Invoke-WebRequest -Uri $downloadUrl -OutFile $tarballFile
+          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools/sql-tools.tar.gz
 
       - name: Extract SQL Server Tools
-        run: tar -xvzf "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.tar.gz"
+        run: tar -xvzf ${{ runner.temp }}/sql-tools/sql-tools.tar.gz
 
       - name: Restore Projects
         working-directory: ./src
