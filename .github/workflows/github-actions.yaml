@@ -66,17 +66,17 @@ jobs:
       - name: Extract SQL Server Tools
         run: |
           mkdir ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.SqlClient.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Types.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz System.ComponentModel.Composition.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ github.workspace }}/sql-tools
-          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.SqlClient.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Types.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz System.ComponentModel.Composition.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ runner.temp }}/sql-tools
 
       - name: Build Projects
         working-directory: ./src
