@@ -66,13 +66,21 @@ jobs:
       - name: Extract SQL Server Tools
         run: |
           mkdir ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.SqlClient.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Types.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz System.ComponentModel.Composition.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ github.workspace }}/sql-tools
+          tar -xzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ github.workspace }}/sql-tools
 
       - name: Build Projects
         working-directory: ./src
-        run: |
-          ls -l ./Tsa.CodingChallenge.Submissions.Database/Scripts/SeedData
-
+        run:
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
@@ -90,7 +98,7 @@ jobs:
 
       - name: Publish Blazor App
         working-directory: ./src
-        run: |
+        run:
           dotnet publish ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
             --configuration Release \
             --no-build \
@@ -99,7 +107,7 @@ jobs:
 
       - name: Publish Web AIP
         working-directory: ./src
-        run: |
+        run:
           dotnet publish ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
             --configuration Release \
             --no-build \
