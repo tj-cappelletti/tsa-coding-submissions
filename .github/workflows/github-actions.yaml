@@ -66,15 +66,12 @@ jobs:
       - name: Extract SQL Server Tools
         run: |
           mkdir ${{ runner.temp }}/sql-tools
-          
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
-          
-          ls -l ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
 
       - name: Build Projects
         working-directory: ./src
         run: |
-          ls -l ${{ runner.temp }}/sql-tools
+          ls -l ./Tsa.CodingChallenge.Submissions.Database/Scripts/SeedData
 
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
