@@ -40,7 +40,7 @@ jobs:
   buildApplciations:
     name: "Build .NET Applciations"
     needs: semver
-    runs-on: ubuntu-16.04
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -53,7 +53,7 @@ jobs:
       - name: Download SQL Server Tools
         shell: pwsh
         run: |
-          $tarballFile = "Microsoft.SqlTools.ServiceLayer-win-x64-netcoreapp3.1.zip"
+          $tarballFile = "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.zip"
 
           $latestReleaseUrl = "https://api.github.com/repos/microsoft/sqltoolsservice/releases/latest"
           $latestRelease = Invoke-RestMethod -Uri $latestReleaseUrl -Method Get
@@ -61,13 +61,12 @@ jobs:
 
           $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
 
-          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools.zip
+          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools.tar.gz
 
       - name: Extract SQL Server Tools
         run: |
           mkdir ${{ runner.temp }}/sql-tools
-          # tar -xzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
-          unzip ${{ runner.temp }}/sql-tools.zip -d ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
 
       - name: Build Projects
         working-directory: ./src
@@ -77,7 +76,6 @@ jobs:
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
-            --verbosity detailed \
             /p:NetCoreBuild=true \
             /p:NETCoreTargetsPath=${{ runner.temp }}/sql-tools \
             /p:Version=${{ needs.semver.outputs.semVer }}
