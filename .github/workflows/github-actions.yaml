@@ -61,33 +61,32 @@ jobs:
 
           $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
 
-          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools.tar.gz
+          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ github.workspace }}/sql-tools.tar.gz
 
       - name: Extract SQL Server Tools
         run: |
-          mkdir ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.SqlClient.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Types.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz System.ComponentModel.Composition.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ runner.temp }}/sql-tools
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ runner.temp }}/sql-tools
-
-          ls -l ${{ runner.temp }}/sql-tools
+          mkdir ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.SqlClient.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Types.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz System.ComponentModel.Composition.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ github.workspace }}/sql-tools
 
       - name: Build Projects
         working-directory: ./src
         run: |
+          ls -l ${{ github.workspace }}/sql-tools
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
             /p:NetCoreBuild=true \
-            /p:NETCoreTargetsPath="${{ runner.temp }}/sql-tools" \
+            /p:NETCoreTargetsPath="${{ github.workspace }}/sql-tools" \
             /p:Version=${{ needs.semver.outputs.semVer }}
         
       - name: Run Unit Tests
