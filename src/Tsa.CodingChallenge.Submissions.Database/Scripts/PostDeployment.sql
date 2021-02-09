@@ -16,7 +16,7 @@ Post-Deployment Script Template
 
 --Need Roles before Logins
 :r ./SeedData/dbo.Roles.Data.sql
-:r ./SeedData/dbo.Logins.data.sql
+:r ./SeedData/dbo.Logins.Data.sql
 
 --Need Problems before Test Data Sets
 :r ./SeedData/dbo.Problems.Data.sql
