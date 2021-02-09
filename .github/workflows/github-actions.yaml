@@ -62,7 +62,7 @@ jobs:
           $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
 
           New-Item -Path ${{ runner.temp }}/sql-tools -ItemType Directory
-          
+
           Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools/sql-tools.tar.gz
 
       - name: Extract SQL Server Tools
@@ -70,27 +70,22 @@ jobs:
 
       - name: Restore Projects
         working-directory: ./src
-        run: dotnet restore ./Tsa.CodingChallenge.Submissions.sln /p:Version=${{ needs.semver.outputs.semVer }}
+        run: dotnet restore ./Tsa.CodingChallenge.Submissions.sln
 
       - name: Build Projects
         working-directory: ./src
-        #run: dotnet build ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
-        run: dotnet build ./Tsa.CodingChallenge.Submissions.sln --configuration Release /p:NetCoreBuild=true /p:NETCoreTargetsPath="C:\Users\tcappelletti\.azuredatastudio\extensions\microsoft.sql-database-projects-0.5.1\BuildDirectory"
-
-      - name: Build Blazor Project
-        working-directory: ./src
-        #run: dotnet build ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
         run: |
           dotnet build .\src\Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --no-restore \
             --nologo \
+            /p:Version=${{ needs.semver.outputs.semVer }} \
             /p:NetCoreBuild=true \
             /p:NETCoreTargetsPath=${{ runner.temp }}/sql-tools
         
       - name: Run Unit Tests
         working-directory: ./src
-        run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --nologo
+        run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-build --verbosity normal --filter "TestCategory=UnitTest" --nologo
 
       - name: Publish Blazor App
         working-directory: ./src
