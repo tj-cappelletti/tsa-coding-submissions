@@ -159,7 +159,7 @@ jobs:
   # TODO: Only run on master branch  
   buildDockerContainers:
     name: Build Docker Containers
-    needs: [semver, buildApplciations, buildDatabase]
+    needs: [semver, buildApplciations]
     runs-on: ubuntu-latest
     strategy:
       matrix:
