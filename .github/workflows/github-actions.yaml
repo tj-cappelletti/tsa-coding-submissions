@@ -80,7 +80,7 @@ jobs:
 
       - name: Build Projects
         working-directory: ./src
-        run:
+        run: |
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
@@ -90,15 +90,16 @@ jobs:
         
       - name: Run Unit Tests
         working-directory: ./src
-        run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
-          --no-build \
-          --verbosity normal \
-          --filter "TestCategory=UnitTest" \
-          --nologo 
+        run: |
+          dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
+            --no-build \
+            --verbosity normal \
+            --filter "TestCategory=UnitTest" \
+            --nologo 
 
       - name: Publish Blazor App
         working-directory: ./src
-        run:
+        run: |
           dotnet publish ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
             --configuration Release \
             --no-build \
@@ -107,7 +108,7 @@ jobs:
 
       - name: Publish Web AIP
         working-directory: ./src
-        run:
+        run: |
           dotnet publish ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
             --configuration Release \
             --no-build \
