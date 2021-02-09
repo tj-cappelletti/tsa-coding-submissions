@@ -64,7 +64,8 @@ jobs:
           $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
           Invoke-WebRequest -Uri $downloadUrl -OutFile $tarballFile
 
-          tar -xf $tarballFile
+      - name: Extract SQL Server Tools
+        run: tar -xvzf "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.tar.gz"
 
       - name: Restore Projects
         working-directory: ./src
