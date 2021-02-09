@@ -61,12 +61,13 @@ jobs:
 
           $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
 
-          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools.tar.gz
+          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools.zip
 
       - name: Extract SQL Server Tools
         run: |
           mkdir ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
+          # tar -xzf ${{ runner.temp }}/sql-tools.tar.gz -C ${{ runner.temp }}/sql-tools
+          unzip ${{ runner.temp }}/sql-tools.zip -d ${{ runner.temp }}/sql-tools
 
       - name: Build Projects
         working-directory: ./src
