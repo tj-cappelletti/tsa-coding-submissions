@@ -66,22 +66,27 @@ jobs:
       - name: Extract SQL Server Tools
         run: |
           mkdir ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.SqlClient.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.SqlServer.Types.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz System.ComponentModel.Composition.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ github.workspace }}/sql-tools
-          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ github.workspace }}/sql-tools
+          tar -xvzf ${{ github.workspace }}/sql-tools.tar.gz \
+            Microsoft.Data.SqlClient.dll \
+            Microsoft.Data.Tools.Schema.Sql.dll \
+            Microsoft.Data.Tools.Schema.Tasks.Sql.dll \
+            Microsoft.Data.Tools.Utilities.dll \
+            Microsoft.SqlServer.Dac.dll \
+            Microsoft.SqlServer.Dac.Extensions.dll \
+            Microsoft.SqlServer.TransactSql.ScriptDom.dll \
+            Microsoft.SqlServer.Types.dll \
+            System.ComponentModel.Composition.dll \
+            System.IO.Packaging.dll \
+            Microsoft.Data.Tools.Schema.SqlTasks.targets \
+            -C ${{ github.workspace }}/sql-tools
+
+            ls -l ${{ github.workspace }}/sql-tools
 
       - name: Build Projects
         working-directory: ./src
         run: |
           ls -l ${{ github.workspace }}/sql-tools
+          
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
