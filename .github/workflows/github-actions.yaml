@@ -1,9 +1,18 @@
 name: build-application-workflow
 
-# Build on every push (regardless of branch)
-# Build on PR to ensure the merge is good
+# Build on every push (regardless of branch) for code changes
+# Build on PR to ensure the merge is good for code changes
 # Allow manual builds
-on: [push, pull_request, workflow_dispatch]
+on:
+  push:
+    paths:
+    - 'src/**'
+
+  pull_request:
+    paths:
+    - 'src/**'
+
+  workflow_dispatch:
 
 env:
   DOCKER_REPO: webstorm.azurecr.io
