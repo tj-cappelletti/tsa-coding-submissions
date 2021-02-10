@@ -118,6 +118,18 @@ jobs:
             --nologo
 
       - uses: actions/upload-artifact@v2
+        name: Upload Docker Artifacts
+        with:
+          name: database-docker
+          path: src/docker/database
+
+      - uses: actions/upload-artifact@v2
+        name: Upload DACPAC Artifact
+        with:
+          name: database-dacpac
+          path: src/*.Database/**/*.dacpac
+
+      - uses: actions/upload-artifact@v2
         name: Upload Published Blazor Web App
         with:
           name: web-blazor
@@ -157,10 +169,12 @@ jobs:
         with:
           name: database-docker
           path: database-docker/
-          
-      - name: Set Execute on Scripts
+
+      - uses: actions/download-artifact@v2
         if: ${{ matrix.downloadArtifacts == true }}
-        run: chmod a+x ./database-docker/scripts/create-sql-database.sh
+        with:
+          name: database-dacpac
+          path: database-docker/artifacts
 
       - name: Build tsa/coding/submissions/${{ matrix.image }} Image
         run: |
