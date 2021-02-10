@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Data.Annotations
+namespace Tsa.Coding.Submissions.Core.Data.Annotations
 {
     public class PasswordComplexityAttribute : ValidationAttribute
     {

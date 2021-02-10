@@ -1,4 +1,4 @@
-﻿namespace Tsa.CodingChallenge.Submissions.WebApi.Model
+﻿namespace Tsa.Coding.Submissions.WebApi.Model
 {
     public class TeamMemberModel
     {

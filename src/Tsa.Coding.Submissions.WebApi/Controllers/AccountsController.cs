@@ -1,13 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Tsa.CodingChallenge.Submissions.Core.Entities;
-using Tsa.CodingChallenge.Submissions.Core.Repositories;
-using Tsa.CodingChallenge.Submissions.Core.Security;
-using Tsa.CodingChallenge.Submissions.WebApi.Model;
-using Tsa.CodingChallenge.Submissions.WebApi.Responses;
+using Tsa.Coding.Submissions.Core.Entities;
+using Tsa.Coding.Submissions.Core.Repositories;
+using Tsa.Coding.Submissions.Core.Security;
+using Tsa.Coding.Submissions.WebApi.Model;
+using Tsa.Coding.Submissions.WebApi.Responses;
 
-namespace Tsa.CodingChallenge.Submissions.WebApi.Controllers
+namespace Tsa.Coding.Submissions.WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

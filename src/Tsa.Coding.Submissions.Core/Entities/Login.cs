@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Entities
+namespace Tsa.Coding.Submissions.Core.Entities
 {
     public class Login
     {

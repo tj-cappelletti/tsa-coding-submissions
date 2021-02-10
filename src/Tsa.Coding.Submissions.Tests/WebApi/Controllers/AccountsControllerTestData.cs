@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 
-namespace Tsa.CodingChallenge.Submissions.UnitTests.WebApi.Controllers
+namespace Tsa.Coding.Submissions.Tests.WebApi.Controllers
 {
     public class AccountsControllerTestData : IEnumerable<object[]>
     {

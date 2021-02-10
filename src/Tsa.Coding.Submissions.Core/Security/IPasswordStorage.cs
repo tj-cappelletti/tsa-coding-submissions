@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Tsa.CodingChallenge.Submissions.Core.Security
+﻿namespace Tsa.Coding.Submissions.Core.Security
 {
     public interface IPasswordStorage
     {

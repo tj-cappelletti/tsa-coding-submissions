@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 
-namespace Tsa.CodingChallenge.Submissions.WebApi.Responses
+namespace Tsa.Coding.Submissions.WebApi.Responses
 {
     /// <summary>
     ///     An <see cref="ObjectResult" /> that when executed performs content negotiation, formats the entity body, and

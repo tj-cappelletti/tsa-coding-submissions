@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tsa.CodingChallenge.Submissions.Core\Tsa.CodingChallenge.Submissions.Core.csproj" />
+    <ProjectReference Include="..\Tsa.Coding.Submissions.Core\Tsa.Coding.Submissions.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

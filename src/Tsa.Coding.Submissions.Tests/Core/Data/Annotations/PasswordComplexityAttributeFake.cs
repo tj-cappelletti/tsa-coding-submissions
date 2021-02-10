@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Tsa.CodingChallenge.Submissions.Core.Data.Annotations;
+using Tsa.Coding.Submissions.Core.Data.Annotations;
 
-namespace Tsa.CodingChallenge.Submissions.UnitTests.Core.Data.Annotations
+namespace Tsa.Coding.Submissions.Tests.Core.Data.Annotations
 {
     /// <summary>
     ///     A class to provide an instantiable object to unit test <see cref="PasswordComplexityAttribute" />

@@ -23,9 +23,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Tsa.CodingChallenge.Submissions.Blazor\Tsa.CodingChallenge.Submissions.Blazor.csproj" />
-    <ProjectReference Include="..\Tsa.CodingChallenge.Submissions.Core\Tsa.CodingChallenge.Submissions.Core.csproj" />
-    <ProjectReference Include="..\Tsa.CodingChallenge.Submissions.WebApi\Tsa.CodingChallenge.Submissions.WebApi.csproj" />
+    <ProjectReference Include="..\Tsa.Coding.Submissions.Blazor\Tsa.Coding.Submissions.Blazor.csproj" />
+    <ProjectReference Include="..\Tsa.Coding.Submissions.Core\Tsa.Coding.Submissions.Core.csproj" />
+    <ProjectReference Include="..\Tsa.Coding.Submissions.WebApi\Tsa.Coding.Submissions.WebApi.csproj" />
   </ItemGroup>
 
 </Project>

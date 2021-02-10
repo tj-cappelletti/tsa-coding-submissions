@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Tsa.CodingChallenge.Submissions.Core.Data.Annotations;
+using Tsa.Coding.Submissions.Core.Data.Annotations;
 
-namespace Tsa.CodingChallenge.Submissions.UnitTests.Core.Data.Annotations
+namespace Tsa.Coding.Submissions.Tests.Core.Data.Annotations
 {
     public class PasswordComplexityAttributeTestData : IEnumerable<object[]>
     {

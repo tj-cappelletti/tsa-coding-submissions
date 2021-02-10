@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Data.Annotations
+namespace Tsa.Coding.Submissions.Core.Data.Annotations
 {
     [Flags]
     public enum PasswordComplexityRules

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Tsa.CodingChallenge.Submissions.WebApi.Model
+namespace Tsa.Coding.Submissions.WebApi.Model
 {
     public class LoginModel
     {

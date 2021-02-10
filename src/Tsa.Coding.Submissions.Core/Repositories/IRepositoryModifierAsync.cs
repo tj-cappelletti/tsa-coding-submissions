@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Repositories
+namespace Tsa.Coding.Submissions.Core.Repositories
 {
     public interface IRepositoryModifierAsync<T>
     {

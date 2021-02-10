@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Entities
+namespace Tsa.Coding.Submissions.Core.Entities
 {
     public class Problem
     {

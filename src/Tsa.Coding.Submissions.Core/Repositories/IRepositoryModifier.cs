@@ -1,4 +1,4 @@
-﻿namespace Tsa.CodingChallenge.Submissions.Core.Repositories
+﻿namespace Tsa.Coding.Submissions.Core.Repositories
 {
     public interface IRepositoryModifier<T>
     {

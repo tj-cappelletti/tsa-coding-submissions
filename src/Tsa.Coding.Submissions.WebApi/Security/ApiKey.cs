@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Tsa.CodingChallenge.Submissions.WebApi.Security
+namespace Tsa.Coding.Submissions.WebApi.Security
 {
     public class ApiKey
     {

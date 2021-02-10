@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Tsa.CodingChallenge.Submissions.Core.Repositories;
-using Tsa.CodingChallenge.Submissions.Core.Security;
-using Tsa.CodingChallenge.Submissions.WebApi.Controllers;
-using Tsa.CodingChallenge.Submissions.WebApi.Model;
+using Tsa.Coding.Submissions.Core.Repositories;
+using Tsa.Coding.Submissions.Core.Security;
+using Tsa.Coding.Submissions.WebApi.Controllers;
+using Tsa.Coding.Submissions.WebApi.Model;
 
-namespace Tsa.CodingChallenge.Submissions.UnitTests.WebApi.Controllers
+namespace Tsa.Coding.Submissions.Tests.WebApi.Controllers
 {
     public class AccountsControllerTests
     {

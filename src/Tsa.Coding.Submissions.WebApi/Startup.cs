@@ -4,10 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Tsa.CodingChallenge.Submissions.Core.DataContexts;
-using Tsa.CodingChallenge.Submissions.Core.Repositories;
+using Tsa.Coding.Submissions.Core.DataContexts;
+using Tsa.Coding.Submissions.Core.Repositories;
 
-namespace Tsa.CodingChallenge.Submissions.WebApi
+namespace Tsa.Coding.Submissions.WebApi
 {
     public class Startup
     {

@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
-using Tsa.CodingChallenge.Submissions.Core.Data.Annotations;
+using Tsa.Coding.Submissions.Core.Data.Annotations;
 using Xunit;
 
-namespace Tsa.CodingChallenge.Submissions.UnitTests.Core.Data.Annotations
+namespace Tsa.Coding.Submissions.Tests.Core.Data.Annotations
 {
     public class PasswordComplexityAttributeTests
     {

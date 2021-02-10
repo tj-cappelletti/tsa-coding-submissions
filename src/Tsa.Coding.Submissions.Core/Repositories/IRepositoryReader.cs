@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Repositories
+namespace Tsa.Coding.Submissions.Core.Repositories
 {
     public interface IRepositoryReader<TEntity>
     {

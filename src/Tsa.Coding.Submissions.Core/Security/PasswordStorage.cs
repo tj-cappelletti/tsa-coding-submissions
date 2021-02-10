@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Security.Cryptography;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Security
+namespace Tsa.Coding.Submissions.Core.Security
 {
-    public class PasswordStorage: IPasswordStorage
+    public class PasswordStorage : IPasswordStorage
     {
-        // These constants may be changed without breaking existing hashes.
-        public const int SaltBytes = 24;
+        public const int HashAlgorithmIndex = 0;
         public const int HashBytes = 18;
-        public const int Pbkdf2Iterations = 64000;
 
         // These constants define the encoding and may not be changed.
         public const int HashSections = 5;
-        public const int HashAlgorithmIndex = 0;
-        public const int IterationIndex = 1;
         public const int HashSizeIndex = 2;
-        public const int SaltIndex = 3;
+        public const int IterationIndex = 1;
         public const int Pbkdf2Index = 4;
+
+        public const int Pbkdf2Iterations = 64000;
+
+        // These constants may be changed without breaking existing hashes.
+        public const int SaltBytes = 24;
+        public const int SaltIndex = 3;
 
         public string CreateHash(string password)
         {
@@ -45,6 +47,22 @@ namespace Tsa.CodingChallenge.Submissions.Core.Security
             var parts = $"sha1:{Pbkdf2Iterations}:{hash.Length}:{Convert.ToBase64String(salt)}:{Convert.ToBase64String(hash)}";
 
             return parts;
+        }
+
+        private static byte[] Pbkdf2(string password, byte[] salt, int iterations, int outputBytes)
+        {
+            using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt))
+            {
+                pbkdf2.IterationCount = iterations;
+                return pbkdf2.GetBytes(outputBytes);
+            }
+        }
+
+        private static bool SlowEquals(byte[] a, byte[] b)
+        {
+            var diff = (uint)a.Length ^ (uint)b.Length;
+            for (var i = 0; i < a.Length && i < b.Length; i++) diff |= (uint)(a[i] ^ b[i]);
+            return diff == 0;
         }
 
         public bool VerifyPassword(string password, string goodHash)
@@ -135,22 +153,6 @@ namespace Tsa.CodingChallenge.Submissions.Core.Security
 
             var testHash = Pbkdf2(password, salt, iterations, hash.Length);
             return SlowEquals(hash, testHash);
-        }
-
-        private static bool SlowEquals(byte[] a, byte[] b)
-        {
-            var diff = (uint)a.Length ^ (uint)b.Length;
-            for (var i = 0; i < a.Length && i < b.Length; i++) diff |= (uint)(a[i] ^ b[i]);
-            return diff == 0;
-        }
-
-        private static byte[] Pbkdf2(string password, byte[] salt, int iterations, int outputBytes)
-        {
-            using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt))
-            {
-                pbkdf2.IterationCount = iterations;
-                return pbkdf2.GetBytes(outputBytes);
-            }
         }
     }
 }

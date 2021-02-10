@@ -1,6 +1,6 @@
-﻿using Tsa.CodingChallenge.Submissions.Core.Entities;
+﻿using Tsa.Coding.Submissions.Core.Entities;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Repositories
+namespace Tsa.Coding.Submissions.Core.Repositories
 {
     public interface ILoginRepository : IRepositoryModifier<Login>,
         IRepositoryModifierAsync<Login>,

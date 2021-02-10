@@ -1,4 +1,4 @@
-﻿namespace Tsa.CodingChallenge.Submissions.Core.Entities
+﻿namespace Tsa.Coding.Submissions.Core.Entities
 {
     public enum DataType
     {

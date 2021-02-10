@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Security
+namespace Tsa.Coding.Submissions.Core.Security
 {
     public class CannotPerformOperationException : Exception
     {

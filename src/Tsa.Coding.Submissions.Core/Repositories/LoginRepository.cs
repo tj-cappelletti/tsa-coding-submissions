@@ -4,10 +4,10 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Tsa.CodingChallenge.Submissions.Core.DataContexts;
-using Tsa.CodingChallenge.Submissions.Core.Entities;
+using Tsa.Coding.Submissions.Core.DataContexts;
+using Tsa.Coding.Submissions.Core.Entities;
 
-namespace Tsa.CodingChallenge.Submissions.Core.Repositories
+namespace Tsa.Coding.Submissions.Core.Repositories
 {
     public class LoginRepository : ILoginRepository
     {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Tsa.CodingChallenge.Submissions.Core.Entities;
+using Tsa.Coding.Submissions.Core.Entities;
 
-namespace Tsa.CodingChallenge.Submissions.Core.DataContexts
+namespace Tsa.Coding.Submissions.Core.DataContexts
 {
     public partial class SubmissionsContext
     {
