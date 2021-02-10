@@ -122,24 +122,29 @@ jobs:
         with:
           name: database-docker
           path: src/docker/database
+          if-no-files-found: error
 
+      # TODO: Improve path for this
       - uses: actions/upload-artifact@v2
         name: Upload DACPAC Artifact
         with:
           name: database-dacpac
-          path: src/*.Database/**/*.dacpac
+          path: src/Tsa.CodingChallenge.Submissions.Database/bin/Release/Tsa.CodingChallenge.Submissions.Database.dacpac
+          if-no-files-found: error
 
       - uses: actions/upload-artifact@v2
         name: Upload Published Blazor Web App
         with:
           name: web-blazor
           path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor
+          if-no-files-found: error
         
       - uses: actions/upload-artifact@v2
         name: Upload Published Web API App
         with:
           name: web-api
           path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi
+          if-no-files-found: error
 
   buildDockerContainers:
     name: Build Docker Containers
