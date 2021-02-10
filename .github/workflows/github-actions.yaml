@@ -67,23 +67,21 @@ jobs:
         working-directory: ${{ runner.temp }}
         run: |
           mkdir ${{ runner.temp }}/sql-tools
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.SqlClient.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.Dac.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.Types.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz System.ComponentModel.Composition.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz System.IO.Packaging.dll
-          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.SqlClient.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.Dac.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.Types.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz System.ComponentModel.Composition.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz System.IO.Packaging.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets
 
       - name: Build Projects
         working-directory: ./src
         run: |
-          ls -l ${{ runner.temp }}/sql-tools
-
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
@@ -94,7 +92,6 @@ jobs:
       - name: Run Unit Tests
         working-directory: ./src
         run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
-          --no-build \
           --verbosity normal \
           --filter "TestCategory=UnitTest" \
           --nologo 
