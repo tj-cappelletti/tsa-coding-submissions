@@ -82,7 +82,7 @@ jobs:
       - name: Build Projects
         working-directory: ./src
         run: |
-          dotnet build ./Tsa.CodingChallenge.Submissions.sln \
+          dotnet build ./Tsa.Coding.Submissions.sln \
             --configuration Release \
             --nologo \
             /p:NetCoreBuild=true \
@@ -92,7 +92,7 @@ jobs:
       - name: Run Unit Tests
         working-directory: ./src
         run: |
-          dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
+          dotnet test ./Tsa.Coding.Submissions.Tests/Tsa.Coding.Submissions.Tests.csproj \
             --configuration Release \
             --no-build \
             --verbosity normal \
@@ -102,19 +102,19 @@ jobs:
       - name: Publish Blazor App
         working-directory: ./src
         run: |
-          dotnet publish ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj \
+          dotnet publish ./Tsa.Coding.Submissions.Blazor/Tsa.Coding.Submissions.Blazor.csproj \
             --configuration Release \
             --no-build \
-            --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor \
+            --output ${{ runner.temp }}/Tsa.Coding.Submissions.Blazor \
             --nologo
 
       - name: Publish Web API
         working-directory: ./src
         run: |
-          dotnet publish ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
+          dotnet publish ./Tsa.Coding.Submissions.WebApi/Tsa.Coding.Submissions.WebApi.csproj \
             --configuration Release \
             --no-build \
-            --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi \
+            --output ${{ runner.temp }}/Tsa.Coding.Submissions.WebApi \
             --nologo
 
       - uses: actions/upload-artifact@v2
@@ -129,21 +129,21 @@ jobs:
         name: Upload DACPAC Artifact
         with:
           name: database-dacpac
-          path: src/Tsa.CodingChallenge.Submissions.Database/bin/Release/Tsa.CodingChallenge.Submissions.Database.dacpac
+          path: src/Tsa.Coding.Submissions.Database/bin/Release/Tsa.Coding.Submissions.Database.dacpac
           if-no-files-found: error
 
       - uses: actions/upload-artifact@v2
         name: Upload Published Blazor Web App
         with:
           name: web-blazor
-          path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor
+          path: ${{ runner.temp }}/Tsa.Coding.Submissions.Blazor
           if-no-files-found: error
         
       - uses: actions/upload-artifact@v2
         name: Upload Published Web API App
         with:
           name: web-api
-          path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi
+          path: ${{ runner.temp }}/Tsa.Coding.Submissions.WebApi
           if-no-files-found: error
 
   buildDockerContainers:
@@ -157,7 +157,7 @@ jobs:
           - image: blazor
             downloadArtifacts: false
             dockerContext: src/
-            dockerfile: src/Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
+            dockerfile: src/Tsa.Coding.Submissions.Blazor/Dockerfile
           - image: database
             downloadArtifacts: true
             dockerContext: database-docker/
@@ -165,7 +165,7 @@ jobs:
           - image: webapi
             downloadArtifacts: false
             dockerContext: src/
-            dockerfile: src/Tsa.CodingChallenge.Submissions.WebApi/Dockerfile
+            dockerfile: src/Tsa.Coding.Submissions.WebApi/Dockerfile
     steps:
       - uses: actions/checkout@v2
 
