@@ -65,20 +65,20 @@ jobs:
 
       - name: Extract SQL Server Tools
         run: |
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz
+          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz
 
           mkdir ${{ runner.temp }}/sql-tools
-          mv ./Microsoft.Data.SqlClient.dll ./sql-tools/Microsoft.Data.SqlClient.dll
-          mv ./Microsoft.Data.Tools.Schema.Sql.dll ./sql-tools/Microsoft.Data.Tools.Schema.Sql.dll
-          mv ./Microsoft.Data.Tools.Schema.Tasks.Sql.dll ./sql-tools/Microsoft.Data.Tools.Schema.Tasks.Sql.dll
-          mv ./Microsoft.Data.Tools.Utilities.dll ./sql-tools/Microsoft.Data.Tools.Utilities.dll
-          mv ./Microsoft.SqlServer.Dac.dll ./sql-tools/Microsoft.SqlServer.Dac.dll
-          mv ./Microsoft.SqlServer.Dac.Extensions.dll ./sql-tools/Microsoft.SqlServer.Dac.Extensions.dll
-          mv ./Microsoft.SqlServer.TransactSql.ScriptDom.dll ./sql-tools/Microsoft.SqlServer.TransactSql.ScriptDom.dll
-          mv ./Microsoft.SqlServer.Types.dll ./sql-tools/Microsoft.SqlServer.Types.dll
-          mv ./System.ComponentModel.Composition.dll ./sql-tools/System.ComponentModel.Composition.dll
-          mv ./System.IO.Packaging.dll ./sql-tools/System.IO.Packaging.dll
-          mv ./Microsoft.Data.Tools.Schema.SqlTasks.targets ./sql-tools/Microsoft.Data.Tools.Schema.SqlTasks.targets
+          mv ${{ runner.temp }}/Microsoft.Data.SqlClient.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.SqlClient.dll
+          mv ${{ runner.temp }}/Microsoft.Data.Tools.Schema.Sql.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.Tools.Schema.Sql.dll
+          mv ${{ runner.temp }}/Microsoft.Data.Tools.Schema.Tasks.Sql.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.Tools.Schema.Tasks.Sql.dll
+          mv ${{ runner.temp }}/Microsoft.Data.Tools.Utilities.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.Tools.Utilities.dll
+          mv ${{ runner.temp }}/Microsoft.SqlServer.Dac.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.Dac.dll
+          mv ${{ runner.temp }}/Microsoft.SqlServer.Dac.Extensions.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.Dac.Extensions.dll
+          mv ${{ runner.temp }}/Microsoft.SqlServer.TransactSql.ScriptDom.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.TransactSql.ScriptDom.dll
+          mv ${{ runner.temp }}/Microsoft.SqlServer.Types.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.Types.dll
+          mv ${{ runner.temp }}/System.ComponentModel.Composition.dll ${{ runner.temp }}/sql-tools/System.ComponentModel.Composition.dll
+          mv ${{ runner.temp }}/System.IO.Packaging.dll ${{ runner.temp }}/sql-tools/System.IO.Packaging.dll
+          mv ${{ runner.temp }}/Microsoft.Data.Tools.Schema.SqlTasks.targets ./sql-tools/Microsoft.Data.Tools.Schema.SqlTasks.targets
 
       - name: Build Projects
         working-directory: ./src
