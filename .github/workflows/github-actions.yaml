@@ -78,9 +78,12 @@ jobs:
           tar -xzf ${{ runner.temp }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ runner.temp }}/sql-tools
           tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ runner.temp }}/sql-tools
 
+          ls -l ${{ runner.temp }}/sql-tools
+
       - name: Build Projects
         working-directory: ./src
         run: |
+          ls -l ${{ runner.temp }}/sql-tools
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
