@@ -46,7 +46,7 @@ echo "Deploying DACPAC to database..."
 # Deploy DACPAC to the DB
 /opt/sqlpackage/sqlpackage \
 	/Action:Publish \
-	/SourceFile:Tsa.CodingChallenge.Submissions.Database.dacpac \
+	/SourceFile:Tsa.Coding.Submissions.Database.dacpac \
 	/TargetDatabaseName:"tsa-coding-submissions" \
 	/TargetServerName:"localhost" \
 	/TargetUser:sa \

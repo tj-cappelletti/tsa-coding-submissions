@@ -5,7 +5,7 @@ ENV ACCEPT_EULA Y
 #TODO: Randomize password for added security
 ENV SA_PASSWORD rIMdEnfnHj395cFO
 WORKDIR /artifacts
-COPY ["artifacts/Tsa.CodingChallenge.Submissions.Database.dacpac", "Tsa.CodingChallenge.Submissions.Database.dacpac"]
+COPY ["artifacts/Tsa.Coding.Submissions.Database.dacpac", "Tsa.Coding.Submissions.Database.dacpac"]
 COPY ["scripts/*.*", "./"]
 USER root
 # Ensure scripts has execute permissions

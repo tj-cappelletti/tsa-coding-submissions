@@ -9,22 +9,35 @@ Once running, it attaches the MDF file that was created in the `build` layer.
 The final step of the script is to bring the SQL Server process (`/opt/mssql/bin/sqlservr`) to the foreground to allow the container to be long running.
 
 ## Building the Container
-The database project, located at `src/Tsa.CodingChallenge.Submissions.Database`, needs to be built and the DACPAC copied to an `artifacts` folder next to the `Dockerfile`.
+The database project, located at `src/Tsa.Coding.Submissions.Database`, needs to be built and the DACPAC copied to an `artifacts` folder next to the `Dockerfile`.
 If you build the project via command line or through Visual Studio, it will copy the DACPAC to the folder.
 
 Next step is to run Docker command to build the container.
 The following command assumes you are running the command at the root directory of the repository:
 
 ```
-docker build --tag webstorm.acr.io/tsa/coding/submissions/database --file .\src\docker\database\Dockerfile .\src\docker\database\
+docker build --tag webstorm.acr.io/tsa/coding/submissions/database:latest `
+  --file .\src\docker\database\Dockerfile `
+  .\src\docker\database\
 ```
 
 Feel free to change the tag as you see fit for your environment.
 
 ## Running the Container
 Once the container is built, you run it as very similiarly as you would run a SQL Server Linux container (see [Quickstart: Run SQL Server container images with Docker][run-sql-container]).
+By creating the MDF file in the `build` layer and running the container the same way as a standard SQL Server Linux container, we ensure that consumers are setting a password at runtime.
+This ensures attackers cannot discover the password by inspecting the layers or logs.
 
-The reason for this is to ensure `build` layer is to ensure the security of the running container isn't compromised
+Assuming you did not change the tag in the build step, you can run the container as follows:
+
+```
+docker run -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=<YourStrong@Passw0rd>" `
+  -p 1433:1433 --name tsa -h tsa `
+  -d webstorm.acr.io/tsa/coding/submissions/database:latest
+```
+
+As per the Microsoft documentation, it is **highly recommended** you change the `sa` password after the container is up and running.
+Keep in mind that a race condition can occur as the start-up script is waiting for SQL Server to become available to attach the MDF file for the `tsa-coding-submissions` database.
 
 ## Known Limitations
 - You cannot override or pass arguments directly into the SQL Server process
