@@ -64,21 +64,20 @@ jobs:
           Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools.tar.gz
 
       - name: Extract SQL Server Tools
+        working-directory: ${{ runner.temp }}
         run: |
-          tar -xvzf ${{ runner.temp }}/sql-tools.tar.gz
-
           mkdir ${{ runner.temp }}/sql-tools
-          mv ${{ runner.temp }}/Microsoft.Data.SqlClient.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.SqlClient.dll
-          mv ${{ runner.temp }}/Microsoft.Data.Tools.Schema.Sql.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.Tools.Schema.Sql.dll
-          mv ${{ runner.temp }}/Microsoft.Data.Tools.Schema.Tasks.Sql.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.Tools.Schema.Tasks.Sql.dll
-          mv ${{ runner.temp }}/Microsoft.Data.Tools.Utilities.dll ${{ runner.temp }}/sql-tools/Microsoft.Data.Tools.Utilities.dll
-          mv ${{ runner.temp }}/Microsoft.SqlServer.Dac.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.Dac.dll
-          mv ${{ runner.temp }}/Microsoft.SqlServer.Dac.Extensions.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.Dac.Extensions.dll
-          mv ${{ runner.temp }}/Microsoft.SqlServer.TransactSql.ScriptDom.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.TransactSql.ScriptDom.dll
-          mv ${{ runner.temp }}/Microsoft.SqlServer.Types.dll ${{ runner.temp }}/sql-tools/Microsoft.SqlServer.Types.dll
-          mv ${{ runner.temp }}/System.ComponentModel.Composition.dll ${{ runner.temp }}/sql-tools/System.ComponentModel.Composition.dll
-          mv ${{ runner.temp }}/System.IO.Packaging.dll ${{ runner.temp }}/sql-tools/System.IO.Packaging.dll
-          mv ${{ runner.temp }}/Microsoft.Data.Tools.Schema.SqlTasks.targets ./sql-tools/Microsoft.Data.Tools.Schema.SqlTasks.targets
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.SqlClient.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.Dac.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.SqlServer.Types.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz System.ComponentModel.Composition.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz System.IO.Packaging.dll
+          tar -C ${{ runner.temp }}/sql-tools -xvzf sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets
 
       - name: Build Projects
         working-directory: ./src
