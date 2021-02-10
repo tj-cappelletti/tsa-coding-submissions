@@ -93,6 +93,7 @@ jobs:
         working-directory: ./src
         run: |
           dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
+            --configuration Release \
             --no-build \
             --verbosity normal \
             --filter "TestCategory=UnitTest" \
