@@ -20,13 +20,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "csharp", "csharp", "{36E2B6
 		submissions\csharp\ProblemOne.cs = submissions\csharp\ProblemOne.cs
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.CodingChallenge.Submissions.Blazor", "Tsa.CodingChallenge.Submissions.Blazor\Tsa.CodingChallenge.Submissions.Blazor.csproj", "{2DA22191-B912-4984-8201-AEEE596ED7FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.Coding.Submissions.Blazor", "Tsa.Coding.Submissions.Blazor\Tsa.Coding.Submissions.Blazor.csproj", "{2DA22191-B912-4984-8201-AEEE596ED7FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.CodingChallenge.Submissions.WebApi", "Tsa.CodingChallenge.Submissions.WebApi\Tsa.CodingChallenge.Submissions.WebApi.csproj", "{86B12861-73DD-4CBD-9BEA-95685C991BE4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.Coding.Submissions.WebApi", "Tsa.Coding.Submissions.WebApi\Tsa.Coding.Submissions.WebApi.csproj", "{86B12861-73DD-4CBD-9BEA-95685C991BE4}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.CodingChallenge.Submissions.Core", "Tsa.CodingChallenge.Submissions.Core\Tsa.CodingChallenge.Submissions.Core.csproj", "{486B42BB-D014-4EBF-A011-1AF050E241B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.Coding.Submissions.Core", "Tsa.Coding.Submissions.Core\Tsa.Coding.Submissions.Core.csproj", "{486B42BB-D014-4EBF-A011-1AF050E241B7}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Tsa.CodingChallenge.Submissions.Database", "Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj", "{A83A6824-5122-44D3-B05F-C4E9181085A5}"
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Tsa.Coding.Submissions.Database", "Tsa.Coding.Submissions.Database\Tsa.Coding.Submissions.Database.sqlproj", "{A83A6824-5122-44D3-B05F-C4E9181085A5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{3F3AE1AC-38B0-4A9E-BF1B-2931755C8A6A}"
 	ProjectSection(SolutionItems) = preProject
@@ -40,7 +40,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipeline", "pipeline", "{21
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{6B558CAF-7D91-4DAC-A1A1-A097D7515012}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsa.CodingChallenge.Submissions.UnitTests", "Tsa.CodingChallenge.Submissions.UnitTests\Tsa.CodingChallenge.Submissions.UnitTests.csproj", "{825738EE-AAF3-4C14-8B25-356C099ADCFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tsa.Coding.Submissions.Tests", "Tsa.Coding.Submissions.Tests\Tsa.Coding.Submissions.Tests.csproj", "{825738EE-AAF3-4C14-8B25-356C099ADCFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
