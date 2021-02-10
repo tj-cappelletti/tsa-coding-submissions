@@ -91,10 +91,12 @@ jobs:
         
       - name: Run Unit Tests
         working-directory: ./src
-        run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
-          --verbosity normal \
-          --filter "TestCategory=UnitTest" \
-          --nologo 
+        run: |
+          dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj 
+            --no-build \
+            --verbosity normal \
+            --filter "TestCategory=UnitTest" \
+            --nologo 
 
       - name: Publish Blazor App
         working-directory: ./src
@@ -105,7 +107,7 @@ jobs:
             --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor \
             --nologo
 
-      - name: Publish Web AIP
+      - name: Publish Web API
         working-directory: ./src
         run: |
           dotnet publish ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
