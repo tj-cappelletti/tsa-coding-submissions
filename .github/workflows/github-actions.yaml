@@ -40,7 +40,7 @@ jobs:
   buildApplciations:
     name: "Build .NET Applciations"
     needs: semver
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -48,31 +48,56 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: 3.1.301
+          dotnet-version: '3.1.x'
 
-      - name: Restore Web API Project
-        working-directory: ./src
-        run: dotnet restore ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+      - name: Download SQL Server Tools
+        shell: pwsh
+        run: |
+          $tarballFile = "Microsoft.SqlTools.ServiceLayer-rhel-x64-netcoreapp3.1.tar.gz"
 
-      - name: Restore Blazor Project
-        working-directory: ./src
-        run: dotnet restore ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+          $latestReleaseUrl = "https://api.github.com/repos/microsoft/sqltoolsservice/releases/latest"
+          $latestRelease = Invoke-RestMethod -Uri $latestReleaseUrl -Method Get
+          $latestReleaseAssets = Invoke-RestMethod -Uri $latestRelease.assets_url -Method Get
 
-      - name: Restore Unit Tests Project
-        working-directory: ./src
-        run: dotnet restore ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj /p:Version=${{ needs.semver.outputs.semVer }}
+          $downloadUrl = $latestReleaseAssets | Where-Object { $_.name -eq $tarballFile } | Select-Object -ExpandProperty browser_download_url
 
-      - name: Build Web API Project
-        working-directory: ./src
-        run: dotnet build ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj --configuration Release --no-restore --nologo
+          Invoke-WebRequest -Uri $downloadUrl -OutFile ${{ runner.temp }}/sql-tools.tar.gz
 
-      - name: Build Blazor Project
+      - name: Extract SQL Server Tools
+        working-directory: ${{ runner.temp }}
+        run: |
+          mkdir ${{ runner.temp }}/sql-tools
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.SqlClient.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.Dac.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.SqlServer.Types.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz System.ComponentModel.Composition.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz System.IO.Packaging.dll
+          tar -C ${{ runner.temp }}/sql-tools -xzvf sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets
+
+      - name: Build Projects
         working-directory: ./src
-        run: dotnet build ./Tsa.CodingChallenge.Submissions.Blazor/Tsa.CodingChallenge.Submissions.Blazor.csproj --configuration Release --no-restore --nologo
+        run: |
+          dotnet build ./Tsa.CodingChallenge.Submissions.sln \
+            --configuration Release \
+            --nologo \
+            /p:NetCoreBuild=true \
+            /p:NETCoreTargetsPath=${{ runner.temp }}/sql-tools \
+            /p:Version=${{ needs.semver.outputs.semVer }}
         
       - name: Run Unit Tests
         working-directory: ./src
-        run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj --no-restore --verbosity normal --filter "TestCategory=UnitTest" --nologo
+        run: |
+          dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
+            --configuration Release \
+            --no-build \
+            --verbosity normal \
+            --filter "TestCategory=UnitTest" \
+            --nologo 
 
       - name: Publish Blazor App
         working-directory: ./src
@@ -83,7 +108,7 @@ jobs:
             --output ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor \
             --nologo
 
-      - name: Publish Web AIP
+      - name: Publish Web API
         working-directory: ./src
         run: |
           dotnet publish ./Tsa.CodingChallenge.Submissions.WebApi/Tsa.CodingChallenge.Submissions.WebApi.csproj \
@@ -93,56 +118,37 @@ jobs:
             --nologo
 
       - uses: actions/upload-artifact@v2
+        name: Upload Docker Artifacts
+        with:
+          name: database-docker
+          path: src/docker/database
+          if-no-files-found: error
+
+      # TODO: Improve path for this
+      - uses: actions/upload-artifact@v2
+        name: Upload DACPAC Artifact
+        with:
+          name: database-dacpac
+          path: src/Tsa.CodingChallenge.Submissions.Database/bin/Release/Tsa.CodingChallenge.Submissions.Database.dacpac
+          if-no-files-found: error
+
+      - uses: actions/upload-artifact@v2
         name: Upload Published Blazor Web App
         with:
           name: web-blazor
           path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.Blazor
+          if-no-files-found: error
         
       - uses: actions/upload-artifact@v2
         name: Upload Published Web API App
         with:
           name: web-api
           path: ${{ runner.temp }}/Tsa.CodingChallenge.Submissions.WebApi
+          if-no-files-found: error
 
-  buildDatabase:
-    name: "Build Database DACPAC"
-    needs: semver
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      
-      - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.2
-
-      - name: Build Database DACPAC
-        run: |
-          msbuild src\Tsa.CodingChallenge.Submissions.Database\Tsa.CodingChallenge.Submissions.Database.sqlproj `
-            /t:Build `
-            /p:configuration=release `
-            /p:SolutionDir=${{ github.workspace }}\src\
-      
-      # This needs to run in the build step to ensure we've captured
-      # the Dockerfile and the creation script as this can't run on
-      # a Linux VM - Microsoft needs to make MSBuild work on Linux
-      - uses: actions/upload-artifact@v2
-        name: Upload Docker Artifacts
-        # DEBUG ONLY - Commented out condition to test workflow
-        #if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-        with:
-          name: database-docker
-          path: src/docker/database
-
-      - uses: actions/upload-artifact@v2
-        name: Upload DACPAC Artifact
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/master' }}
-        with:
-          name: database-dacpac
-          path: src/*.Database/**/*.dacpac
-
-  # TODO: Only run on master branch  
   buildDockerContainers:
     name: Build Docker Containers
-    needs: [semver, buildApplciations, buildDatabase]
+    needs: [semver, buildApplciations]
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -168,10 +174,12 @@ jobs:
         with:
           name: database-docker
           path: database-docker/
-          
-      - name: Set Execute on Scripts
+
+      - uses: actions/download-artifact@v2
         if: ${{ matrix.downloadArtifacts == true }}
-        run: chmod a+x ./database-docker/scripts/create-sql-database.sh
+        with:
+          name: database-dacpac
+          path: database-docker/artifacts
 
       - name: Build tsa/coding/submissions/${{ matrix.image }} Image
         run: |

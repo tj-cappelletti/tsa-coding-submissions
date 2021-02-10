@@ -1,7 +1,8 @@
-#!/bin/sh
+#!/bin/bash
 
 # Launch SQL Server as a background process
 # Direct stdout to null but allow errors to be written to the console
+echo "Starting SQL Server..."
 /opt/mssql/bin/sqlservr > /dev/null &
 
 # Variables to check if SQL Server starts in a timely manner
@@ -25,7 +26,8 @@ do
 		sqlCheckCount=5
 		sqlIsAlive=1
 	else
-		sqlCheckCount=$(( $sqlCheckCount + 1))
+		echo "Query check failed..."
+		sqlCheckCount=$(( $sqlCheckCount + 1))		
 	fi
 done
 
@@ -36,6 +38,20 @@ then
 	exit 1
 fi
 
-# Run the script to create the database
-echo "SQL Server is running, creating database..."
-/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P $SA_PASSWORD -i /create-db.sql
+echo "SQL Server is running, creating database shell..."
+# Create an empty shell to control the file names created
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P $SA_PASSWORD -Q "CREATE DATABASE [tsa-coding-submissions]"
+
+echo "Deploying DACPAC to database..."
+# Deploy DACPAC to the DB
+/opt/sqlpackage/sqlpackage \
+	/Action:Publish \
+	/SourceFile:Tsa.CodingChallenge.Submissions.Database.dacpac \
+	/TargetDatabaseName:"tsa-coding-submissions" \
+	/TargetServerName:"localhost" \
+	/TargetUser:sa \
+	/TargetPassword:$SA_PASSWORD
+
+echo "Detach the database..."
+# Detatch DB to ensure transactions are committed
+/opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P $SA_PASSWORD -i ./detach-database.sql
