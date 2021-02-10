@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <Name>Tsa.CodingChallenge.Submissions.Database</Name>
+    <Name>Tsa.Coding.Submissions.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{a83a6824-5122-44d3-b05f-c4e9181085a5}</ProjectGuid>
@@ -11,8 +11,8 @@
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
-    <RootNamespace>Tsa.CodingChallenge.Submissions.Database</RootNamespace>
-    <AssemblyName>Tsa.CodingChallenge.Submissions.Database</AssemblyName>
+    <RootNamespace>Tsa.Coding.Submissions.Database</RootNamespace>
+    <AssemblyName>Tsa.Coding.Submissions.Database</AssemblyName>
     <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
@@ -153,7 +153,7 @@
     <PackageReference Condition="'$(NetCoreBuild)' == 'true'" Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0" PrivateAssets="All"/>
   </ItemGroup>
   <PropertyGroup>
-    <PostBuildEvent Condition="'$(NetCoreBuild)' != 'true'" >xcopy "$(ProjectDir)$(OutputPath)Tsa.CodingChallenge.Submissions.Database.dacpac" "$(SolutionDir)docker\database\artifacts\*" /Y</PostBuildEvent>
+    <PostBuildEvent Condition="'$(NetCoreBuild)' != 'true'" >xcopy "$(ProjectDir)$(OutputPath)Tsa.Coding.Submissions.Database.dacpac" "$(SolutionDir)docker\database\artifacts\*" /Y</PostBuildEvent>
   </PropertyGroup>
   <Target Name="AfterClean">
     <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json"/>
