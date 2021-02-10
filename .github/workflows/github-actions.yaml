@@ -65,25 +65,26 @@ jobs:
 
       - name: Extract SQL Server Tools
         run: |
-          mkdir ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.SqlClient.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Sql.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.Tasks.Sql.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Utilities.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Dac.Extensions.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.TransactSql.ScriptDom.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.SqlServer.Types.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz System.ComponentModel.Composition.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz System.IO.Packaging.dll -C ${{ runner.temp }}/sql-tools
-          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz Microsoft.Data.Tools.Schema.SqlTasks.targets -C ${{ runner.temp }}/sql-tools
+          tar -xzf ${{ runner.temp }}/sql-tools.tar.gz
 
-          ls -l ${{ runner.temp }}/sql-tools
+          mkdir ${{ runner.temp }}/sql-tools
+          mv ./Microsoft.Data.SqlClient.dll ./sql-tools/Microsoft.Data.SqlClient.dll
+          mv ./Microsoft.Data.Tools.Schema.Sql.dll ./sql-tools/Microsoft.Data.Tools.Schema.Sql.dll
+          mv ./Microsoft.Data.Tools.Schema.Tasks.Sql.dll ./sql-tools/Microsoft.Data.Tools.Schema.Tasks.Sql.dll
+          mv ./Microsoft.Data.Tools.Utilities.dll ./sql-tools/Microsoft.Data.Tools.Utilities.dll
+          mv ./Microsoft.SqlServer.Dac.dll ./sql-tools/Microsoft.SqlServer.Dac.dll
+          mv ./Microsoft.SqlServer.Dac.Extensions.dll ./sql-tools/Microsoft.SqlServer.Dac.Extensions.dll
+          mv ./Microsoft.SqlServer.TransactSql.ScriptDom.dll ./sql-tools/Microsoft.SqlServer.TransactSql.ScriptDom.dll
+          mv ./Microsoft.SqlServer.Types.dll ./sql-tools/Microsoft.SqlServer.Types.dll
+          mv ./System.ComponentModel.Composition.dll ./sql-tools/System.ComponentModel.Composition.dll
+          mv ./System.IO.Packaging.dll ./sql-tools/System.IO.Packaging.dll
+          mv ./Microsoft.Data.Tools.Schema.SqlTasks.targets ./sql-tools/Microsoft.Data.Tools.Schema.SqlTasks.targets
 
       - name: Build Projects
         working-directory: ./src
         run: |
           ls -l ${{ runner.temp }}/sql-tools
+
           dotnet build ./Tsa.CodingChallenge.Submissions.sln \
             --configuration Release \
             --nologo \
@@ -93,12 +94,11 @@ jobs:
         
       - name: Run Unit Tests
         working-directory: ./src
-        run: |
-          dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
-            --no-build \
-            --verbosity normal \
-            --filter "TestCategory=UnitTest" \
-            --nologo 
+        run: dotnet test ./Tsa.CodingChallenge.Submissions.UnitTests/Tsa.CodingChallenge.Submissions.UnitTests.csproj \
+          --no-build \
+          --verbosity normal \
+          --filter "TestCategory=UnitTest" \
+          --nologo 
 
       - name: Publish Blazor App
         working-directory: ./src
