@@ -1,4 +1,6 @@
-﻿@inherits LayoutComponentBase
+﻿@using Tsa.Coding.Submissions.Blazor.Services
+@inherits LayoutComponentBase
+@inject TokenProvider TokenProvider
 
 <header>
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
@@ -6,6 +8,19 @@
         <nav class="my-2 my-md-0 mr-md-3">
             <NavLink class="p-2 text-dark" href="/">Home</NavLink>
             <NavLink class="p-2 text-dark" href="rules">Rules</NavLink>
+            <AuthorizeView>
+                <Authorized>
+                    <form action="/logout" method="post">
+                        <button class="nav-link btn btn-link p-2 text-dark" type="submit">
+                            Log out (@context.User.Identity.Name)
+                        </button>
+                        <input name="__RequestVerificationToken" type="hidden" value="@TokenProvider.XsrfToken">
+                    </form>
+                </Authorized>
+                <NotAuthorized>
+                    <a href="/login" class="p-2 text-dark">Login</a>
+                </NotAuthorized>
+            </AuthorizeView>
             @*<partial name="_AuthenticatedLinksPartial" />*@
         </nav>
         @*<partial name="_LoginPartial" />*@
