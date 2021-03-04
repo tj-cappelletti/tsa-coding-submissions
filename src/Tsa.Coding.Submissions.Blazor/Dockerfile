@@ -3,7 +3,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["Tsa.Coding.Submissions.Blazor/Tsa.Coding.Submissions.Blazor.csproj", "Tsa.Coding.Submissions.Blazor/"]
 RUN dotnet restore "Tsa.Coding.Submissions.Blazor/Tsa.Coding.Submissions.Blazor.csproj"

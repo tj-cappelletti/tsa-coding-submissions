@@ -3,7 +3,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["Tsa.Coding.Submissions.WebApi/Tsa.Coding.Submissions.WebApi.csproj", "Tsa.Coding.Submissions.WebApi/"]
 COPY ["Tsa.Coding.Submissions.Core/Tsa.Coding.Submissions.Core.csproj", "Tsa.Coding.Submissions.Core/"]
