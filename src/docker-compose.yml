@@ -5,7 +5,7 @@ services:
     image: ${DOCKER_REGISTRY-}tsa-coding-submissions-blazor
     build:
       context: .
-      dockerfile: Tsa.CodingChallenge.Submissions.Blazor/Dockerfile
+      dockerfile: Tsa.Coding.Submissions.Blazor/Dockerfile
     depends_on:
       - rabbitmq
   db:
@@ -22,6 +22,6 @@ services:
     image: ${DOCKER_REGISTRY-}tsa-coding-submissions-webapi
     build:
       context: .
-      dockerfile: Tsa.CodingChallenge.Submissions.WebApi/Dockerfile
+      dockerfile: Tsa.Coding.Submissions.WebApi/Dockerfile
     depends_on:
       - db
