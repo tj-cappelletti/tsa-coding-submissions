@@ -46,6 +46,9 @@ In order to contibute, we do require you to adhere to our [Code of Conduct][cod]
 Once you agree to our Code of Conduct, take a look at our [Contributing Guidelines][cg].
 This will help explain our coding style, testing practices, and process for integrating your changes into our repo and master branch.
 
+# Related Projects
+[TSA Identity Server][tsa-identity-server] - The identity server that manages logins across all TSA projects
+
 <!-- BADGES -->
 [baw-badge]: https://github.com/tj-cappelletti/tsa-coding-submissions/workflows/build-application-workflow/badge.svg "current status"
 [baw-master-branch-badge]: https://github.com/tj-cappelletti/tsa-coding-submissions/workflows/build-application-workflow/badge.svg?branch=master "master branch status"
@@ -55,3 +58,4 @@ This will help explain our coding style, testing practices, and process for inte
 [cg]: CONTRIBUTING.md "Contributing Guidelines"
 [cod]: CODE_OF_CONDUCT.md "Code of Conduct"
 [tsa-hs-competitions]: https://tsaweb.org/competitions-programs/tsa/high-school-competitions "TSA High School Competitions"
+[tsa-identity-server]: https://github.com/tj-cappelletti/tsa-identity-server "TSA Identity Server"
