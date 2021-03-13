@@ -60,7 +60,7 @@ This project is released uner the [MIT License][mit-license].
 <!-- REPO LINKS -->
 [cg]: CONTRIBUTING.md "Contributing Guidelines"
 [cod]: CODE_OF_CONDUCT.md "Code of Conduct"
-[mit-license]: LICENSE "MIT License"
+[mit-license]: LICENSE.md "MIT License"
 
 <!-- EXTERNAL LINKS -->
 [tsa-hs-competitions]: https://tsaweb.org/competitions-programs/tsa/high-school-competitions "TSA High School Competitions"
