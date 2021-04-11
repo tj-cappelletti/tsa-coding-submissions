@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -24,6 +25,24 @@ namespace Tsa.Coding.Submissions.Blazor
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                var dockerContainer = Configuration["DOCKER_CONTAINER"] != null && Configuration["DOCKER_CONTAINER"] == "Y";
+
+                if(dockerContainer)
+                {
+                    var updateCaCertificatesProcess = new Process
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            Arguments = "update-ca-certificates",
+                            CreateNoWindow = true,
+                            FileName = "/bin/bash",
+                            UseShellExecute = false
+                        }
+                    };
+
+                    updateCaCertificatesProcess.Start();
+                    updateCaCertificatesProcess.WaitForExit();
+                }
             }
             else
             {
@@ -59,6 +78,9 @@ namespace Tsa.Coding.Submissions.Blazor
 
             services.AddHttpClient<ISubmissionsService, SubmissionsService>();
 
+            var identityServerUri = Configuration["IdentityServer:Uri"];
+            var identityServerClientId = Configuration["IdentityServer:ClientId"];
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
@@ -67,10 +89,11 @@ namespace Tsa.Coding.Submissions.Blazor
                 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
-                    options.Authority = "https://localhost:44353";
-                    options.GetClaimsFromUserInfoEndpoint = true;
-                    options.ClientId = "tsa.coding.submissions.web";
+                    options.Authority = identityServerUri;
+                    options.ClientId = identityServerClientId;
                     options.ClientSecret = "a673bbae-71e4-4962-a623-665689c4dd34";
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.ResponseMode = "query";
                     options.ResponseType = "code";
                     options.SaveTokens = true;
                     //TODO: Check if these are added by default
@@ -80,6 +103,7 @@ namespace Tsa.Coding.Submissions.Blazor
                     options.Scope.Add("tsa.coding.submissions.create");
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.TokenValidationParameters.NameClaimType = "name";
+                    options.UsePkce = true;
                 });
 
             services.AddScoped<TokenProvider>();

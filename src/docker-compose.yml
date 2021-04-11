@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.9'
 
 services:
   blazor:
@@ -7,16 +7,24 @@ services:
       context: .
       dockerfile: Tsa.Coding.Submissions.Blazor/Dockerfile
     depends_on:
+      - identity
       - rabbitmq
+      - web-api
+
   db:
     image: ${DOCKER_REGISTRY-}tsa-coding-submissions-db:dev
     build:
       context: docker/database/.
       dockerfile: Dockerfile
 
+  identity:
+    image: webstorm.azurecr.io/tsa/coding/submissions/identity:0
+    hostname: identity
+    depends_on:
+      - db
+
   rabbitmq:
     image: rabbitmq:3-management
-    hostname: rabbitmq
 
   web-api:
     image: ${DOCKER_REGISTRY-}tsa-coding-submissions-webapi
@@ -25,3 +33,4 @@ services:
       dockerfile: Tsa.Coding.Submissions.WebApi/Dockerfile
     depends_on:
       - db
+      - identity
