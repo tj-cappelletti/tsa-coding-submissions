@@ -87,7 +87,7 @@ process {
     }
     else {
         Write-Output "API Certificate Exists - Retrieving Certificate"
-        $apiCertificate = (Get-ChildItem -Path $CertificateStorePath -Recurse | Where-Object { $_.Subject -eq "CN=$($identityServerCommonNames[0])" })[0]
+        $apiCertificate = (Get-ChildItem -Path $CertificateStorePath -Recurse | Where-Object { $_.Subject -eq "CN=$($apiCommonNames[0])" })[0]
     }
 
     if ($createIdentityServerCertificate) {
@@ -135,16 +135,16 @@ process {
     }
     Export-PfxCertificate -Cert $submissionsCertificate -FilePath "$submissionsCertificateOutputPath\submissionsCertificate.pfx" -Password $certificatePassword | Out-Null
 
+    Write-Output "Exporting Root CA Certificate in Binary DER Format"
+    $publicRootCaCertificateFileInfo = Export-Certificate -Cert $rootCaCertificate -FilePath "$rootCaCertificateOutputPath\publicRootCaCertificate.cer" -Type CERT
+    
     if ($importRootCaCertificate) {
-        Write-Output "Exporting Root CA Certificate in Binary DER Format"
-        $publicRootCaCertificateFileInfo = Export-Certificate -Cert $rootCaCertificate -FilePath "$rootCaCertificateOutputPath\publicRootCaCertificate.cer" -Type CERT
-
         Write-Output "Importing Root CA Certificate into Trusted Root Certification Authorities"
         Import-Certificate -CertStoreLocation $trustedRootCaPath -FilePath $publicRootCaCertificateFileInfo.FullName | Out-Null
-
-        Write-Output "Converting Root CA Binary DER Format to Base64-Encoded"
-        openssl x509 -inform DER -in "$rootCaCertificateOutputPath\publicRootCaCertificate.cer" -out "$rootCaCertificateOutputPath\publicRootCaCertificate.crt"
     }
+
+    Write-Output "Converting Root CA Binary DER Format to Base64-Encoded"
+    openssl x509 -inform DER -in "$rootCaCertificateOutputPath\publicRootCaCertificate.cer" -out "$rootCaCertificateOutputPath\publicRootCaCertificate.crt"
 }
     
 end {
