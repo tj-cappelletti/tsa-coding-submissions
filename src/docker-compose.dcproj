@@ -5,8 +5,8 @@
     <DockerTargetOS>Linux</DockerTargetOS>
     <ProjectGuid>6b558caf-7d91-4dac-a1a1-a097d7515012</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
-    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/weatherforecast</DockerServiceUrl>
-    <DockerServiceName>tsa.codingchallenge.submissions.webapi</DockerServiceName>
+    <DockerServiceUrl>{Scheme}://submissions.tsa.local:{ServicePort}</DockerServiceUrl>
+    <DockerServiceName>blazor</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">

@@ -6,10 +6,12 @@ name: build-application-workflow
 on:
   push:
     paths:
+    - '.github/workflows/**'
     - 'src/**'
 
   pull_request:
     paths:
+    - '.github/workflows/**'
     - 'src/**'
 
   workflow_dispatch:
@@ -57,7 +59,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '3.1.x'
+          dotnet-version: '5.0.x'
 
       - name: Download SQL Server Tools
         shell: pwsh

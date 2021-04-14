@@ -1,9 +1,16 @@
 ﻿@page "/"
+@using System.Globalization
+@using Microsoft.AspNetCore.Antiforgery
+@using Microsoft.AspNetCore.Authentication
+@using Tsa.Coding.Submissions.Blazor.Services
+
 @namespace Tsa.Coding.Submissions.Blazor.Pages
+
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@{
-    Layout = null;
-}
+
+@{ Layout = null; }
+
+@inject IAntiforgery Xsrf
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,8 +23,22 @@
     <link href="css/site.css" rel="stylesheet"/>
 </head>
 <body>
+@{
+    var initialApplicationState = new InitialApplicationState
+    {
+        XsrfToken = Xsrf.GetAndStoreTokens(HttpContext).RequestToken,
+        AccessToken = await HttpContext.GetTokenAsync("access_token"),
+        RefreshToken = await HttpContext.GetTokenAsync("refresh_token")
+    };
+
+    var expiresAt = await HttpContext.GetTokenAsync("expires_at");
+
+    initialApplicationState.ExpiresAt = DateTimeOffset.TryParse(expiresAt, CultureInfo.InvariantCulture, DateTimeStyles.None, out var expiration)
+        ? expiration
+        : DateTimeOffset.UtcNow;
+}
 <app>
-    <component type="typeof(App)" render-mode="ServerPrerendered"/>
+    <component type="typeof(App)" render-mode="ServerPrerendered" param-InitialApplicationState="initialApplicationState"/>
 </app>
 
 <div id="blazor-error-ui">

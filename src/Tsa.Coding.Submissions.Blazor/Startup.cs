@@ -1,8 +1,14 @@
+using System;
+using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Tsa.Coding.Submissions.Blazor.Services;
 
 namespace Tsa.Coding.Submissions.Blazor
 {
@@ -21,6 +27,25 @@ namespace Tsa.Coding.Submissions.Blazor
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
+                var dockerContainer = Configuration["DOCKER_CONTAINER"] != null && Configuration["DOCKER_CONTAINER"] == "Y";
+
+                if(dockerContainer)
+                {
+                    var updateCaCertificatesProcess = new Process
+                    {
+                        StartInfo = new ProcessStartInfo
+                        {
+                            Arguments = "update-ca-certificates",
+                            CreateNoWindow = true,
+                            FileName = "/bin/bash",
+                            UseShellExecute = false
+                        }
+                    };
+
+                    updateCaCertificatesProcess.Start();
+                    updateCaCertificatesProcess.WaitForExit();
+                }
             }
             else
             {
@@ -34,8 +59,13 @@ namespace Tsa.Coding.Submissions.Blazor
 
             app.UseRouting();
 
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllers();
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
@@ -46,7 +76,50 @@ namespace Tsa.Coding.Submissions.Blazor
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            
             services.AddServerSideBlazor();
+
+            //services.AddHttpClient<ISubmissionsService, SubmissionsService>();
+            services.AddHttpClient<IProblemService, ProblemService>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.tsa.local:44302/");
+            });
+
+            services.AddScoped<TokenProvider>();
+
+            var identityServerUri = Configuration["IdentityServer:Uri"];
+            var identityServerClientId = Configuration["IdentityServer:ClientId"];
+
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
+            })
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
+                {
+                    options.Authority = identityServerUri;
+                    options.ClaimActions.MapJsonKey("role", "role", "role");
+                    options.ClientId = identityServerClientId;
+                    options.ClientSecret = "a673bbae-71e4-4962-a623-665689c4dd34";
+                    options.GetClaimsFromUserInfoEndpoint = true;
+                    options.ResponseMode = "query";
+                    options.ResponseType = "code";
+                    options.SaveTokens = true;
+                    //TODO: Check if these are added by default
+                    options.Scope.Add("openid");
+                    options.Scope.Add("profile");
+                    options.Scope.Add("role");
+                    options.Scope.Add("tsa.coding.submissions.read");
+                    options.Scope.Add("tsa.coding.submissions.create");
+                    options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+                    options.TokenValidationParameters.NameClaimType = "name";
+                    options.TokenValidationParameters.RoleClaimType = "role";
+                    options.UsePkce = true;
+                });
+
+            services.AddScoped<TokenProvider>();
+            services.AddScoped<TokenManager>();
         }
     }
 }
