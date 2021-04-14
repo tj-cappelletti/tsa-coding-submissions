@@ -1,0 +1,26 @@
+﻿@page "/problems/problemsoverview"
+
+<h1 class="card-title">Coding Problems</h1>
+
+@if (Problems == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <th>Name</th>
+        </thead>
+        <tbody>
+        @foreach (var problem in Problems)
+        {
+            <tr>
+                <td>@problem.Name</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -1,4 +1,6 @@
+using System;
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Builder;
@@ -25,6 +27,7 @@ namespace Tsa.Coding.Submissions.Blazor
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+
                 var dockerContainer = Configuration["DOCKER_CONTAINER"] != null && Configuration["DOCKER_CONTAINER"] == "Y";
 
                 if(dockerContainer)
@@ -76,7 +79,13 @@ namespace Tsa.Coding.Submissions.Blazor
             
             services.AddServerSideBlazor();
 
-            services.AddHttpClient<ISubmissionsService, SubmissionsService>();
+            //services.AddHttpClient<ISubmissionsService, SubmissionsService>();
+            services.AddHttpClient<IProblemService, ProblemService>(client =>
+            {
+                client.BaseAddress = new Uri("https://api.tsa.local:44302/");
+            });
+
+            services.AddScoped<TokenProvider>();
 
             var identityServerUri = Configuration["IdentityServer:Uri"];
             var identityServerClientId = Configuration["IdentityServer:ClientId"];
@@ -90,6 +99,7 @@ namespace Tsa.Coding.Submissions.Blazor
                 .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =>
                 {
                     options.Authority = identityServerUri;
+                    options.ClaimActions.MapJsonKey("role", "role", "role");
                     options.ClientId = identityServerClientId;
                     options.ClientSecret = "a673bbae-71e4-4962-a623-665689c4dd34";
                     options.GetClaimsFromUserInfoEndpoint = true;
@@ -99,10 +109,12 @@ namespace Tsa.Coding.Submissions.Blazor
                     //TODO: Check if these are added by default
                     options.Scope.Add("openid");
                     options.Scope.Add("profile");
+                    options.Scope.Add("role");
                     options.Scope.Add("tsa.coding.submissions.read");
                     options.Scope.Add("tsa.coding.submissions.create");
                     options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                     options.TokenValidationParameters.NameClaimType = "name";
+                    options.TokenValidationParameters.RoleClaimType = "role";
                     options.UsePkce = true;
                 });
 

@@ -26,4 +26,8 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Tsa.Coding.Submissions.Core\Tsa.Coding.Submissions.Core.csproj" />
+  </ItemGroup>
+
 </Project>
