@@ -64,6 +64,9 @@ services:
       APSNETCORE_HTTPS_PORT: "44302"
       ASPNETCORE_Kestrel__Certificates__Default__Password: "b05e4983-84e0-447d-97c0-3fdf5b91ddb4"
       ASPNETCORE_Kestrel__Certificates__Default__Path: "/https/apiCertificate.pfx"
+      DOCKER_CONTAINER: "Y"
+      ConnectionStrings__SubmissionsContext: "Server=db.tsa.local;Database=tsa-coding-submissions;User=sa;Password=rIMdEnfnHj395cFO;"
+      IdentityServer__Uri: "https://identity.tsa.local:44301"
     expose:
       - "8002"
       - "44302"
@@ -72,3 +75,6 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
       - ./docker/certs:/https:ro
+      - type: bind
+        source: ./docker/certs/publicRootCaCertificate.crt
+        target: /usr/local/share/ca-certificates/publicRootCaCertificate.crt
