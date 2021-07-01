@@ -1,6 +1,8 @@
 # TSA Coding Submissions
 ![baw-badge]
 
+# HI Mark!
+
 This project is part of a larger solution built for the Technology Student Association (TSA) [High School Coding][tsa-hs-competitions] competition.
 The code in the repo provides judges and participants a web interface to interact with problems for the competition.
 There are three key components in this repo; a Blazor web application, a SQL database, and web API application.
