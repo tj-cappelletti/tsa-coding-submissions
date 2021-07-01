@@ -1,7 +1,7 @@
 # TSA Coding Submissions
 ![baw-badge]
 
-# HI Mark!
+# Hi Mark!
 
 This project is part of a larger solution built for the Technology Student Association (TSA) [High School Coding][tsa-hs-competitions] competition.
 The code in the repo provides judges and participants a web interface to interact with problems for the competition.
