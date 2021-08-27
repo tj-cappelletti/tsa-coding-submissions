@@ -60,6 +60,28 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '5.0.x'
+        
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v1
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+
+      - name: Cache SonarCloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v1
+        with:
+          path: .\.sonar\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+
+      - name: Install SonarCloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: pwsh
+        run: |
+          New-Item -Path .\.sonar\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path .\.sonar\scanner
 
       - name: Download SQL Server Tools
         shell: pwsh
@@ -92,13 +114,25 @@ jobs:
 
       - name: Build Projects
         working-directory: ./src
+        shell: pwsh
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
-          dotnet build ./Tsa.Coding.Submissions.sln \
-            --configuration Release \
-            --nologo \
-            /p:NetCoreBuild=true \
-            /p:NETCoreTargetsPath=${{ runner.temp }}/sql-tools \
+          .\.sonar\scanner\dotnet-sonarscanner begin `
+            /k:"tj-cappelletti_tsa-coding-submissions" `
+            /o:"tj-cappelletti" `
+            /d:sonar.login="${{ secrets.SONAR_TOKEN }}" `
+            /d:sonar.host.url="https://sonarcloud.io"
+          
+          dotnet build ./Tsa.Coding.Submissions.sln `
+            --configuration Release `
+            --nologo `
+            /p:NetCoreBuild=true `
+            /p:NETCoreTargetsPath=${{ runner.temp }}/sql-tools `
             /p:Version=${{ needs.semver.outputs.semVer }}
+            
+          .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
         
       - name: Run Unit Tests
         working-directory: ./src
