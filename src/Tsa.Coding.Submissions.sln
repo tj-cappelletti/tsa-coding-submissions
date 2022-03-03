@@ -26,8 +26,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.Coding.Submissions.WebA
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tsa.Coding.Submissions.Core", "Tsa.Coding.Submissions.Core\Tsa.Coding.Submissions.Core.csproj", "{486B42BB-D014-4EBF-A011-1AF050E241B7}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Tsa.Coding.Submissions.Database", "Tsa.Coding.Submissions.Database\Tsa.Coding.Submissions.Database.sqlproj", "{A83A6824-5122-44D3-B05F-C4E9181085A5}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{3F3AE1AC-38B0-4A9E-BF1B-2931755C8A6A}"
 	ProjectSection(SolutionItems) = preProject
 		docker\database\scripts\create-sql-database.sh = docker\database\scripts\create-sql-database.sh
